@@ -1,1 +1,7 @@
 Django~=2.2
+numpy==1.13
+pandas
+sqlalchemy
+lxml
+html5lib
+BeautifulSoup4
