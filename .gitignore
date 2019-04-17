@@ -1,29 +1,27 @@
-# Add any directories, files, or patterns you don't want to be tracked by version control
-
 # Byte-compiled / optimized / DLL files
-__pycache__/*
-*.pyc
+__pycache__/
 *.py[cod]
-*$py.class
+
+# C extensions
+*.so
 
 # Distribution / packaging
 .Python
+env/
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
-# lib/
+lib/
 lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -35,26 +33,28 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+
 # Translations
 *.mo
 *.pot
 
 # Django stuff:
 *.log
-local_settings.py
-db.sqlite3
-tcc/staticfiles/
 
-# pyenv
-.python-version
+# Sphinx documentation
+docs/_build/
 
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
+# PyBuilder
+target/
 
 # Environments
-.env
-.venv
 tccenv/*
