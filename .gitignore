@@ -2,8 +2,7 @@
 
 # Byte-compiled / optimized / DLL files
 __pycache__/*
-tcc/__pycache__/*
-tccStudentsRegistration/__pycache__/*
+*.pyc
 *.py[cod]
 *$py.class
 
