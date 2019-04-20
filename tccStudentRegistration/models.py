@@ -49,11 +49,15 @@ class Disciplina(models.Model):
         )
     descricao_disciplina = models.CharField(
         max_length=45,
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
     carga_horaria = models.CharField(
         max_length=45,
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
@@ -75,6 +79,8 @@ class Curso(models.Model):
         )
     descricao_curso = models.CharField(
         max_length=255,
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
@@ -117,6 +123,8 @@ class Aluno(models.Model):
         )
     nome_aluno = models.CharField(
         max_length=255,
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
@@ -125,6 +133,8 @@ class Aluno(models.Model):
         # help_text=_('CLHT201'),
         )
     periodo_evasao = models.DateField(
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
@@ -136,6 +146,8 @@ class Aluno(models.Model):
         )
     forma_evasao = models.ForeignKey(
         FormaEvasao,
+        null=True,
+        blank=True,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         on_delete=models.CASCADE
