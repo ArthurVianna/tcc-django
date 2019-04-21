@@ -175,15 +175,17 @@ class Matricula(models.Model):
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
         )
-    alunos = models.ManyToManyField(
+    aluno = models.ForeignKey(
         Aluno,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
+        on_delete=models.CASCADE
         )
-    disciplinas = models.ManyToManyField(
+    disciplina = models.ForeignKey(
         Disciplina,
         # verbose_name=_('CLLB201'),
         # help_text=_('CLHT201'),
+        on_delete=models.CASCADE
         )
     situacao_matricula = models.ForeignKey(
         SituacaoMatricula,
