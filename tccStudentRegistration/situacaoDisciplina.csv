@@ -1,0 +1,32 @@
+COD_TABELA,ITEM_TABELA,DESCRICAO,IND_ATIVO
+631,0,Situação da atividade no currículo,S
+631,1,Aprovado,S
+631,2,Reprovado por nota,S
+631,3,Reprovado por Frequência,S
+631,4,Dispensa de Disciplinas (com nota),S
+631,5,Cancelado,S
+631,6,Incompleto,S
+631,7,Dispensa de Disciplinas (sem nota),S
+631,8,Aprovado sem nota,S
+631,9,Reprovado sem nota,S
+631,10,Matrícula,S
+631,11,Equivalência de Disciplina,S
+631,12,Trancamento Total,S
+631,13,Disciplina sem Oferta,S
+631,14,Adiantamento,S
+631,15,Trancamento Administrativo,S
+631,16,PROVAR,S
+631,17,Trancamento CEPE,S
+631,18,Trancamento Outra IES,S
+631,19,Suficiente,S
+631,20,Aprov Conhecimento,S
+631,21,Reprov Conhecimento,S
+631,22,Aproveitamento de estudos,S
+631,23,Aprov Adiantamento,S
+631,24,Reprov Adiantamento,S
+631,25,Trancamento por amparo Legal,S
+631,26,Isento por Transferência,S
+631,27,Aproveitamento de Créditos,S
+631,28,Desistência de Vaga,S
+631,29,Processo Administrativo,S
+631,1000,Horas,S

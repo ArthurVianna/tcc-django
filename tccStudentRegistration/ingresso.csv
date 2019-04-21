@@ -1,0 +1,67 @@
+COD_TABELA,ITEM_TABELA,DESCRICAO,IND_ATIVO
+612,0,Forma de ingresso do aluno,S
+612,1,Disciplina Isolada,S
+612,2,Processo Seletivo,S
+612,3,Convênio,S
+612,4,Extra-Sistema,N
+612,5,Permanência,S
+612,6,Transferência Interna,S
+612,7,Transferência Convênio,N
+612,8,Processo Seletivo - PEIES,N
+612,9,Matrícula Cortesia,S
+612,10,Reingresso,S
+612,11,Seleção Pública de Pós-Graduação,N
+612,12,Duplo ingresso,N
+612,13,Passagem direta para Doutorado,N
+612,14,Passagem Direta (PGI/Capes),N
+612,15,Provar/Vestibular,S
+612,16,Seleção de Ensino Pós-Médio (Novo),N
+612,17,Convênio - CNPQ,N
+612,18,Decisão Judicial,S
+612,20,Decisão Administrativa,S
+612,21,Processo Seletivo Vestibular PROLIC,N
+612,22,Mudança de Habilitação,S
+612,23,Mudança de Campus,S
+612,24,Mudança de Turno,S
+612,25,Bolsas PEC/PG/CNPQ,N
+612,26,Doutorado Sanduiche - Convênio MES CUBA,N
+612,27,Bolsa Pós-Doutorado Júnior/CNPq,N
+612,28,Reopção,S
+612,29,Aluno Intercâmbio,S
+612,30,Convênio - PROCAD,S
+612,31,Mobilidade Academica,N
+612,32,Transferência Dependente de Vaga,N
+612,33,Transferência Judicial,N
+612,34,Ingressos Plataforma Freire,S
+612,35,Convênio/PEC-G,N
+612,36,Transferência Provar,S
+612,37,Vestibular Judicial,S
+612,38,Vestibular,S
+612,41,Aproveitamento Curso Superior,S
+612,42,Complementação de Estudos,S
+612,43,Convênio FESA,S
+612,44,Portador de Diploma - EAD,N
+612,45,Convênio Pec-G,S
+612,46,Transferência Interna EAD,S
+612,47,Reingresso Transferência Interna EAD,N
+612,51,Reintegração,S
+612,52,Mobilidade Acadêmica,S
+612,55,Vestibular Indígena,S
+612,56,Transferência Ex-Ofício,S
+612,57,Dupla Diplomação,S
+612,58,Convênio AUGM,S
+612,59,Processo Seletivo/ENEM,S
+612,1000,Matrícula (Novo na Série),N
+612,1001,Matrícula (Repetente na Série),N
+612,1002,Rematrícula (Novo na Série),N
+612,1003,Rematrícula (Repetente na Série),N
+612,1004,Transferência (Novo na Série),N
+612,1005,Transferência (Repetente na Série),N
+612,1006,Troca de Turma,N
+612,1007,Troca de Série,N
+612,1008,Ingresso - PROEJA,N
+612,1009,Ingresso Intermediário,N
+612,1010,Ingresso Refugiado,S
+612,1011,Convênio Timor Leste,N
+612,1012,PRONERA,S
+612,1013,Revalidação de Diploma,S

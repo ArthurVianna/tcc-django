@@ -1,0 +1,36 @@
+COD_TABELA,ITEM_TABELA,DESCRICAO,IND_ATIVO
+613,0,Forma de Evasão,S
+613,1,Sem evasão,S
+613,2,Transferência Externa,S
+613,3,Reopção,S
+613,4,Formatura,S
+613,5,Reintegração,S
+613,6,Mudança de Habilitação Interna,S
+613,7,Jubilamento,S
+613,8,Cancelamento Convênio,S
+613,9,Desistência,S
+613,10,Desistência,S
+613,11,Abandono,S
+613,12,Desligamento com Penalidades,S
+613,14,Cancelamento Administrativo,S
+613,15,Cancelamento Judicial,S
+613,17,Cancelamento Pedido,S
+613,20,Mobilidade Acadêmica,S
+613,21,Desistência PROVAR,S
+613,23,Desistência Vestibular,S
+613,25,Mudança de Habilitação,N
+613,26,Falecimento,S
+613,27,Mudança de Campus,S
+613,28,Mudança de Turno,S
+613,31,Novo Vestibular,S
+613,37,Descumprimento Edital,S
+613,43,Cancelamento a Pedido do Calouro,S
+613,48,Não Confirmação de Vaga,S
+613,50,Término de Registro Temporário,S
+613,61,Decisão Administrativa,S
+613,1000,Aprovado,N
+613,1001,Reprovado,N
+613,1002,Troca de Turma,N
+613,1003,Troca de Série,N
+613,1004,Transferência,N
+613,1006,Aprovado com Pendência,N
