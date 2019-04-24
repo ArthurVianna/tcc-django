@@ -1,3 +1,4 @@
+# flake8: noqa
 """
 Django settings for tcc project.
 
@@ -12,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from tcc.defaultDatabases import *
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'tcc.urls'
@@ -102,6 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', _('English')),
+    ('pt-br', _('Brazilian Portuguese')),
+]
+
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
@@ -116,3 +124,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
