@@ -6,11 +6,11 @@ class setDatabases(object):
         databases = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
-                'NAME': 'tcc',
-                'USER': 'arthur',
-                'PASSWORD': 'abc123',
-                'HOST': '192.168.99.100',
-                'PORT': '3306',
+                'NAME': '***',
+                'USER': '***',
+                'PASSWORD': '***',
+                'HOST': '***',
+                'PORT': '***',
             }
         }
         return databases
