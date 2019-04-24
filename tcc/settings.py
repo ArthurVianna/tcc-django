@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from tcc.defaultDatabases import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,16 +75,7 @@ WSGI_APPLICATION = 'tcc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tcc',
-        'USER': 'arthur',
-        'PASSWORD': 'abc123',
-        'HOST': '192.168.99.100',
-        'PORT': '3306',
-    }
-}
+DATABASES = setDatabases().getDatabases()
 
 
 # Password validation
