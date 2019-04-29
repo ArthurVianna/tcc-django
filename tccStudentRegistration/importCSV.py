@@ -80,6 +80,7 @@ for index, row in dfCursos.iterrows():
     dfCursosDisciplinas = historico[listaDadosCursoDisciplina].where(historico["COD_CURSO"]==row.name).groupby(["COD_CURSO","COD_ATIV_CURRIC"]).max()
     for index2, row2 in dfCursosDisciplinas.iterrows():
         curso.disciplinas.add(disciplinaDic[row2.name[1]])
+    cursoDic[row.name] = curso
     curso.save()
 
 
@@ -101,6 +102,7 @@ for index, row in historico.iterrows():
         aluno=alunoDic[row["MATR_ALUNO"]],
         disciplina=disciplinaDic[row["COD_ATIV_CURRIC"]],
         periodo_matricula=datetime(row["ANO"],mesMatricula,1),
+        curso=cursoDic[row["COD_CURSO"]],
         media_final_matricula=row["MEDIA_FINAL"],
         faltas_matricula=row["NUM_FALTAS"]
         )
@@ -122,7 +124,7 @@ for index, row in historico.iterrows():
 #filtera = historico["FORMA_EVASAO_ITEM"]=="26"
 
 #print(historico)
-df = historico.groupby(["FORMA_EVASAO_ITEM","MATR_ALUNO"]).count()
+#df = historico.groupby(["FORMA_EVASAO_ITEM","MATR_ALUNO"]).count()
 #for index, row in df.iterrows():
 	#print(row[0],row[3])
 #print(df)
