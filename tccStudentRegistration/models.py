@@ -48,14 +48,13 @@ class Disciplina(models.Model):
         help_text=_('Código de identificação da disciplina'),
         )
     descricao_disciplina = models.CharField(
-        max_length=45,
+        max_length=255,
         null=True,
         blank=True,
         verbose_name=_('Descrição da disciplina'),
         help_text=_('Nome da disciplina'),
         )
-    carga_horaria = models.CharField(
-        max_length=45,
+    carga_horaria = models.IntegerField(
         null=True,
         blank=True,
         verbose_name=_('Carga horária da disciplina'),
@@ -191,6 +190,12 @@ class Matricula(models.Model):
         SituacaoMatricula,
         verbose_name=_('Situação da matrícula'),
         help_text=_('Situação da matrícula do aluno na disciplina'),
+        on_delete=models.CASCADE
+        )
+    curso = models.ForeignKey(
+        Curso,
+        verbose_name=_('Curso'),
+        help_text=_('Curso em que a matricula foi feita'),
         on_delete=models.CASCADE
         )
 
