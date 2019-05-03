@@ -1,0 +1,71 @@
+from tccStudentRegistration.models import *
+
+
+def getMatriculasCompletas():
+    matriculas = Matricula.objects.exclude(
+        situacao_matricula=SituacaoMatricula.objects.get(
+            descricao_situacao_matricula='Matrícula')
+    )
+    return matriculas
+    pass
+
+def getAlunoEvadiram():
+    matriculas = Aluno.objects.exclude(
+        forma_evasao=FormaEvasao.objects.get(
+            descricao_evasao='Sem evasão')
+    )
+    return matriculas
+    pass
+
+def getCursoAluno(grraluno):
+    aluno = Aluno.objects.get(grr_aluno=grraluno)
+    matriculaAluno = Matricula.objects.filter(aluno=aluno)
+    return matriculaPrimeiroAno.curso
+
+
+def getMatriculasAluno(grraluno):
+    aluno = Aluno.objects.get(grr_aluno=grraluno)
+    matriculas = Matricula.objects.filter(aluno=aluno)
+    return matriculas
+
+def countRetencoesAluno(grrAluno):
+    matriculas = getMatriculasAluno(grrAluno)
+    situacaoMatriculas = SituacaoMatricula.objects.filter(descricao_situacao_matricula__in=situacaoMatriculasReprovados())
+    return matriculas.filter(situacao_matricula__in=situacaoMatriculas).count()
+
+
+def calculoIra(grrAluno):
+    #Somatória (NOTAS x CH Cumprida) / CH TOTAL x 100
+    matriculas = getMatriculasAluno(grrAluno)
+    chTotal = 0
+    somatoria = 0
+    for matricula in matriculas:
+        chCumprida = int(matricula.disciplina.carga_horaria) - matricula.faltas_matricula
+        somatoria += matricula.media_final_matricula * chCumprida
+        chTotal += int(matricula.disciplina.carga_horaria)
+
+    return somatoria / (chTotal*100)
+    
+
+def situacaoMatriculasReprovados():
+    reprovado = ['Reprovado por nota'
+        , 'Reprovado por Frequência'
+        , 'Cancelado'
+        , 'Incompleto'
+        , 'Reprovado sem nota'
+        , 'Matrícula'
+        , 'Trancamento Total'
+        , 'Disciplina sem Oferta'
+        , 'Trancamento Administrativo'
+        , 'PROVAR'
+        , 'Trancamento CEPE'
+        , 'Trancamento Outra IES'
+        , 'Suficiente'
+        , 'Reprov Conhecimento'
+        , 'Reprov Adiantamento'
+        , 'Trancamento por amparo Legal'
+        , 'Isento por Transferência'
+        , 'Desistência de Vaga'
+        , 'Processo Administrativo'
+        , 'Horas']
+    return reprovado
