@@ -16,6 +16,7 @@ class StituacaoEvasao(models.Model):
     def __str__(self):
         return self.descricao_evasao
 
+
 class FormaIngresso(models.Model):
     """FormaIngresso objects model.
 
@@ -61,7 +62,6 @@ class Disciplina(models.Model):
         return '%s/%s' % (self.codigo_disciplina, self.descricao_disciplina)
 
 
-
 class Curso(models.Model):
     """Curso objects model.
 
@@ -88,6 +88,7 @@ class Curso(models.Model):
 
     def __str__(self):
         return '%s/%s' % (self.codigo_curso, self.descricao_curso)
+
 
 class SituacaoMatricula(models.Model):
     """SituacaoMatricula objects model.
@@ -148,6 +149,7 @@ class Aluno(models.Model):
 
     def __str__(self):
         return '%s/%s' % (self.grr_aluno, self.nome_aluno)
+
 
 class Semestre(models.Model):
     inicioSemestre = models.DateField(
@@ -224,10 +226,14 @@ class FatoMatricula(models.Model):
         verbose_name=_('Curso matricula'),
         help_text=_('Curso em que a matricula foi feita'),
         on_delete=models.CASCADE
-        )    
+        )
 
     def __str__(self):
-        return '%s/%s/%s/%s/%s' (self.semestreMatricula,self.situacaoMatricula,self.disciplinaMatricula,self.alunoMatricula,self.cursoMatricula)
+        return '%s/%s/%s/%s/%s' (self.semestreMatricula,
+                                 self.situacaoMatricula,
+                                 self.disciplinaMatricula,
+                                 self.alunoMatricula,
+                                 self.cursoMatricula)
 
 
 class FatoEvasao(models.Model):
@@ -286,7 +292,8 @@ class FatoEvasao(models.Model):
         verbose_name=_('Curso evasao'),
         help_text=_('Curso em que evadiu'),
         on_delete=models.CASCADE
-        )    
+        )
 
     def __str__(self):
-        return '%s/%s/%s/%s' (self.semestreEvasao,self.situacaoEvasao,self.alunoEvasao,self.cursoEvasao)
+        return '%s/%s/%s/%s' (self.semestreEvasao, self.situacaoEvasao,
+                              self.alunoEvasao, self.cursoEvasao)

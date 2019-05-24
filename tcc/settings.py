@@ -61,7 +61,7 @@ ROOT_URLCONF = 'tcc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,12 +120,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATABASE_ROUTERS = ['tcc.databaseRouter.datawarehouseDatabaseRouter']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
-DATABASE_ROUTERS = ['tcc.databaseRouter.datawarehouseDatabaseRouter']
-

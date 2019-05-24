@@ -1,4 +1,5 @@
-#runScript in shell
+# flake8: noqa
+# runScript in shell
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tcc.settings")
@@ -8,7 +9,5 @@ django.setup()
 
 # your imports, e.g. Django models
 from tccStudentRegistration.models import *
-#from tccStudentRegistration.importCSV import *
+# from tccStudentRegistration.importCSV import *
 from datawarehouseManager.dataMining import *
-
-

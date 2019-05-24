@@ -1,3 +1,4 @@
+# flake8: noqa
 class datawarehouseDatabaseRouter(object):
     """
     Determine how to route database calls for an app's models (in this case, for an app named Example).
@@ -7,16 +8,16 @@ class datawarehouseDatabaseRouter(object):
 
     def db_for_read(self, model, **hints):
         """Send all read operations on Example app models to `example_db`."""
-        #debug purposes
-        #print("read " + model._meta.app_label)
+        # debug purposes
+        # print("read " + model._meta.app_label)
         if model._meta.app_label == 'datawarehouseManager':
             return 'datawarehouse'
         return 'default'
 
     def db_for_write(self, model, **hints):
         """Send all write operations on Example app models to `example_db`."""
-        #debug purposes
-        #print("write " + model._meta.app_label)
+        # debug purposes
+        # print("write " + model._meta.app_label)
         if model._meta.app_label == 'datawarehouseManager':
             return 'datawarehouse'
         return 'default'
@@ -25,9 +26,9 @@ class datawarehouseDatabaseRouter(object):
         """Determine if relationship is allowed between two objects."""
 
         # Allow any relation between two models that are both in the Example app.
-        #debug purposes
-        #print("obj1" + obj1._meta.app_label)
-        #print("obj2" + obj2._meta.app_label)
+        # debug purposes
+        # print("obj1" + obj1._meta.app_label)
+        # print("obj2" + obj2._meta.app_label)
         if obj1._meta.app_label == 'datawarehouseManager' and obj2._meta.app_label == 'datawarehouseManager':
             return True
         # No opinion if neither object is in the Example app (defer to default or other routers).
@@ -39,9 +40,9 @@ class datawarehouseDatabaseRouter(object):
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
         """Ensure that the Example app's models get created on the right database."""
-        #debug purposes
-        #print(app_label)
-        #print(db)
+        # debug purposes
+        # print(app_label)
+        # print(db)
         if app_label == 'datawarehouseManager':
             # The Example app should be migrated only on the example_db database.
             return db == 'datawarehouse'

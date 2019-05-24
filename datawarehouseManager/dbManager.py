@@ -1,3 +1,4 @@
+# flake8: noqa
 from tccStudentRegistration.models import *
 
 
@@ -9,6 +10,7 @@ def getMatriculasCompletas():
     return matriculas
     pass
 
+
 def getAlunoEvadiram():
     matriculas = Aluno.objects.exclude(
         forma_evasao=FormaEvasao.objects.get(
@@ -16,6 +18,7 @@ def getAlunoEvadiram():
     )
     return matriculas
     pass
+
 
 def getCursoAluno(grraluno):
     aluno = Aluno.objects.get(grr_aluno=grraluno)
@@ -28,6 +31,7 @@ def getMatriculasAluno(grraluno):
     matriculas = Matricula.objects.filter(aluno=aluno)
     return matriculas
 
+
 def countRetencoesAluno(grrAluno):
     matriculas = getMatriculasAluno(grrAluno)
     situacaoMatriculas = SituacaoMatricula.objects.filter(descricao_situacao_matricula__in=situacaoMatriculasReprovados())
@@ -35,7 +39,7 @@ def countRetencoesAluno(grrAluno):
 
 
 def calculoIra(grrAluno):
-    #Somatória (NOTAS x CH Cumprida) / CH TOTAL x 100
+    # Somatória (NOTAS x CH Cumprida) / CH TOTAL x 100
     matriculas = getMatriculasAluno(grrAluno)
     chTotal = 0
     somatoria = 0
@@ -45,27 +49,27 @@ def calculoIra(grrAluno):
         chTotal += int(matricula.disciplina.carga_horaria)
 
     return somatoria / (chTotal*100)
-    
+
 
 def situacaoMatriculasReprovados():
-    reprovado = ['Reprovado por nota'
-        , 'Reprovado por Frequência'
-        , 'Cancelado'
-        , 'Incompleto'
-        , 'Reprovado sem nota'
-        , 'Matrícula'
-        , 'Trancamento Total'
-        , 'Disciplina sem Oferta'
-        , 'Trancamento Administrativo'
-        , 'PROVAR'
-        , 'Trancamento CEPE'
-        , 'Trancamento Outra IES'
-        , 'Suficiente'
-        , 'Reprov Conhecimento'
-        , 'Reprov Adiantamento'
-        , 'Trancamento por amparo Legal'
-        , 'Isento por Transferência'
-        , 'Desistência de Vaga'
-        , 'Processo Administrativo'
-        , 'Horas']
+    reprovado = ['Reprovado por nota',
+                 'Reprovado por Frequência',
+                 'Cancelado',
+                 'Incompleto',
+                 'Reprovado sem nota',
+                 'Matrícula',
+                 'Trancamento Total',
+                 'Disciplina sem Oferta',
+                 'Trancamento Administrativo',
+                 'PROVAR',
+                 'Trancamento CEPE',
+                 'Trancamento Outra IES',
+                 'Suficiente',
+                 'Reprov Conhecimento',
+                 'Reprov Adiantamento',
+                 'Trancamento por amparo Legal',
+                 'Isento por Transferência',
+                 'Desistência de Vaga',
+                 'Processo Administrativo',
+                 'Horas']
     return reprovado
