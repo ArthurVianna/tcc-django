@@ -162,6 +162,13 @@ class Semestre(models.Model):
 
 
 class FatoMatricula(models.Model):
+    quantidadeMatricula = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Quantidade Matriculas'),
+        help_text=_('Quantidade de matriculas'),
+        )
+
     faltasMatricula = models.IntegerField(
         null=True,
         blank=True,
@@ -237,6 +244,13 @@ class FatoMatricula(models.Model):
 
 
 class FatoEvasao(models.Model):
+    quantidadeEvasao = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Quantidade evasões'),
+        help_text=_('Quantidade de evasões'),
+        )
+
     quantidadeRetencoes = models.IntegerField(
         null=True,
         blank=True,

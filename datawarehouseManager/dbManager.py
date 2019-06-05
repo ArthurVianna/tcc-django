@@ -1,6 +1,7 @@
 # flake8: noqa
 from tccStudentRegistration.models import *
-
+from django.db.models import Min
+import time
 
 def getMatriculasCompletas():
     matriculas = Matricula.objects.exclude(
@@ -22,7 +23,10 @@ def getAlunoEvadiram():
 
 def getCursoAluno(grraluno):
     aluno = Aluno.objects.get(grr_aluno=grraluno)
-    matriculaAluno = Matricula.objects.filter(aluno=aluno)
+    matriculaAluno = Matricula.objects.filter(aluno=aluno,periodo_matricula=aluno.periodo_ingresso)
+    if(matriculaAluno.count() == 0):
+        matriculaAluno = Matricula.objects.filter(aluno=aluno,periodo_matricula=Min('periodo_matricula'))
+    matriculaPrimeiroAno = matriculaAluno[0]
     return matriculaPrimeiroAno.curso
 
 
