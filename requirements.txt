@@ -9,3 +9,4 @@ mysqlclient
 Matplotlib
 Seaborn
 scikit-learn
+django-adminlte2
