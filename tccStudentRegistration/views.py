@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from .models import Disciplina, Aluno
 
 
 def user_login(request):
@@ -44,9 +45,29 @@ def turmas(request):
 
 @login_required
 def disciplinas(request):
-    return render(request, 'tcc/disciplinas.html', {})
+    disciplinas = Disciplina.objects.all()
+    return render(request,
+                  'tcc/disciplinas.html',
+                  {'disciplinas': disciplinas})
+
+
+@login_required
+def disciplina_detail(request, pk):
+    disciplina = get_object_or_404(Disciplina, pk=pk)
+    return render(request,
+                  'tcc/disciplina_detail.html',
+                  {'disciplina': disciplina})
 
 
 @login_required
 def alunos(request):
-    return render(request, 'tcc/alunos.html', {})
+    alunos = Aluno.objects.all()
+    return render(request, 'tcc/alunos.html', {'alunos': alunos})
+
+
+@login_required
+def aluno_detail(request, pk):
+    aluno = get_object_or_404(Aluno, pk=pk)
+    return render(request,
+                  'tcc/aluno_detail.html',
+                  {'aluno': aluno})

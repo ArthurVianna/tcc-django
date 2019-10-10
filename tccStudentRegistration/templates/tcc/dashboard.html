@@ -1,8 +1,15 @@
 {% extends 'tcc/base_site.html' %}
 
 {% block content %}
-        {% if user.is_authenticated %}
-            Hi {{ user.username }}!
-            dashboard
-        {% endif %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        Dashboard
+    </h1>
+</section>
+<section class="content">
+    Hi {{ user.username }}!
+    <!-- TODO: ver como colocar os gráficos aqui -->
+</section>
+{% endif %}
 {% endblock %}

@@ -2,3 +2,19 @@
     font-size: 15px;
     margin-left: 5px;
 }
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: 85px !important;
+}
+
+.main-header {
+    max-height: 0px !important;
+}
+
+.div-geral{
+    border-top: #000 solid 1px;
+}
+
+.informacao {
+    margin: 10px;
+}

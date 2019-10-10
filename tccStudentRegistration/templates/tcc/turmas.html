@@ -1,8 +1,19 @@
 {% extends 'tcc/base_site.html' %}
 
 {% block content %}
-        {% if user.is_authenticated %}
-            Hi {{ user.username }}!
-            turmas
-        {% endif %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        Turmas
+    </h1>
+</section>
+<section class="content">
+    <div class="div-geral">
+        <h4>Turma 2016.1 (tarde)</h4>
+        <p>Quantidade de alunos que ingressaram esse ano</p>
+    </div>
+    <!-- TODO: ver como fazer para agrupar as turmas -->
+    <!-- TODO: linkar a página de detalhes -->
+</section>
+{% endif %}
 {% endblock %}
