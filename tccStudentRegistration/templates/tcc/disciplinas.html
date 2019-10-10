@@ -1,0 +1,27 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        Disciplinas
+    </h1>
+</section>
+<section class="content">
+    <div class="div-geral">
+        <h4>Nome disciplina (Código disciplina)</h4>
+        <p>Carga horária</p>
+    </div>
+    {% for disc in disciplinas %}
+    <div class="div-geral">
+        <h4>
+            <a href="{% url 'disciplina_detail' pk=disc.pk %}">
+                {{ disc.descricao_disciplina }} ({{ disc.codigo_disciplina }})
+            </a>
+        </h4>
+        <p>{{ disc.carga_horaria }}</p>
+    </div>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

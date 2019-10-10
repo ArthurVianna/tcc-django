@@ -1,0 +1,30 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        {{ disciplina.descricao_disciplina }} ({{ disciplina.codigo_disciplina }})
+    </h1>
+</section>
+<section class="content">
+    <div class="informacao">
+        <p>gráfico e alguma coisa</p>
+    </div>
+    <div class="div-geral">
+        <h4>
+            Nome do aluno
+        </h4>
+    </div>
+    <!-- {% for al in aluno }
+    <div class="div-geral">
+        <h4>
+            <a href="#">
+                {{ al.nome_aluno }} ({{ al.grr_aluno }})
+            </a>
+        </h4>
+    </div>
+    {% endfor } -->
+</section>
+{% endif %}
+{% endblock %}

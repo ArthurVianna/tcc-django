@@ -1,0 +1,32 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        {{ aluno.grr_aluno }} ({{ aluno.nome_aluno }})
+    </h1>
+</section>
+<section class="content">
+    <div class="informacao">
+        <p>gráfico e alguma coisa</p>
+        <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
+        <p>{{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
+    </div>
+    <div class="div-geral">
+        <h4>
+            Nome da disciplina | nº de faltas/nº de faltas possíveis | Situação
+        </h4>
+    </div>
+    <!-- {% for al in aluno }
+    <div class="div-geral">
+        <h4>
+            <a href="#">
+                {{ al.nome_aluno }} ({{ al.grr_aluno }})
+            </a>
+        </h4>
+    </div>
+    {% endfor } -->
+</section>
+{% endif %}
+{% endblock %}

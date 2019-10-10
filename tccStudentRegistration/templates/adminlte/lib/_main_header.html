@@ -1,0 +1,50 @@
+<header class="main-header">
+    {% block logo %}
+    <a href="{% block logo_href %}{% url 'dashboard' %}{% endblock %}" class="logo">
+        <span class="logo-mini">{% block logo_text_small %}<b>N</b>TCC{% endblock %}</span> <!-- TODO: arrumar nome -->
+        <span class="logo-lg">{% block logo_text %}<b>Nome</b>TCC{% endblock %}</span> <!-- TODO: arrumar nome -->
+    </a>
+    {% endblock %}
+
+    {% block nav_bar %}
+    <nav class="navbar navbar-static-top" role="navigation">
+        <a href="#" class="sidebar-toggle btn minimalize-styl-2" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}">
+                        <i class="fa fa-user"></i>
+                        <span class="hidden-xs">{{ user.username }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <p>
+                                {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}
+                                <small>Membro desde {{ user.date_joined }}</small>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_staff %}
+                <li>
+                    <a href="{% url 'admin:index' %}" title="Página adminstrativa">
+                        <i class="fa fa-cogs fa-fw"></i>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'logout' %}" title="Sair">
+                        <i class="fa fa-sign-out fa-fw"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endblock %}
+</header>

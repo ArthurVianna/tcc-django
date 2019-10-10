@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tccStudentRegistration',
-    'datawarehouseManager'
+    'datawarehouseManager',
+    'django_adminlte',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ DATABASE_ROUTERS = ['tcc.databaseRouter.datawarehouseDatabaseRouter']
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+LOGIN_URL = '/'

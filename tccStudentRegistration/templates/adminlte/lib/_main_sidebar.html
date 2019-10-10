@@ -1,0 +1,46 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+
+{% block user_panel %}
+{% endblock %}
+
+{% block form %}
+{% endblock %}
+
+{% load static %}
+{% block sidebar %}
+<aside class="main-sidebar">
+    <section class="sidebar">
+        {% block nav_links_ul %}
+        <ul class="sidebar-menu">
+            {% block nav_links_outer %}{% endblock %}
+            {% block nav_links %}
+            <li>
+                <a href="{% url 'dashboard' %}">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <span>Página Inicial</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'turmas' %}">
+                    <i class="fa fa-users"></i>
+                    <span>Turmas</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'disciplinas' %}">
+                    <i class="fa fa-book"></i>
+                    <span>Disciplinas</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'alunos' %}">
+                    <i class="fa fa-graduation-cap"></i>
+                    <span>Alunos</span>
+                </a>
+            </li>
+            {% endblock nav_links %}
+        </ul>
+        {% endblock nav_links_ul %}
+    </section>
+</aside>
+{% endblock sidebar %}
