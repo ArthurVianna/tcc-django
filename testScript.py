@@ -54,6 +54,7 @@ evadiu = []
 #'Reprov Adiantamento'
 
 
+
 fatoEvasaoLista = FatoEvasao.objects.filter(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False)
 df = pd.DataFrame(list(fatoEvasaoLista.values()))
 
@@ -64,6 +65,8 @@ df = pd.DataFrame(list(fatoEvasaoLista.values()))
     #cursoMatricula__isnull=False,
     #semestreMatricula__isnull=False)
 listaRetencoes = []
+qtdMatriculas = []
+retencoesDict = {}
 maxCount = 0
 for i , j in df.iterrows():
 	#print(i,j)
@@ -73,10 +76,19 @@ for i , j in df.iterrows():
 		,cursoMatricula__isnull=False
 		,semestreMatricula__isnull=False)
 	listaDisciplinasReprovadas = []
+	qtdMatriculas += [FatoMatricula.objects.filter(alunoMatricula__id=j["alunoEvasao_id"],situacaoMatricula__isnull=False
+		,disciplinaMatricula__isnull=False
+		,cursoMatricula__isnull=False
+		,semestreMatricula__isnull=False).count()]
 	count = 0 
 	for x in retencoes:
 		#if(x.situacaoMatricula.descricao_situacao_matricula in ['Trancamento Total']):
 		listaDisciplinasReprovadas += [x.disciplinaMatricula.pk]
+		pkDisciplinaMatricula = str(x.disciplinaMatricula.pk)
+		if(retencoesDict.get(pkDisciplinaMatricula,0) != 0):
+			retencoesDict[pkDisciplinaMatricula] += 1
+		else:
+			retencoesDict[pkDisciplinaMatricula] = 1
 		count+=1
 		#print(x.disciplinaMatricula.codigo_disciplina)
 	if(count > maxCount):
@@ -87,12 +99,15 @@ for i , j in df.iterrows():
 	#print(listaRetencoes)
 	#print(count)
 
+print("qtdMatriculas:")
+print(qtdMatriculas)
+
 retencoesFloat = []
 for i in listaRetencoes:
 	somador = 0
 	for j in i:
-		somador = j
-	retencoesFloat += [somador/maxCount]
+		somador += retencoesDict[str(j)]
+	retencoesFloat += [somador]
 
 mask = df.situacaoEvasao_id != 1
 column_name = 'situacaoEvasao_id'
@@ -108,7 +123,8 @@ df = df.drop("semestreEvasao_id",axis=1)
 df = df.drop("quantidadeEvasao",axis=1)
 
 df = df.drop("id",axis=1)
-df['Retencoes'] = retencoesFloat
+#df['Retencoes'] = retencoesFloat
+df['qtdMatriculas'] = qtdMatriculas
 
 mask = df.situacaoEvasao_id != 1
 column_name = 'situacaoEvasao_id'
@@ -126,7 +142,7 @@ print("df shape = ", df.shape )#.astype({"Retencoes": float})
 scaler.fit(variavelqqr)
 scaled_features = scaler.transform(variavelqqr)#.astype({"Retencoes": float}))
 print("Scaled features", scaled_features)
-df_feat = pd.DataFrame(scaled_features,columns=['quantidadeRetencoes','ira','Retencoes'])
+df_feat = pd.DataFrame(scaled_features,columns=['quantidadeRetencoes','ira','qtdMatriculas'])#,'Retencoes'
 print(df_feat)
 
 from sklearn.model_selection import train_test_split
