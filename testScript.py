@@ -77,7 +77,7 @@ for i , j in df.iterrows():
 		,disciplinaMatricula__isnull=False
 		,cursoMatricula__isnull=False
 		,semestreMatricula__isnull=False).count()]
-	count = 0 
+	count = 0
 	for x in retencoes:
 		#if(x.situacaoMatricula.descricao_situacao_matricula in ['Trancamento Total']):
 		listaDisciplinasReprovadas += [x.disciplinaMatricula.pk]
@@ -91,7 +91,7 @@ for i , j in df.iterrows():
 	if(count > maxCount):
 		maxCount = count
 	#print(retencoes)
-	
+
 	listaRetencoes += [listaDisciplinasReprovadas]
 	#print(listaRetencoes)
 	#print(count)
@@ -120,8 +120,8 @@ mask = df.situacaoEvasao_id != 1
 column_name = 'situacaoEvasao_id'
 df.loc[mask, column_name] = 3
 print(porcentagemMatriculaAprovado)
-		
-			
+
+
 
 
 df = df.drop("coeficienteEvasao",axis=1)
@@ -205,8 +205,8 @@ parameter_space = {
 
 }
 
-mlp = MLPClassifier(max_iter=100)
-from sklearn.model_selection import GridSearchCV
+#mlp = MLPClassifier(max_iter=100)
+#from sklearn.model_selection import GridSearchCV
 
 #clfMLP = GridSearchCV(mlp, parameter_space, n_jobs=-1, cv=3)
 #clfMLP = clfMLP.fit(x_train, y_train)
@@ -223,7 +223,7 @@ from sklearn.model_selection import GridSearchCV
 predTree = clf.predict(x_test)
 pred = knn.predict(x_test)
 predGNB = gnbFit.predict(x_test)
-predMLP = clfMLPTest.predict(x_test)
+clfMLPTest = clfMLPTest.predict(x_test)
 
 #print(pred)
 
@@ -232,19 +232,16 @@ predMLP = clfMLPTest.predict(x_test)
 
 from sklearn.metrics import classification_report,confusion_matrix
 
-#print("KNN :")
-#print(confusion_matrix(y_test,pred))
-#print(classification_report(y_test,pred))
-#print("PredTree :")
-#print(confusion_matrix(y_test,predTree))
-#print(classification_report(y_test,predTree))
-#tree.plot_tree(clf.fit(x_train, y_train)) 
-#print("GNB :")
-#print(confusion_matrix(y_test,predGNB))
-#print(classification_report(y_test,predGNB))
+print("KNN :")
+print(confusion_matrix(y_test,pred))
+print(classification_report(y_test,pred))
+print("PredTree :")
+print(confusion_matrix(y_test,predTree))
+print(classification_report(y_test,predTree))
+#tree.plot_tree(clf.fit(x_train, y_train))
+print("GNB :")
+print(confusion_matrix(y_test,predGNB))
+print(classification_report(y_test,predGNB))
 print("MLP :")
-print(confusion_matrix(y_test,predMLP))
-print(classification_report(y_test,predMLP))
-
-
-
+print(confusion_matrix(y_test,clfMLPTest))
+print(classification_report(y_test,clfMLPTest))

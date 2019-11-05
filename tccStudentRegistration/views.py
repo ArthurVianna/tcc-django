@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Disciplina, Aluno
+from django.db.models import Count
+from .models import Disciplina, Aluno, Matricula
 
 
 def user_login(request):
@@ -40,7 +41,19 @@ def dashboard(request):
 
 @login_required
 def turmas(request):
-    return render(request, 'tcc/turmas.html', {})
+    turmas = Aluno.objects.values('periodo_ingresso').annotate(
+        num_alunos=Count('periodo_ingresso')).order_by('periodo_ingresso')
+    return render(request, 'tcc/turmas.html', {'turmas': turmas})
+
+
+@login_required
+def turma_detail(request, pk):
+    # turma = get_object_or_404(Aluno, pk=pk)
+    alunos = Aluno.objects.filter(periodo_ingresso=pk)
+    return render(request,
+                  'tcc/turma_detail.html',
+                  {'alunos': alunos})
+                  # 'turma': turma,
 
 
 @login_required
@@ -54,20 +67,31 @@ def disciplinas(request):
 @login_required
 def disciplina_detail(request, pk):
     disciplina = get_object_or_404(Disciplina, pk=pk)
+    max_year = Matricula.objects.latest('periodo_matricula')
+    if(max_year.periodo_matricula.month > 7):
+        dateRange = [str(max_year.periodo_matricula.year) + "-07-01",
+                     str(max_year.periodo_matricula.year) + "-12-31"]
+    else:
+        dateRange = [str(max_year.periodo_matricula.year) + "-01-01",
+                     str(max_year.periodo_matricula.year) + "-06-30"]
+    alunos = Matricula.objects.filter(disciplina__id=pk,
+                                      periodo_matricula__range=dateRange)
     return render(request,
                   'tcc/disciplina_detail.html',
-                  {'disciplina': disciplina})
+                  {'disciplina': disciplina, 'alunos': alunos})
 
 
 @login_required
 def alunos(request):
-    alunos = Aluno.objects.all()
+    alunos = Aluno.objects.all().order_by('periodo_ingresso')
     return render(request, 'tcc/alunos.html', {'alunos': alunos})
 
 
 @login_required
 def aluno_detail(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
+    matricula = Matricula.objects.filter(aluno__id=pk).order_by(
+        'periodo_matricula')
     return render(request,
                   'tcc/aluno_detail.html',
-                  {'aluno': aluno})
+                  {'aluno': aluno, 'matricula': matricula})

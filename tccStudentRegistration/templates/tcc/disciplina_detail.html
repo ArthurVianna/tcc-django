@@ -9,22 +9,22 @@
 </section>
 <section class="content">
     <div class="informacao">
-        <p>gráfico e alguma coisa</p>
+        <!-- <p>gráfico e alguma coisa</p> -->
     </div>
     <div class="div-geral">
         <h4>
             Nome do aluno
         </h4>
     </div>
-    <!-- {% for al in aluno }
+    {% for al in alunos %}
     <div class="div-geral">
         <h4>
-            <a href="#">
-                {{ al.nome_aluno }} ({{ al.grr_aluno }})
+            <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
+                {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
             </a>
         </h4>
     </div>
-    {% endfor } -->
+    {% endfor %}
 </section>
 {% endif %}
 {% endblock %}
