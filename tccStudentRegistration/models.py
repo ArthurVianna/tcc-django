@@ -71,7 +71,8 @@ class Disciplina(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.codigo_disciplina, self.descricao_disciplina)
+        return "{}/{}".format(self.codigo_disciplina,
+                              self.descricao_disciplina)
 
 
 class Curso(models.Model):
@@ -99,7 +100,7 @@ class Curso(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.codigo_curso, self.descricao_curso)
+        return "{}/{}".format(self.codigo_curso, self.descricao_curso)
 
 
 class SituacaoMatricula(models.Model):
@@ -168,7 +169,7 @@ class Aluno(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.grr_aluno, self.nome_aluno)
+        return "{}/{}".format(self.grr_aluno, self.nome_aluno)
 
 
 class Matricula(models.Model):
@@ -215,13 +216,13 @@ class Matricula(models.Model):
         )
 
     def __str__(self):
-        return '%s' % (self.aluno)
+        return self.aluno
 
 
 class PredicaoEvasao(models.Model):
-    """Matricula objects model.
+    """PredicaoEvasao objects model.
 
-    Used to keep track of Matricula objects information.
+    Used to keep track of PredicaoEvasao objects information.
     """
 
     periodo_predicao = models.DateField(
@@ -230,8 +231,8 @@ class PredicaoEvasao(models.Model):
         )
     script_predicao = models.CharField(
         max_length=45,
-        verbose_name=_('GRR do aluno'),
-        help_text=_('GRR do aluno'),
+        verbose_name=_('Script predicao'),
+        help_text=_('Nome do script de predicao utilizado'),
         )
     aluno = models.ForeignKey(
         Aluno,
@@ -249,5 +250,33 @@ class PredicaoEvasao(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s/%s/%s' % (self.aluno, self.forma_evasao,
-                                self.script_predicao, self.periodo_predicao)
+        return "{}/{}/{}/{}".format(self.aluno, self.forma_evasao,
+                                    self.script_predicao,
+                                    self.periodo_predicao)
+
+
+class Usuario(models.Model):
+    """Usuario objects model.
+
+    Used to keep track of Usuario objects information.
+    """
+    nome_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Nome'),
+        help_text=_('Nome do Usuario cadastrado'),
+        )
+    email_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Email'),
+        help_text=_('Email do Usuario cadastrado'),
+        )
+    senha_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Senha'),
+        help_text=_('Senha do Usuario cadastrado'),
+        )
+    admin_usuario = models.BooleanField(default=False)
+    # models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{}".format(self.nome_usuario)
