@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
@@ -15,8 +16,8 @@ class FormaEvasao(models.Model):
     cod_tabela = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Codigo na tabela do historico'),
-        help_text=_('Codigo na tabela do historico'),
+        verbose_name=_('Código na tabela do histórico'),
+        help_text=_('Código na tabela do histórico'),
         )
 
     def __str__(self):
@@ -37,8 +38,8 @@ class FormaIngresso(models.Model):
     cod_tabela = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Codigo na tabela do historico'),
-        help_text=_('Codigo na tabela do historico'),
+        verbose_name=_('Código na tabela do histórico'),
+        help_text=_('Código na tabela do histórico'),
         )
 
     def __str__(self):
@@ -117,8 +118,8 @@ class SituacaoMatricula(models.Model):
     cod_tabela = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Codigo na tabela do historico'),
-        help_text=_('Codigo na tabela do historico'),
+        verbose_name=_('Código na tabela do histórico'),
+        help_text=_('Código na tabela do histórico'),
         )
 
     def __str__(self):
@@ -211,7 +212,7 @@ class Matricula(models.Model):
     curso = models.ForeignKey(
         Curso,
         verbose_name=_('Curso'),
-        help_text=_('Curso em que a matricula foi feita'),
+        help_text=_('Curso em que a matrícula foi feita'),
         on_delete=models.CASCADE
         )
 
@@ -226,13 +227,13 @@ class PredicaoEvasao(models.Model):
     """
 
     periodo_predicao = models.DateField(
-        verbose_name=_('Período em que a predicao foi feita'),
-        help_text=_('Período em que o script fez a predicao'),
+        verbose_name=_('Período em que a predição foi feita'),
+        help_text=_('Período em que o script fez a predição'),
         )
     script_predicao = models.CharField(
         max_length=45,
-        verbose_name=_('Script predicao'),
-        help_text=_('Nome do script de predicao utilizado'),
+        verbose_name=_('Script de predição'),
+        help_text=_('Nome do script de predição utilizado'),
         )
     aluno = models.ForeignKey(
         Aluno,
@@ -255,28 +256,30 @@ class PredicaoEvasao(models.Model):
                                     self.periodo_predicao)
 
 
-
 class Comentario(models.Model):
-    """docstring for Comentario"""
+    """Comentario objects model.
+
+    Used to keep track of Comentario objects information.
+    """
+
+    user = models.ForeignKey(
+        User,
+        related_name='comentario',
+        on_delete=models.CASCADE
+        )
     texto_comentario = models.CharField(
         max_length=255,
-        verbose_name=_('Comentario'),
-        help_text=_('Conteudo do comentario'),
+        verbose_name=_('Comentário'),
+        help_text=_('Conteúdo do comentário'),
         )
     data_comentario = models.DateField(
-        verbose_name=_('Data comentario'),
-        help_text=_('Período em que o comentario foi postado'),
+        verbose_name=_('Data comentário'),
+        help_text=_('Período em que o comentário foi postado'),
         )
     aluno = models.ForeignKey(
         Aluno,
         verbose_name=_('Nome do aluno'),
-        help_text=_('Aluno que fez o comentario'),
-        on_delete=models.CASCADE
-        )
-    user = models.ForeignKey(
-        FormaEvasao,
-        verbose_name=_('Usuario'),
-        help_text=_('Usuario que fez o comentario'),
+        help_text=_('Aluno que recebeu o comentário do usuário'),
         on_delete=models.CASCADE
         )
 
