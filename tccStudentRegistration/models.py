@@ -255,28 +255,30 @@ class PredicaoEvasao(models.Model):
                                     self.periodo_predicao)
 
 
-class Usuario(models.Model):
-    """Usuario objects model.
 
-    Used to keep track of Usuario objects information.
-    """
-    nome_usuario = models.CharField(
+class Comentario(models.Model):
+    """docstring for Comentario"""
+    texto_comentario = models.CharField(
         max_length=255,
-        verbose_name=_('Nome'),
-        help_text=_('Nome do Usuario cadastrado'),
+        verbose_name=_('Comentario'),
+        help_text=_('Conteudo do comentario'),
         )
-    email_usuario = models.CharField(
-        max_length=255,
-        verbose_name=_('Email'),
-        help_text=_('Email do Usuario cadastrado'),
+    data_comentario = models.DateField(
+        verbose_name=_('Data comentario'),
+        help_text=_('Período em que o comentario foi postado'),
         )
-    senha_usuario = models.CharField(
-        max_length=255,
-        verbose_name=_('Senha'),
-        help_text=_('Senha do Usuario cadastrado'),
+    aluno = models.ForeignKey(
+        Aluno,
+        verbose_name=_('Nome do aluno'),
+        help_text=_('Aluno que fez o comentario'),
+        on_delete=models.CASCADE
         )
-    admin_usuario = models.BooleanField(default=False)
-    # models.BooleanField(default=True)
+    user = models.ForeignKey(
+        FormaEvasao,
+        verbose_name=_('Usuario'),
+        help_text=_('Usuario que fez o comentario'),
+        on_delete=models.CASCADE
+        )
 
     def __str__(self):
-        return "{}".format(self.nome_usuario)
+        return "{}".format(self.texto_comentario)
