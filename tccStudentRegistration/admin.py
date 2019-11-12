@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from django.contrib.auth.admin import UserAdmin
+# from django.contrib.auth.models import User
+# from django.contrib.auth.admin import UserAdmin
 from .models import FormaEvasao, FormaIngresso, Disciplina, Curso, Aluno
 from .models import SituacaoMatricula, Matricula, PredicaoEvasao, Comentario
 
@@ -69,14 +69,23 @@ class PredicaoEvasao(admin.ModelAdmin):
     autocomplete_fields = ('aluno', 'forma_evasao',)
 
 
-class ComentarioInline(admin.TabularInline):
-    model = Comentario
-    autocomplete_fields = ('aluno',)
+# class ComentarioInline(admin.TabularInline):
+#     model = Comentario
+#     autocomplete_fields = ('aluno',)
+#
+#
+# class ComentarioAdmin(UserAdmin):
+#     inlines = [ComentarioInline]
+#
+#
+# admin.site.unregister(User)
+# admin.site.register(User, ComentarioAdmin)
 
 
-class ComentarioAdmin(UserAdmin):
-    inlines = [ComentarioInline]
-
-
-admin.site.unregister(User)
-admin.site.register(User, ComentarioAdmin)
+@admin.register(Comentario)
+class Comentario(admin.ModelAdmin):
+    list_display = ('user', 'aluno', 'texto_comentario', 'data_comentario',
+                    'id',)
+    search_fields = ('user__username', 'aluno__nome_aluno',
+                     'texto_comentario', 'data_comentario',)
+    autocomplete_fields = ('user', 'aluno',)
