@@ -265,6 +265,14 @@ class Comentario(models.Model):
     user = models.ForeignKey(
         User,
         related_name='comentario',
+        verbose_name=_('Usuário'),
+        help_text=_('Usuário que faz o comentário para o aluno'),
+        on_delete=models.CASCADE
+        )
+    aluno = models.ForeignKey(
+        Aluno,
+        verbose_name=_('Nome do aluno'),
+        help_text=_('Aluno que recebeu o comentário do usuário'),
         on_delete=models.CASCADE
         )
     texto_comentario = models.CharField(
@@ -275,12 +283,6 @@ class Comentario(models.Model):
     data_comentario = models.DateField(
         verbose_name=_('Data comentário'),
         help_text=_('Período em que o comentário foi postado'),
-        )
-    aluno = models.ForeignKey(
-        Aluno,
-        verbose_name=_('Nome do aluno'),
-        help_text=_('Aluno que recebeu o comentário do usuário'),
-        on_delete=models.CASCADE
         )
 
     def __str__(self):
