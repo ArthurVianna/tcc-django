@@ -4,137 +4,210 @@ from tccStudentRegistration.models import *
 from datetime import datetime
 # data = pd.read_csv("src/main/db/csv/historico.csv")
 
-class importCSV(object):
-	"""docstring for importCSV"""
-	def __init__(self):
-		super(importCSV, self).__init__()
+class ImportCSV(object):
+    """docstring for ImportCSV"""
+    def __init__(self):
+        super(ImportCSV, self).__init__()
 
-	def getCSVData(self,path):
-		return pd.read_csv(path)
+    def getCSVData(self,path):
+        return pd.read_csv(path)
 
-importcsv = importCSV()
-historico = importcsv.getCSVData("tccStudentRegistration"+"/" + "historico.csv")
-evasao = importcsv.getCSVData("tccStudentRegistration/evasao.csv")
-ingresso = importcsv.getCSVData("tccStudentRegistration/ingresso.csv")
-situacaoDisciplina = importcsv.getCSVData("tccStudentRegistration/situacaoDisciplina.csv")
-# print(historico)
-# print(evasao)
-# print(ingresso)
-# print(situacaoDisciplina)
-evasaoDic = {}
-for index, row in evasao.iterrows():
-	if(row[3] == 'S' and row[1] != 0):
-		tempEvasao,created = FormaEvasao.objects.get_or_create(descricao_evasao=row[2])
-		evasaoDic[row[1]] = tempEvasao
+class ImportModel(object):
 
-ingressoDic = {}
-for index, row in ingresso.iterrows():
-	if(row[3] == 'S' and row[1] != 0):
-		tempIngresso,created = FormaIngresso.objects.get_or_create(descricao_ingresso=row[2])
-		ingressoDic[row[1]] = tempIngresso
-# print(evasaoDic)
-listaDadosAlunos = ["MATR_ALUNO","ID_ALUNO","PERIODO_INGRE_ITEM","PERIODO_EVA_ITEM","ANO_INGRESSO","ANO_EVASAO","FORMA_EVASAO_ITEM","FORMA_INGRE_ITEM"]
-dfAlunos = historico[listaDadosAlunos].groupby(["MATR_ALUNO"]).min()
-alunoDic = {}
-for index, row in dfAlunos.iterrows():
-	aluno,created = Aluno.objects.get_or_create(grr_aluno=row.name,
-		defaults={
-			"periodo_ingresso":datetime(2019,1,1),
-			"forma_ingresso":ingressoDic[2]
-		})
-	# if(created):
-	aluno.nome_aluno = row["ID_ALUNO"]
-	if(row["PERIODO_INGRE_ITEM"] == 201):
-		mesIngresso = 1
-	else:
-		mesIngresso = 7
-	if(row["PERIODO_EVA_ITEM"] == 202):
-		mesEvasao = 7
-	else:
-		mesEvasao = 1
-	aluno.periodo_ingresso = datetime(row["ANO_INGRESSO"],mesIngresso,1)
-	aluno.forma_ingresso = ingressoDic[row["FORMA_INGRE_ITEM"]]
-	if(row["ANO_EVASAO"] > 0):
-		aluno.periodo_evasao = datetime(row["ANO_EVASAO"],mesEvasao,1)
-	aluno.forma_evasao = evasaoDic[row["FORMA_EVASAO_ITEM"]]
-	alunoDic[row.name] = aluno
-	aluno.save()
+    defaultModel = None
+    defaultKwargs = None
+    defaultPath = ""
+    def __init__(self):
+        super(ImportModel, self).__init__()
 
-listaDadosDisciplina = ["COD_ATIV_CURRIC","NOME_ATIV_CURRIC","CH_TOTAL"]
-dfDisciplinas = historico[listaDadosDisciplina].groupby(["COD_ATIV_CURRIC"]).max()
-disciplinaDic = {}
-for index, row in dfDisciplinas.iterrows():
-    disciplina,created = Disciplina.objects.get_or_create(codigo_disciplina=row.name)
-    disciplina.descricao_disciplina = row["NOME_ATIV_CURRIC"]
-    disciplina.carga_horaria = row["CH_TOTAL"]
-    disciplinaDic[row.name] = disciplina
-    disciplina.save()
+    def getModelList(self):
+        modelList = self.defaultModel.objects.all()
+        if(modelList.count() == 0):
+            self.updateModelList(self.getFromCsv(self.defaultPath))
+            modelList = self.defaultModel.objects.all()
+        return modelList
+
+    def getFromCsv(self,path):
+        importcsv = ImportCSV()
+        return importcsv.getCSVData(path)
+
+    def updateModelList(self,csvImported):
+        importcsv = ImportCSV()
+        for index, row in csvImported.iterrows():
+            if(row["IND_ATIVO"] == 'S' and row["ITEM_TABELA"] != 0):
+                tempEvasao,created = self.defaultModel.objects.get_or_create(**self.createKwarg(row))
+                if not created:
+                    tempEvasao.cod_tabela = row["ITEM_TABELA"]
+                    tempEvasao.save()
 
 
-listaDadosCursoDisciplina = listaDadosDisciplina + ["COD_CURSO"]
-dfCursos = historico[["COD_CURSO"]].groupby(["COD_CURSO"]).min()
-cursoDic = {}
-for index, row in dfCursos.iterrows():
-    curso,created = Curso.objects.get_or_create(codigo_curso=row.name)
-    # if(created):
-    dfCursosDisciplinas = historico[listaDadosCursoDisciplina].where(historico["COD_CURSO"]==row.name).groupby(["COD_CURSO","COD_ATIV_CURRIC"]).max()
-    for index2, row2 in dfCursosDisciplinas.iterrows():
-        curso.disciplinas.add(disciplinaDic[row2.name[1]])
-    cursoDic[row.name] = curso
-    curso.save()
+    def createKwarg(self,row):
+        newKwarg = {}
+        for key,values in self.defaultKwargs.items():
+            if "descricao" in key:
+                newKwarg[key] = row["DESCRICAO"]
+            else:
+                newKwarg[key] = row["ITEM_TABELA"]
+        #print(newKwarg)
+        return newKwarg
 
 
 
-situacaoDisciDic = {}
-for index, row in situacaoDisciplina.iterrows():
-    if(row[3] == 'S' and row[1] != 0):
-        tempSituacao,created = SituacaoMatricula.objects.get_or_create(descricao_situacao_matricula=row[2])
-        situacaoDisciDic[row[1]] = tempSituacao
-# id, media_final_matricula, faltas_matricula, periodo_matricula, situacao_matricula_id, aluno_id, disciplina_id
+class ImportTipoEvasao(ImportModel):
 
-for index, row in historico.iterrows():
-    if(row["PERIODO_ITEM"] == 201):
-        mesMatricula = 1
-    else:
-        mesMatricula = 7
-    matricula = Matricula.objects.get_or_create(
-        situacao_matricula=situacaoDisciDic[row["SITUACAO_ITEM"]],
-        aluno=alunoDic[row["MATR_ALUNO"]],
-        disciplina=disciplinaDic[row["COD_ATIV_CURRIC"]],
-        periodo_matricula=datetime(row["ANO"],mesMatricula,1),
-        curso=cursoDic[row["COD_CURSO"]],
-        media_final_matricula=row["MEDIA_FINAL"],
-        faltas_matricula=row["NUM_FALTAS"]
-        )
+    CONST_TIPO_EVASAO_DEFAULT_PATH = "tccStudentRegistration/evasao.csv"
+    
+    def __init__(self):
+        self.defaultModel = FormaEvasao
+        self.defaultKwargs = {"descricao_evasao" : "row[\"DESCRICAO\"]", "cod_tabela" : "row[\"ITEM_TABELA\"]"}
+        self.defaultPath = self.CONST_TIPO_EVASAO_DEFAULT_PATH
+        super(ImportModel, self).__init__()
+
+    def buildDictionary(self,modelList):
+        dictionary = {}
+        for obj in modelList:
+            dictionary[obj.cod_tabela] = obj
+        return dictionary
+    def getDictionary(self, path=""):
+        if(path):
+            self.updateModelList(self.getFromCsv(path))
+        return self.buildDictionary(self.getModelList())
 
 
-# print(aluno)
-# aluno.save()
 
-# test = FormaEvasao()
-# test.descricao_evasao = "Testing"
-# print(test.descricao_evasao)
-# test.save()
-# print(historico)
-# filtera = historico["FORMA_EVASAO_ITEM"]=="26"
 
-# print(historico)
-# df = historico.groupby(["FORMA_EVASAO_ITEM","MATR_ALUNO"]).count()
-# for index, row in df.iterrows():
-# 	print(row[0],row[3])
-# print(df)
+class ImportTipoIngresso(ImportModel):
+    CONST_TIPO_IGRESSO_DEFAULT_PATH = "tccStudentRegistration/ingresso.csv"
+    
+    def __init__(self):
+        self.defaultModel = FormaIngresso
+        self.defaultKwargs = {"descricao_ingresso" : "row[\"DESCRICAO\"]", "cod_tabela" : "row[\"ITEM_TABELA\"]"}
+        self.defaultPath = self.CONST_TIPO_IGRESSO_DEFAULT_PATH
+        super(ImportModel, self).__init__()
 
-# sorting dataframe
-# df.sort_values("FORMA_EVASAO_ITEM", inplace = True)
+    def buildDictionary(self,modelList):
+        dictionary = {}
+        for obj in modelList:
+            dictionary[obj.cod_tabela] = obj
+        return dictionary
+    def getDictionary(self, path=""):
+        if(path):
+            self.updateModelList(self.getFromCsv(path))
+        return self.buildDictionary(self.getModelList())
 
-# print(df.keys())
 
-# filtera = df.index["FORMA_EVASAO_ITEM"]=="26"
+class ImportSituacaoDisciplina(ImportModel):
+    CONST_SITUACAO_DISCIPLINA_DEFAULT_PATH = "tccStudentRegistration/situacaoDisciplina.csv"
+    
+    def __init__(self):
+        self.defaultModel = SituacaoMatricula
+        self.defaultKwargs = {"descricao_situacao_matricula" : "row[\"DESCRICAO\"]", "cod_tabela" : "row[\"ITEM_TABELA\"]"}
+        self.defaultPath = self.CONST_SITUACAO_DISCIPLINA_DEFAULT_PATH
+        super(ImportModel, self).__init__()
 
-# filtering data
-# df.where(filtera, inplace = True)
+    def buildDictionary(self,modelList):
+        dictionary = {}
+        for obj in modelList:
+            dictionary[obj.cod_tabela] = obj
+        return dictionary
+    def getDictionary(self, path=""):
+        if(path):
+            self.updateModelList(self.getFromCsv(path))
+        return self.buildDictionary(self.getModelList())
 
-# display
-# df
 
-# print(df)
+class ImportHistorico(object):
+    """docstring for ImportHistorico"""
+    def __init__(self):
+        self.evasao = ImportTipoEvasao().getDictionary()
+        self.ingresso = ImportTipoIngresso().getDictionary()
+        self.sitDisciplina = ImportSituacaoDisciplina().getDictionary()
+        super(ImportHistorico, self).__init__()
+
+    def importHistorico(self,path=""):
+        if not path:
+            path = "tccStudentRegistration/historico.csv"
+        importcsv = ImportCSV()
+        historico = importcsv.getCSVData(path)
+        print(self.evasao)
+        print(self.ingresso)
+        print(self.sitDisciplina)
+    
+        alunoDic = self.updateAluno(historico)
+        disciplinaDic = self.updateDisciplina(historico)
+        cursoDic = self.updateCursoDisciplina(historico)
+
+        for index, row in historico.iterrows():
+            if(row["PERIODO_ITEM"] == 201):
+                mesMatricula = 1
+            else:
+                mesMatricula = 7
+            matricula = Matricula.objects.get_or_create(
+                situacao_matricula=self.sitDisciplina[row["SITUACAO_ITEM"]],
+                aluno=alunoDic[row["MATR_ALUNO"]],
+                disciplina=disciplinaDic[row["COD_ATIV_CURRIC"]],
+                periodo_matricula=datetime(row["ANO"],mesMatricula,1),
+                curso=cursoDic[row["COD_CURSO"]],
+                media_final_matricula=row["MEDIA_FINAL"],
+                faltas_matricula=row["NUM_FALTAS"]
+                )
+
+
+
+
+    def updateAluno(self,historico):
+        listaDadosAlunos = ["MATR_ALUNO","ID_ALUNO","PERIODO_INGRE_ITEM","PERIODO_EVA_ITEM","ANO_INGRESSO","ANO_EVASAO","FORMA_EVASAO_ITEM","FORMA_INGRE_ITEM"]
+        dfAlunos = historico[listaDadosAlunos].groupby(["MATR_ALUNO"]).min()
+        alunoDic = {}
+        for index, row in dfAlunos.iterrows():
+            aluno,created = Aluno.objects.get_or_create(grr_aluno=row.name,
+                defaults={
+                    "periodo_ingresso":datetime(2019,1,1),
+                    "forma_ingresso":self.ingresso[2]
+                })
+            # if(created):
+            aluno.nome_aluno = row["ID_ALUNO"]
+            if(row["PERIODO_INGRE_ITEM"] == 201):
+                mesIngresso = 1
+            else:
+                mesIngresso = 7
+            if(row["PERIODO_EVA_ITEM"] == 202):
+                mesEvasao = 7
+            else:
+                mesEvasao = 1
+            aluno.periodo_ingresso = datetime(row["ANO_INGRESSO"],mesIngresso,1)
+            aluno.forma_ingresso = self.ingresso[row["FORMA_INGRE_ITEM"]]
+            if(row["ANO_EVASAO"] > 0):
+                aluno.periodo_evasao = datetime(row["ANO_EVASAO"],mesEvasao,1)
+            aluno.forma_evasao = self.evasao[row["FORMA_EVASAO_ITEM"]]
+            alunoDic[row.name] = aluno
+            aluno.save()
+        return alunoDic
+
+
+
+    def updateDisciplina(self,historico):
+        listaDadosDisciplina = ["COD_ATIV_CURRIC","NOME_ATIV_CURRIC","CH_TOTAL"]
+        dfDisciplinas = historico[listaDadosDisciplina].groupby(["COD_ATIV_CURRIC"]).max()
+        disciplinaDic = {}
+        for index, row in dfDisciplinas.iterrows():
+            disciplina,created = Disciplina.objects.get_or_create(codigo_disciplina=row.name)
+            disciplina.descricao_disciplina = row["NOME_ATIV_CURRIC"]
+            disciplina.carga_horaria = row["CH_TOTAL"]
+            disciplinaDic[row.name] = disciplina
+            disciplina.save()
+        return disciplinaDic
+
+    def updateCursoDisciplina(self,historico):
+        listaDadosCursoDisciplina = ["COD_ATIV_CURRIC","NOME_ATIV_CURRIC","CH_TOTAL","COD_CURSO"]
+        dfCursos = historico[["COD_CURSO"]].groupby(["COD_CURSO"]).min()
+        cursoDic = {}
+        for index, row in dfCursos.iterrows():
+            curso,created = Curso.objects.get_or_create(codigo_curso=row.name)
+            # if(created):
+            dfCursosDisciplinas = historico[listaDadosCursoDisciplina].where(historico["COD_CURSO"]==row.name).groupby(["COD_CURSO","COD_ATIV_CURRIC"]).max()
+            for index2, row2 in dfCursosDisciplinas.iterrows():
+                curso.disciplinas.add(Disciplina.objects.get(codigo_disciplina=row2.name[1]))
+            cursoDic[row.name] = curso
+            curso.save()
+        return cursoDic

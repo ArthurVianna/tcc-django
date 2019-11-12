@@ -15,7 +15,8 @@
     {% for turma in turmas %}
     <div class="div-geral">
         <h4>
-            <a href="{% url 'turma_detail' pk=turma.pk %}">
+            <!-- {% url 'turma_detail' pk=turma.pk } -->
+            <a href="#">
                 {{ turma.periodo_ingresso }}
             </a>
         </h4>

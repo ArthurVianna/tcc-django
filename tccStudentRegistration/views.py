@@ -53,7 +53,7 @@ def turma_detail(request, pk):
     return render(request,
                   'tcc/turma_detail.html',
                   {'alunos': alunos})
-                  # 'turma': turma,
+    # 'turma': turma,
 
 
 @login_required
