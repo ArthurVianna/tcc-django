@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import FormaEvasao, FormaIngresso, Disciplina, Curso, Aluno
-from .models import SituacaoMatricula, Matricula, PredicaoEvasao, Usuario
+from .models import SituacaoMatricula, Matricula, PredicaoEvasao
 
 
 @admin.register(FormaEvasao)
@@ -66,10 +66,3 @@ class PredicaoEvasao(admin.ModelAdmin):
                      'aluno__nome_aluno', 'forma_evasao__descricao_evasao',)
     autocomplete_fields = ('aluno', 'forma_evasao',)
 
-
-@admin.register(Usuario)
-class Usuario(admin.ModelAdmin):
-    list_display = ('nome_usuario', 'email_usuario', 'senha_usuario',
-                    'admin_usuario', 'id',)
-    search_fields = ('nome_usuario', 'email_usuario',
-                     'senha_usuario', 'admin_usuario',)
