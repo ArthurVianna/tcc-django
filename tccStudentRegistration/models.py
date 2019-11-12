@@ -232,8 +232,8 @@ class PredicaoEvasao(models.Model):
         )
     script_predicao = models.CharField(
         max_length=45,
-        verbose_name=_('GRR do aluno'),
-        help_text=_('GRR do aluno'),
+        verbose_name=_('Script predicao'),
+        help_text=_('Nome do script de predicao utilizado'),
         )
     aluno = models.ForeignKey(
         Aluno,
@@ -251,3 +251,28 @@ class PredicaoEvasao(models.Model):
         )
     def __str__(self):
         return '%s/%s/%s/%s' % (self.aluno,self.forma_evasao,self.script_predicao,self.periodo_predicao)
+
+
+class Usuario(models.Model):
+    """docstring for Usuario"""
+    nome_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Nome'),
+        help_text=_('Nome do Usuario cadastrado'),
+        )
+    email_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Email'),
+        help_text=_('Email do Usuario cadastrado'),
+        )
+    senha_usuario = models.CharField(
+        max_length=255,
+        verbose_name=_('Senha'),
+        help_text=_('Senha do Usuario cadastrado'),
+        )
+    admin_usuario = models.BooleanField(default=False)
+    #models.BooleanField(default=True)
+
+    def __str__(self):
+        return '%s/%s/%s/%s' % (self.aluno,self.forma_evasao,self.script_predicao,self.periodo_predicao)
+        
