@@ -71,7 +71,8 @@ class Disciplina(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.codigo_disciplina, self.descricao_disciplina)
+        return "{}/{}".format(self.codigo_disciplina,
+                              self.descricao_disciplina)
 
 
 class Curso(models.Model):
@@ -99,7 +100,7 @@ class Curso(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.codigo_curso, self.descricao_curso)
+        return "{}/{}".format(self.codigo_curso, self.descricao_curso)
 
 
 class SituacaoMatricula(models.Model):
@@ -168,7 +169,7 @@ class Aluno(models.Model):
         )
 
     def __str__(self):
-        return '%s/%s' % (self.grr_aluno, self.nome_aluno)
+        return "{}/{}".format(self.grr_aluno, self.nome_aluno)
 
 
 class Matricula(models.Model):
@@ -215,17 +216,15 @@ class Matricula(models.Model):
         )
 
     def __str__(self):
-        return '%s' % (self.aluno)
-
+        return self.aluno
 
 
 class PredicaoEvasao(models.Model):
-    """Matricula objects model.
+    """PredicaoEvasao objects model.
 
-    Used to keep track of Matricula objects information.
+    Used to keep track of PredicaoEvasao objects information.
     """
 
-    
     periodo_predicao = models.DateField(
         verbose_name=_('Período em que a predicao foi feita'),
         help_text=_('Período em que o script fez a predicao'),
@@ -249,12 +248,18 @@ class PredicaoEvasao(models.Model):
         help_text=_('Forma de evasão do aluno do curso'),
         on_delete=models.CASCADE
         )
+
     def __str__(self):
-        return '%s/%s/%s/%s' % (self.aluno,self.forma_evasao,self.script_predicao,self.periodo_predicao)
+        return "{}/{}/{}/{}".format(self.aluno, self.forma_evasao,
+                                    self.script_predicao,
+                                    self.periodo_predicao)
 
 
 class Usuario(models.Model):
-    """docstring for Usuario"""
+    """Usuario objects model.
+
+    Used to keep track of Usuario objects information.
+    """
     nome_usuario = models.CharField(
         max_length=255,
         verbose_name=_('Nome'),
@@ -271,8 +276,7 @@ class Usuario(models.Model):
         help_text=_('Senha do Usuario cadastrado'),
         )
     admin_usuario = models.BooleanField(default=False)
-    #models.BooleanField(default=True)
+    # models.BooleanField(default=True)
 
     def __str__(self):
-        return '%s/%s/%s/%s' % (self.aluno,self.forma_evasao,self.script_predicao,self.periodo_predicao)
-        
+        return "{}".format(self.nome_usuario)

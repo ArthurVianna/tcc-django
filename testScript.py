@@ -66,7 +66,7 @@ class Predict(object):
 
         df = df.drop("id",axis=1)
         df = df.drop("quantidadeRetencoes",axis=1)
-        
+
         df['porcentagemNaoRetido'] = perMatApro
 
         mask = df.situacaoEvasao_id != 1
@@ -77,7 +77,7 @@ class Predict(object):
 
     def scaleDF(self,df):
         scaler = StandardScaler()
-    
+
         scaled_features = scaler.fit_transform(df.drop("situacaoEvasao_id",axis=1))
         #print("Scaled features", scaled_features)
         df_feat = pd.DataFrame(scaled_features,columns=['ira','porcentagemNaoRetido'])#,'Retencoes'
@@ -129,7 +129,7 @@ class Predict(object):
         return confusion_matrix(result,prediction)
 
     def predictClassificationReport(self, prediction, result):
-        return classification_report(result,prediction)      
+        return classification_report(result,prediction)
 
 
 #clfMLPTest = MLPClassifier(activation='relu',alpha=0.01,hidden_layer_sizes=(50, 100, 50),learning_rate='adaptive',solver='adam',max_iter=100)#solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=0
@@ -186,7 +186,7 @@ predClass.testPrediction(df)
 #print("PredTree :")
 #print(confusion_matrix(y_test,predTree))
 #print(classification_report(y_test,predTree))
-#tree.plot_tree(clf.fit(x_train, y_train)) 
+#tree.plot_tree(clf.fit(x_train, y_train))
 #print("GNB :")
 #print(confusion_matrix(y_test,predGNB))
 #print(classification_report(y_test,predGNB))

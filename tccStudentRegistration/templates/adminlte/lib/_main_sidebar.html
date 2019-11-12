@@ -14,25 +14,41 @@
         <ul class="sidebar-menu">
             {% block nav_links_outer %}{% endblock %}
             {% block nav_links %}
-            <li>
+            <li class="
+                {% if request.resolver_match.view_name == 'dashboard' %}
+                    active
+                {% endif %}">
                 <a href="{% url 'dashboard' %}">
                     <i class="fa fa-bar-chart-o"></i>
                     <span>Página Inicial</span>
                 </a>
             </li>
-            <li>
+            <li class="
+                {% if request.resolver_match.view_name == 'turmas' %}
+                    active
+                {% endif %}">
                 <a href="{% url 'turmas' %}">
                     <i class="fa fa-users"></i>
                     <span>Turmas</span>
                 </a>
             </li>
-            <li>
+            <li class="
+                {% if request.resolver_match.view_name == 'disciplinas' %}
+                    active
+                {% elif request.resolver_match.view_name == 'disciplina_detail' %}
+                    active
+                {% endif %}">
                 <a href="{% url 'disciplinas' %}">
                     <i class="fa fa-book"></i>
                     <span>Disciplinas</span>
                 </a>
             </li>
-            <li>
+            <li class="
+                {% if request.resolver_match.view_name == 'alunos' %}
+                    active
+                {% elif request.resolver_match.view_name == 'aluno_detail' %}
+                    active
+                {% endif %}">
                 <a href="{% url 'alunos' %}">
                     <i class="fa fa-graduation-cap"></i>
                     <span>Alunos</span>

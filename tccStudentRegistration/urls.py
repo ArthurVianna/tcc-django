@@ -12,4 +12,6 @@ urlpatterns = [
          name='disciplina_detail'),
     path('aluno/<int:pk>/', views.aluno_detail,
          name='aluno_detail'),
+    path('turma/<int:pk>/', views.turma_detail,
+         name='turma_detail'),
 ]

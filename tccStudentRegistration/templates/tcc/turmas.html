@@ -9,10 +9,20 @@
 </section>
 <section class="content">
     <div class="div-geral">
-        <h4>Turma 2016.1 (tarde)</h4>
+        <h4>Data de ingresso dos alunos</h4>
         <p>Quantidade de alunos que ingressaram esse ano</p>
     </div>
-    <!-- TODO: ver como fazer para agrupar as turmas -->
+    {% for turma in turmas %}
+    <div class="div-geral">
+        <h4>
+            <!-- {% url 'turma_detail' pk=turma.pk } -->
+            <a href="#">
+                {{ turma.periodo_ingresso }}
+            </a>
+        </h4>
+        <p>{{ turma.num_alunos }}</p>
+    </div>
+    {% endfor %}
     <!-- TODO: linkar a página de detalhes -->
 </section>
 {% endif %}

@@ -9,24 +9,24 @@
 </section>
 <section class="content">
     <div class="informacao">
-        <p>gráfico e alguma coisa</p>
+        <!-- <p>gráfico e alguma coisa</p> -->
         <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
         <p>{{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
     </div>
     <div class="div-geral">
         <h4>
-            Nome da disciplina | nº de faltas/nº de faltas possíveis | Situação
+            Nome da disciplina | Nº de Faltas | Situação
         </h4>
     </div>
-    <!-- {% for al in aluno }
+    {% for matr in matricula %}
     <div class="div-geral">
         <h4>
-            <a href="#">
-                {{ al.nome_aluno }} ({{ al.grr_aluno }})
+            <a href="{% url 'disciplina_detail' pk=matr.disciplina.pk %}">
+                {{ matr.disciplina.descricao_disciplina }} ({{ matr.disciplina.codigo_disciplina }}) | {{ matr.faltas_matricula }} | {{ matr.situacao_matricula }}
             </a>
         </h4>
     </div>
-    {% endfor } -->
+    {% endfor %}
 </section>
 {% endif %}
 {% endblock %}
