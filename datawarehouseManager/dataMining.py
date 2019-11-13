@@ -45,11 +45,7 @@ class DataMining(object):
             if(created):
                 curso.descricao_curso = cursoAlu.descricao_curso
                 curso.save()
-            fatoEvasao = FatoEvasao()
-            fatoEvasao.alunoEvasao = alu
-            fatoEvasao.situacaoEvasao = situacaoEvasao
-            fatoEvasao.cursoEvasao = curso
-            fatoEvasao.semestreEvasao = sem
+            fatoEvasao,created = FatoEvasao.objects.get_or_create(alunoEvasao=alu,situacaoEvasao=situacaoEvasao,cursoEvasao=curso,semestreEvasao=sem)            
             fatoEvasao.quantidadeRetencoes = countRetencoesAluno(alu.grr_aluno)
             fatoEvasao.ira = calculoIra(alu.grr_aluno)
             if situacaoEvasao.descricao_evasao in DescricaoUtil.getListSemConcluirSituacao():
@@ -109,9 +105,11 @@ class DataMining(object):
 
         for item in fatoEvasaoDic:
             fato = fatoEvasaoDic[item]
-            fato.ira /= fato.quantidadeEvasao
-            fato.coeficienteEvasao /= fato.quantidadeEvasao
-            fato.save()
+            fatoBanco = FatoEvasao.objects.get_or_create(alunoEvasao=fato.alunoEvasao,situacaoEvasao=fato.situacaoEvasao,cursoEvasao=fato.cursoEvasao,semestreEvasao=fato.semestreEvasao)
+            fatoBanco.ira = fato.ira / fato.quantidadeEvasao
+            fatoBanco.coeficienteEvasao = fato.coeficienteEvasao / fato.quantidadeEvasao
+            fatoBanco.quantidadeEvasao = fato.quantidadeEvasao
+            fatoBanco.save()
 
 
     def updateFatoMatriculaFact(self):
@@ -170,16 +168,21 @@ class DataMining(object):
                 #endFor
                 fato.cursoMatricula = AuxCurso
                 fato.semestreMatricula = None
+            break
             #endFor
+
             
 
 
         for item in fatoMatriculaDic:
             fato = fatoMatriculaDic[item]
-            fato.faltasMatricula /= fato.quantidadeMatricula
-            fato.mediaMatricula /= fato.quantidadeMatricula
-            fato.coeficienteRetencao /= fato.quantidadeMatricula
-            fato.save()
+            fatoBanco,created = FatoMatricula.objects.get_or_create(alunoMatricula=fato.alunoMatricula,situacaoMatricula=fato.situacaoMatricula,disciplinaMatricula=fato.disciplinaMatricula,
+                                                            cursoMatricula=fato.cursoMatricula,semestreMatricula=fato.semestreMatricula)
+            fatoBanco.faltasMatricula = fato.faltasMatricula / fato.quantidadeMatricula
+            fatoBanco.mediaMatricula = fato.mediaMatricula / fato.quantidadeMatricula
+            fatoBanco.coeficienteRetencao = fato.coeficienteRetencao / fato.quantidadeMatricula
+            fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
+            fatoBanco.save()
 
     def updateFatoMatricula(self):
         matriculas = getMatriculasCompletas()
@@ -204,12 +207,8 @@ class DataMining(object):
             if not (curso.disciplinas.filter(codigo_disciplina=disciplina.codigo_disciplina).exists()):
                 curso.disciplinas.add(disciplina)
                 curso.save()
-            fatoMatricula = FatoMatricula()
-            fatoMatricula.alunoMatricula = aluno
-            fatoMatricula.situacaoMatricula = situacaoMatricula
-            fatoMatricula.disciplinaMatricula = disciplina
-            fatoMatricula.cursoMatricula = curso
-            fatoMatricula.semestreMatricula = sem
+            fatoMatricula,created = FatoMatricula.objects.get_or_create(alunoMatricula=aluno,situacaoMatricula=situacaoMatricula,disciplinaMatricula=disciplina,
+                                                                cursoMatricula=curso,semestreMatricula=sem)
             fatoMatricula.faltasMatricula = matricula.faltas_matricula
             fatoMatricula.mediaMatricula = matricula.media_final_matricula
             if situacaoMatricula.descricao_situacao_matricula not in DescricaoUtil.getListMatriculaAprovado():

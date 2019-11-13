@@ -129,9 +129,6 @@ class ImportHistorico(object):
             path = "tccStudentRegistration/historico.csv"
         importcsv = ImportCSV()
         historico = importcsv.getCSVData(path)
-        print(self.evasao)
-        print(self.ingresso)
-        print(self.sitDisciplina)
     
         alunoDic = self.updateAluno(historico)
         disciplinaDic = self.updateDisciplina(historico)

@@ -35,6 +35,11 @@ def getMatriculasAluno(grraluno):
     matriculas = Matricula.objects.filter(aluno=aluno)
     return matriculas
 
+def countMatriculasAluno(grraluno):
+    return getMatriculasAluno(grraluno).count()
+
+def getLatestIngresso():
+    return Aluno.objects.latest('periodo_ingresso').periodo_ingresso
 
 def countRetencoesAluno(grrAluno):
     matriculas = getMatriculasAluno(grrAluno)
