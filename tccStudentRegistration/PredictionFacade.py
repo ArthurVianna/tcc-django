@@ -1,6 +1,7 @@
 from datawarehouseManager.dbManager import *
 from tccStudentRegistration.Predict import *
 from tccStudentRegistration.models import *
+from datetime import date
 
 class PredictionFacade(object):
     """docstring for PredictionFacade"""
@@ -19,10 +20,20 @@ class PredictionFacade(object):
         scaledDF = pd.DataFrame(scaler.transform(df),columns=['ira','porcentagemRetido'])
 
         prediction = predClass.predict(fittedMLP,scaledDF)
-        print(dfAlunos)
+        resultadoPredicaoDic = {}
+        today = date.today()
+
         for index,row in dfAlunos.iterrows():
-            print("Grr = " + str(row['grr']) + " - ira = " + str(row['ira']) + " - %Retido = " + str(row['porcentagemRetido']) + " - predicao = " + str(prediction[index]))
-            index +=1
+            predicao = PredicaoEvasao()
+            #print("Grr = " + str(row['grr']) + " - ira = " + str(row['ira']) + " - %Retido = " + str(row['porcentagemRetido']) + " - predicao = " + str(prediction[index]))
+            if prediction[index] not in resultadoPredicaoDic:
+                resultadoPredicaoDic[prediction[index]] = FormaEvasao.objects.get(descricao_evasao=predClass.getSituacaoEvasaoById(prediction[index]).descricao_evasao)
+            predicao.forma_evasao = resultadoPredicaoDic[prediction[index]]
+            predicao.aluno = Aluno.objects.get(grr_aluno=str(row['grr']))
+            predicao.script_predicao = classifierName
+            predicao.periodo_predicao = today
+            #print(predicao)
+            predicao.save()
 
     @staticmethod
     def getDFAlunosMatriculados():
@@ -36,7 +47,6 @@ class PredictionFacade(object):
             ira += [calculoIra(aluno['grr_aluno'])]
             porcentagemRetencao += [countRetencoesAluno(aluno['grr_aluno'])/countMatriculasAluno(aluno['grr_aluno'])]
 
-        print(grr)
         data = list(zip(grr, ira, porcentagemRetencao))
 
         df = pd.DataFrame(data, columns = ['grr', 'ira', 'porcentagemRetido'])

@@ -34,7 +34,7 @@ from datawarehouseManager.dataMining import *
 
 from tccStudentRegistration.PredictionFacade import *
 
-PredictionFacade.updatePrediction("KNN")
+PredictionFacade.updatePrediction("MLP")
 
 
 #Script to find the best mlp config

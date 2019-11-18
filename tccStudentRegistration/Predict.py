@@ -23,7 +23,7 @@ class Predict(object):
         super(Predict, self).__init__()
 
     def getDadosEvasao(self):
-        if(self.dadosEvasao == None):
+        if(self.dadosEvasao != None):
             return self.dadosEvasao
         fatoEvasaoLista = FatoEvasao.objects.filter(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False).order_by('alunoEvasao__id')
         aux = fatoEvasaoLista.values('alunoEvasao__id')
@@ -51,7 +51,7 @@ class Predict(object):
         column_name = 'situacaoEvasao_id'
         df.loc[mask, column_name] = 3
         self.dadosEvasao = df
-        return df
+        return self.dadosEvasao
 
     def scaleDF(self,df):
         scaler = StandardScaler()
@@ -178,3 +178,7 @@ class Predict(object):
         if(os.path.exists(path) == False):
             os.makedirs(path)
         return path
+
+    def getSituacaoEvasaoById(self,pk):
+        situacao = StituacaoEvasao.objects.get(pk=pk)
+        return situacao
