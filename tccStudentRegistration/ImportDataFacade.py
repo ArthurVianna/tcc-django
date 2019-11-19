@@ -1,6 +1,7 @@
 from tccStudentRegistration.models import *
 from datawarehouseManager.dataMining import *
 from tccStudentRegistration.PredictionFacade import *
+from datawarehouseManager.dbManager import *
 
 class ImportDataFacade(object):
     """docstring for ImportDataFacade"""
@@ -34,8 +35,15 @@ class ImportDataFacade(object):
     @staticmethod
     def mineData():
         dm = DataMining()
+        dm.insertFatoEvasao()
+        dm.insertFatoMatricula()
         dm.updateFatoEvasao()
         dm.updateFatoMatricula()
+
+    @staticmethod
+    def deleteAlunosEvasao(): 
+        #Deleta alunos que já evadiram no banco 1
+        deleteAlunosEvadiram()
 
     @staticmethod
     def makePredictions(classifierName="MLP"):
@@ -45,7 +53,19 @@ class ImportDataFacade(object):
     def importingDoingEveryProcedure(path="",classifierName="MLP"):
         ImportDataFacade.importCSV(path)
         ImportDataFacade.mineData()
+        ImportDataFacade.deleteAlunosEvasao()
         ImportDataFacade.makePredictions(classifierName)
+
+    @staticmethod
+    def testDelete():
+        ImportDataFacade.__deleteOldDWData()
+
+    @staticmethod
+    def __deleteOldDWData():
+        dm = DataMining()
+        #dm.cleanData()
+
+
 
 #from tccStudentRegistration.importCSV import *
 #importHistorico = ImportHistorico()
