@@ -7,7 +7,11 @@ from datawarehouseManager.models import *
 
 class DataMining(object):
     """docstring for DataMining"""
+
+    maxDataAge = 15
+    
     def __init__(self):
+        self.maxDataAge = 15
         super(DataMining, self).__init__()
 
 
@@ -29,7 +33,7 @@ class DataMining(object):
         return nomeFato
 
 
-    def updateFatoEvasao(self):
+    def insertFatoEvasao(self):
         alunos = getAlunoEvadiram()
         for aluno in alunos:
             sem,created = Semestre.objects.get_or_create(inicioSemestre=aluno.periodo_evasao)
@@ -55,7 +59,7 @@ class DataMining(object):
             fatoEvasao.quantidadeEvasao = 1
             fatoEvasao.save()
 
-
+    def updateFatoEvasao(self):
         fatoEvasaoLista = FatoEvasao.objects.filter(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False)
         fatoEvasaoDic = {}
 
@@ -112,7 +116,7 @@ class DataMining(object):
             fatoBanco.save()
 
 
-    def updateFatoMatriculaFact(self):
+    def updateFatoMatricula(self):
         fatoMatriculaLista = FatoMatricula.objects.filter(alunoMatricula__isnull=False,
             situacaoMatricula__isnull=False,
             disciplinaMatricula__isnull=False,
@@ -171,9 +175,6 @@ class DataMining(object):
             break
             #endFor
 
-            
-
-
         for item in fatoMatriculaDic:
             fato = fatoMatriculaDic[item]
             fatoBanco,created = FatoMatricula.objects.get_or_create(alunoMatricula=fato.alunoMatricula,situacaoMatricula=fato.situacaoMatricula,disciplinaMatricula=fato.disciplinaMatricula,
@@ -184,7 +185,7 @@ class DataMining(object):
             fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
             fatoBanco.save()
 
-    def updateFatoMatricula(self):
+    def insertFatoMatricula(self):
         matriculas = getMatriculasCompletas()
         for matricula in matriculas:
             sem,created = Semestre.objects.get_or_create(inicioSemestre=matricula.periodo_matricula)
@@ -217,8 +218,89 @@ class DataMining(object):
                 fatoMatricula.coeficienteRetencao = '0.0'
             fatoMatricula.quantidadeMatricula = 1
             fatoMatricula.save()
-            
-        self.updateFatoMatriculaFact()
+
+    def clearData(self):
+        today = datetime.today()
+        ano = today.year - self.maxDataAge
+        
+        if(today.month < 7):
+            mes = 1
+        else:
+            mes = 7
+        today = datetime(ano,mes,1)
+        semestres = Semestre.objects.filter(inicioSemestre__lt=today).order_by('inicioSemestre')
+        oldEvasoes = FatoEvasao.objects.filter(semestreEvasao__in=semestres,alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False)
+
+        turmasAfetadas = {}
+        formaIngressoAfetado = {}
+        #alunosDeletados = []
+        for fatoEvasao in oldEvasoes:
+            #alunosDeletados += [fatoEvasao.alunoEvasao]
+            turmasAfetadas[fatoEvasao.alunoEvasao.turma.periodo_ingresso] = fatoEvasao.alunoEvasao.turma
+            formaIngressoAfetado[fatoEvasao.alunoEvasao.forma_ingresso.descricao_ingresso] = fatoEvasao.alunoEvasao.forma_ingresso
+            fatoEvasao.alunoEvasao.delete()
+
+
+        for turma in turmasAfetadas:
+            if(Aluno.objects.filter(turma=turmasAfetadas[turma]).values().count() <= 0): # exclude(pk__in=alunosDeletados)
+                turma.delete()
+                
+
+        for forma in formaIngressoAfetado:
+            if(Aluno.objects.filter(forma_ingresso=formaIngressoAfetado[forma]).values().count() <= 0): #exclude(pk__in=alunosDeletados)
+                forma.delete()
+                
+
+        cursos = Curso.objects.all()
+        disciplinas = Disciplina.objects.all()
+        situacaoMatriculas = SituacaoMatricula.objects.all()
+        situacaoEvasaos = StituacaoEvasao.objects.all()
+
+
+        for curso in cursos:
+            count = FatoMatricula.objects.filter(cursoMatricula=curso,alunoMatricula__isnull=False,
+                                        situacaoMatricula__isnull=False,
+                                        disciplinaMatricula__isnull=False,
+                                        semestreMatricula__isnull=False).values().count()
+            count += FatoEvasao.objects.filter(semestreEvasao__isnull=False,alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao=curso).values().count()
+            #print("curso : " + curso.codigo_curso + "   Count :" + str(count))
+            if(count <= 0):
+                curso.delete()
+        disciplinaCount = 0
+        for disciplina in disciplinas:
+            count = FatoMatricula.objects.filter(cursoMatricula__isnull=False,alunoMatricula__isnull=False,
+                                        situacaoMatricula__isnull=False,
+                                        disciplinaMatricula=disciplina,
+                                        semestreMatricula__isnull=False).values().count()
+            if(count <= 0):
+                disciplina.delete()
+
+        
+        for sitMatr in situacaoMatriculas:
+            count = FatoMatricula.objects.filter(cursoMatricula__isnull=False,alunoMatricula__isnull=False,
+                                        situacaoMatricula=sitMatr,
+                                        disciplinaMatricula__isnull=False,
+                                        semestreMatricula__isnull=False).values().count()
+            if(count <= 0):
+                sitMatr.delete()
+
+
+        for sitEva in situacaoEvasaos:
+            count = FatoEvasao.objects.filter(semestreEvasao__isnull=False,alunoEvasao__isnull=False,situacaoEvasao=sitEva,cursoEvasao__isnull=False).values().count()
+            if(count <= 0):
+                sitEva.delete()
+
+        for semestre in semestres:
+            count = FatoMatricula.objects.filter(cursoMatricula__isnull=False,alunoMatricula__isnull=False,
+                                        situacaoMatricula__isnull=False,
+                                        disciplinaMatricula__isnull=False,
+                                        semestreMatricula=semestre).values().count()
+            count += FatoEvasao.objects.filter(semestreEvasao=semestre,alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False).values().count()
+            if(count <= 0):
+                semestre.delete()
+
+
+        
 
 
 class DescricaoUtil(object):

@@ -59,6 +59,13 @@ def calculoIra(grrAluno):
 
     return somatoria / (chTotal*100)
 
+def deleteAlunosEvadiram():
+    matriculas = Aluno.objects.exclude(
+        forma_evasao=FormaEvasao.objects.get(
+            descricao_evasao='Sem evasão')
+    )
+    matriculas.delete()
+
 
 def situacaoMatriculasReprovados():
     reprovado = ['Reprovado por nota',
