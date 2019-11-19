@@ -21,7 +21,7 @@ urlpatterns = [
     path('', include('tccStudentRegistration.urls')),
 ]
 
-admin.site.site_header = 'TCC | Admin'  # TODO: colocar o nome do projeto
-admin.site.index_title = 'TCC'
+admin.site.site_header = 'SEAS - Student Evasion Analysis System'
+admin.site.index_title = 'SEAS'
 admin.site.site_title = 'Admin'
 admin.site.site_url = '/dashboard/'

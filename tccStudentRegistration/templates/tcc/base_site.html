@@ -1,19 +1,27 @@
 {% extends 'adminlte/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
-{% block title_outer %}
-    <title>{% block title %}TCC{% endblock %}</title>
-{% endblock %}
+{% block title %}SEAS{% endblock %}
 
 {% block meta %}
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
 
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{% static 'css/base_site.css' %}">
-
-    <script src="https://kit.fontawesome.com/9691fb41a1.js"></script>
 {% endblock %}
 
 {% block content %}
 {% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="https://kit.fontawesome.com/9691fb41a1.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" scr="{% static 'js/table.js' %}"></script>
+{% endblock javascript %}

@@ -19,8 +19,8 @@
     {% for al in alunos %}
     <div class="div-geral">
         <h4>
-            <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
-                {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
+            <a href="{% url 'aluno_detail' pk=al.pk %}">
+                {{ al.nome_aluno }} ({{ al.grr_aluno }})
             </a>
         </h4>
     </div>

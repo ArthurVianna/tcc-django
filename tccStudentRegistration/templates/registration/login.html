@@ -1,5 +1,7 @@
-{% extends "admin/base_site.html" %}
+{% extends 'admin/base_site.html' %}
 {% load i18n static %}
+
+{% block title %} SEAS {% endblock %}
 
 {% block extrastyle %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}">
@@ -19,14 +21,12 @@
 
 {% block branding %}
 <h1 id="site-name">
-	<!-- TODO: colocar o nome do projeto -->
-	<a href="/"> {% trans 'TCC' %}</a>
+	<a href="/">SEAS - Student Evasion Analysis System</a>
 </h1>
 {% endblock %}
 
 {% block content %}
 <div id="content-main">
-
     <form action="{% url 'login' %}" method="post" id="login-form">{% csrf_token %}
         <div class="form-row">
 			<label class="required" for="username">Usuário:</label>
@@ -40,6 +40,5 @@
             <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}">
         </div>
     </form>
-
 </div>
 {% endblock %}

@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .models import Disciplina, Aluno, Matricula
@@ -14,17 +13,11 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect('dashboard/')
-                # return render(request, 'tcc/dashboard.html', {})
+                return render(request, 'tcc/dashboard.html', {'user': user})
             else:
-                # TODO: ajustar a resposta
-                return HttpResponse("Your account was inactive.")
+                return render(request, 'tcc/login_error.html', {'user': user})
         else:
-            # TODO: retirar esses prints e ajustar a resposta
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".
-                  format(username, password))
-            return HttpResponse("Invalid login details given")
+            return render(request, 'tcc/login_error.html', {'user': user})
     else:
         return render(request, 'registration/login.html', {})
 
@@ -48,12 +41,10 @@ def turmas(request):
 
 @login_required
 def turma_detail(request, pk):
-    # turma = get_object_or_404(Aluno, pk=pk)
     alunos = Aluno.objects.filter(periodo_ingresso=pk)
     return render(request,
                   'tcc/turma_detail.html',
                   {'alunos': alunos})
-    # 'turma': turma,
 
 
 @login_required

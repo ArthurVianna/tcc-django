@@ -1,3 +1,4 @@
+# flake8: noqa
 from tccStudentRegistration.models import *
 from datawarehouseManager.dataMining import *
 from tccStudentRegistration.PredictionFacade import *
@@ -7,7 +8,7 @@ class ImportDataFacade(object):
     def __init__(self, arg):
         super(ImportDataFacade, self).__init__()
         self.arg = arg
-    
+
     @staticmethod
     def importCSV(path=""):
         importador = ImportHistorico()
