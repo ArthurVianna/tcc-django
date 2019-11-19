@@ -10,7 +10,7 @@ class ImportDataFacade(object):
         self.arg = arg
     
     @staticmethod
-    def importCSV(path=""):
+    def __importCSV(path=""):
         importador = ImportHistorico()
         importador.importHistorico(path)
 
@@ -33,7 +33,7 @@ class ImportDataFacade(object):
             importador.getDictionary(path)
 
     @staticmethod
-    def mineData():
+    def __mineData():
         dm = DataMining()
         dm.insertFatoEvasao()
         dm.insertFatoMatricula()
@@ -41,7 +41,7 @@ class ImportDataFacade(object):
         dm.updateFatoMatricula()
 
     @staticmethod
-    def deleteAlunosEvasao(): 
+    def __deleteAlunosEvasao(): 
         #Deleta alunos que já evadiram no banco 1
         deleteAlunosEvadiram()
 
@@ -51,19 +51,16 @@ class ImportDataFacade(object):
 
     @staticmethod
     def importingDoingEveryProcedure(path="",classifierName="MLP"):
-        ImportDataFacade.importCSV(path)
-        ImportDataFacade.mineData()
-        ImportDataFacade.deleteAlunosEvasao()
-        ImportDataFacade.makePredictions(classifierName)
-
-    @staticmethod
-    def testDelete():
+        ImportDataFacade.__importCSV(path)
         ImportDataFacade.__deleteOldDWData()
-
+        ImportDataFacade.__mineData()
+        ImportDataFacade.__deleteAlunosEvasao()
+        ImportDataFacade.makePredictions(classifierName)
+  
     @staticmethod
     def __deleteOldDWData():
         dm = DataMining()
-        #dm.cleanData()
+        dm.clearData()
 
 
 

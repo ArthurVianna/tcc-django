@@ -7,7 +7,11 @@ from datawarehouseManager.models import *
 
 class DataMining(object):
     """docstring for DataMining"""
+
+    maxDataAge = 15
+    
     def __init__(self):
+        self.maxDataAge = 15
         super(DataMining, self).__init__()
 
 
@@ -215,9 +219,10 @@ class DataMining(object):
             fatoMatricula.quantidadeMatricula = 1
             fatoMatricula.save()
 
-    def cleanData(self):
+    def clearData(self):
         today = datetime.today()
-        ano = today.year - 15
+        ano = today.year - self.maxDataAge
+        
         if(today.month < 7):
             mes = 1
         else:
