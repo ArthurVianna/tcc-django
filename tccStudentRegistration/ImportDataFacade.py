@@ -50,7 +50,7 @@ class ImportDataFacade(object):
         PredictionFacade.updatePrediction(classifierName)
 
     @staticmethod
-    def importingDoingEveryProcedure(path="",classifierName="MLP"):
+    def importNewData(path="",classifierName="MLP"):
         ImportDataFacade.__importCSV(path)
         ImportDataFacade.__deleteOldDWData()
         ImportDataFacade.__mineData()
