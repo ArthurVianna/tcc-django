@@ -18,13 +18,13 @@ def user_login(request):
                 # return render(request, 'tcc/dashboard.html', {})
             else:
                 # TODO: ajustar a resposta
-                return HttpResponse("Your account was inactive.")
+                return render(request, 'registration/login.html', {'msg':"Your account was inactive."})
         else:
             # TODO: retirar esses prints e ajustar a resposta
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".
                   format(username, password))
-            return HttpResponse("Invalid login details given")
+            return render(request, 'registration/login.html', {'msg':"Invalid login details given"})
     else:
         return render(request, 'registration/login.html', {})
 
