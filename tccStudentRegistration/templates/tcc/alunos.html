@@ -8,22 +8,29 @@
     </h1>
 </section>
 <section class="content">
-    <div class="div-geral">
-        <h4>GRR (ID)</h4>
-        <p>Forma de ingresso - Período de ingresso</p>
-        <p>Forma de evasão - Período de evasão</p>
-    </div>
-    {% for aluno in alunos %}
-    <div class="div-geral">
-        <h4>
-            <a href="{% url 'aluno_detail' pk=aluno.pk %}">
-                {{ aluno.grr_aluno }} ({{ aluno.nome_aluno }})
-            </a>
-        </h4>
-        <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
-        <p>{{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
-    </div>
-    {% endfor %}
+    <table id="result" class="display" width="100%">
+      	<thead>
+            <tr>
+                <th>GRR (ID)</th>
+                <th>Forma de ingresso - Período de ingresso</th>
+                <th>Forma de evasão - Período de evasão</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>
+                    <a href="{% url 'aluno_detail' pk=aluno.pk %}">
+                    {{ aluno.grr_aluno }} ({{ aluno.nome_aluno }})
+                    </a>
+                </td>
+                <td>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</td>
+                <td>{{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
 {% endif %}
 {% endblock %}

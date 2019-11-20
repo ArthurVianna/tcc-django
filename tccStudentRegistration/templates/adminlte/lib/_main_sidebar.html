@@ -19,16 +19,18 @@
                     active
                 {% endif %}">
                 <a href="{% url 'dashboard' %}">
-                    <i class="fa fa-bar-chart-o"></i>
+                    <i class="fas fa-chart-bar"></i>
                     <span>Página Inicial</span>
                 </a>
             </li>
             <li class="
                 {% if request.resolver_match.view_name == 'turmas' %}
                     active
+                {% elif request.resolver_match.view_name == 'turma_detail' %}
+                    active
                 {% endif %}">
                 <a href="{% url 'turmas' %}">
-                    <i class="fa fa-users"></i>
+                    <i class="fas fa-users"></i>
                     <span>Turmas</span>
                 </a>
             </li>
@@ -39,7 +41,7 @@
                     active
                 {% endif %}">
                 <a href="{% url 'disciplinas' %}">
-                    <i class="fa fa-book"></i>
+                    <i class="fas fa-book"></i>
                     <span>Disciplinas</span>
                 </a>
             </li>
@@ -50,7 +52,7 @@
                     active
                 {% endif %}">
                 <a href="{% url 'alunos' %}">
-                    <i class="fa fa-graduation-cap"></i>
+                    <i class="fas fa-user-graduate"></i>
                     <span>Alunos</span>
                 </a>
             </li>

@@ -8,23 +8,25 @@
     </h1>
 </section>
 <section class="content">
-    <div class="informacao">
-        <!-- <p>gráfico e alguma coisa</p> -->
-    </div>
-    <div class="div-geral">
-        <h4>
-            Nome do aluno
-        </h4>
-    </div>
-    {% for al in alunos %}
-    <div class="div-geral">
-        <h4>
-            <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
-                {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
-            </a>
-        </h4>
-    </div>
-    {% endfor %}
+    <table id="result" class="display" width="100%">
+      	<thead>
+            <tr>
+                <th>Nome do aluno</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for al in alunos %}
+            <tr>
+                <td>
+                    <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
+                    {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
 {% endif %}
 {% endblock %}

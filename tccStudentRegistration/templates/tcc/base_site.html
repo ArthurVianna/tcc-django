@@ -8,13 +8,21 @@
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <!-- css fontawesome -->
+    <link rel="stylesheet" href="{% static 'fontawesome/all.min.css' %}">
+    <!-- css datatables -->
+    <link rel="stylesheet" href="{% static 'datatables/datatables.min.css' %}">
+    <!-- css base_site -->
     <link rel="stylesheet" href="{% static 'css/base_site.css' %}">
 
-    <script type="text/javascript" src="https://kit.fontawesome.com/9691fb41a1.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" scr="{% static 'js/table.js' %}"></script>
+    <!-- js fontawesome -->
+    <script type="text/javascript" src="{% static 'fontawesome/all.min.js' %}"></script>
+    <!-- jquery -->
+    <script type="text/javascript" src="{% static 'jquery/jquery-3.4.1.min.js' %}"></script>
+    <!-- js datatables -->
+    <script type="text/javascript" src="{% static 'datatables/datatables.min.js' %}" defer></script>
+    <!-- js assemble table using datatables -->
+    <script type="text/javascript" src="{% static 'js/table.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
