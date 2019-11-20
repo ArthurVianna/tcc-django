@@ -11,7 +11,7 @@ class ImportDataFacade(object):
         self.arg = arg
 
     @staticmethod
-    def __importCSV(path=""):
+    def __importHistorico(path=""):
         importador = ImportHistorico()
         importador.importHistorico(path)
 
@@ -52,7 +52,7 @@ class ImportDataFacade(object):
 
     @staticmethod
     def importNewData(path="",classifierName="MLP"):
-        ImportDataFacade.__importCSV(path)
+        ImportDataFacade.__importHistorico(path)
         ImportDataFacade.__deleteOldDWData()
         ImportDataFacade.__mineData()
         ImportDataFacade.__deleteAlunosEvasao()

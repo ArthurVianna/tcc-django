@@ -3,6 +3,7 @@ from datawarehouseManager.dbManager import *
 from tccStudentRegistration.Predict import *
 from tccStudentRegistration.models import *
 from datetime import date
+from pandas import pandas as pd
 
 class PredictionFacade(object):
     """docstring for PredictionFacade"""
@@ -13,7 +14,7 @@ class PredictionFacade(object):
     @staticmethod
     def updatePrediction(classifierName):
         predClass = Predict()
-        dfAlunos = PredictionFacade.getDFAlunosMatriculados()
+        dfAlunos = PredictionFacade.__getDFAlunosMatriculados()
         df = dfAlunos.drop("grr",axis=1)
         scaler = predClass.getScaler()
 
@@ -37,7 +38,7 @@ class PredictionFacade(object):
             predicao.save()
 
     @staticmethod
-    def getDFAlunosMatriculados():
+    def __getDFAlunosMatriculados():
         alunosNaoEvadiram = Aluno.objects.filter(forma_evasao=FormaEvasao.objects.get(descricao_evasao='Sem evasão')).exclude(periodo_ingresso=getLatestIngresso()).order_by('grr_aluno').values()
         grr = []
         ira = []
