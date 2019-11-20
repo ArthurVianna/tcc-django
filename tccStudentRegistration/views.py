@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
@@ -36,6 +37,7 @@ def user_logout(request):
 
 @login_required
 def dashboard(request):
+    print(request.user)#chamar o user da session
     return render(request, 'tcc/dashboard.html', {})
 
 
