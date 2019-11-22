@@ -3,6 +3,9 @@ from tccStudentRegistration.models import *
 from datawarehouseManager.dataMining import *
 from tccStudentRegistration.PredictionFacade import *
 from datawarehouseManager.dbManager import *
+import threading
+import time
+
 
 class ImportDataFacade(object):
     """docstring for ImportDataFacade"""
@@ -51,12 +54,20 @@ class ImportDataFacade(object):
         PredictionFacade.updatePrediction(classifierName)
 
     @staticmethod
-    def importNewData(path="",classifierName="MLP"):
+    def __importNewData(path="",classifierName="MLP"):
         ImportDataFacade.__importHistorico(path)
         ImportDataFacade.__deleteOldDWData()
         ImportDataFacade.__mineData()
         ImportDataFacade.__deleteAlunosEvasao()
         ImportDataFacade.makePredictions(classifierName)
+        
+    @staticmethod
+    def importNewData(path="",classifierName="MLP"):
+        thread = threading.Thread(target=ImportDataFacade.__importNewData, args=(path,classifierName))
+        thread.daemon = True #Faz ser possivel interromper o servidor enquanto essa thread estiver rodando
+        thread.start()
+    
+        
   
     @staticmethod
     def __deleteOldDWData():

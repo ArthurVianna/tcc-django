@@ -27,7 +27,14 @@
 
 {% block content %}
 <div id="content-main">
-    <form method="post" action="{% url 'login' %}" id="login-form">{% csrf_token %}
+    <form action="{% url 'login' %}" method="post" id="login-form">{% csrf_token %}
+        {% if msg %}
+        <div>
+            <p style="color:red">
+                {{msg}}
+            </p>
+        </div>
+        {% endif %}
         <div class="form-row">
 			<label class="required" for="username">Usuário:</label>
 			<input class="" id="username" type="text" autofocus="" required="" name="username"/>

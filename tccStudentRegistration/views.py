@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.decorators import permission_required
+# from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .models import Disciplina, Aluno, Matricula
@@ -15,9 +17,16 @@ def user_login(request):
                 login(request, user)
                 return render(request, 'tcc/dashboard.html', {'user': user})
             else:
-                return render(request, 'tcc/login_error.html', {'user': user})
+                # TODO: ajustar a resposta
+                return render(request, 'registration/login.html',
+                              {'msg': "Your account was inactive."})
         else:
-            return render(request, 'tcc/login_error.html', {'user': user})
+            # TODO: retirar esses prints e ajustar a resposta
+            print("Someone tried to login and failed.")
+            print("They used username: {} and password: {}".
+                  format(username, password))
+            return render(request, 'registration/login.html',
+                          {'msg': "Invalid login details given"})
     else:
         return render(request, 'registration/login.html', {})
 
@@ -29,6 +38,7 @@ def user_logout(request):
 
 @login_required
 def dashboard(request):
+    print(request.user)  # chamar o user da session
     return render(request, 'tcc/dashboard.html', {})
 
 
