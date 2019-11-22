@@ -8,21 +8,24 @@ import django
 django.setup()
 
 # your imports, e.g. Django models
-#from tccStudentRegistration.models import *
 
+
+#from tccStudentRegistration.models import *
 
 #from tccStudentRegistration.importCSV import *
 #importHistorico = ImportHistorico()
 #importHistorico.importHistorico()
 
-from datawarehouseManager.dataMining import *
 
+#from datawarehouseManager.dataMining import *
 
 #dm = DataMining()
 #print("StartFatoEvasao")
 #dm.updateFatoEvasao()
 #print("StartFatoMatricula")
 #dm.updateFatoMatriculaFact()
+
+
 
 #clfMLPTest = MLPClassifier(activation='relu',alpha=0.01,hidden_layer_sizes=(50, 100, 50),learning_rate='adaptive',solver='adam',max_iter=100)#solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=0
 
@@ -32,9 +35,9 @@ from datawarehouseManager.dataMining import *
 #predClass.testPrediction(df)
 
 
-from tccStudentRegistration.PredictionFacade import *
+from tccStudentRegistration.ImportDataFacade import *
 
-PredictionFacade.updatePrediction("MLP")
+ImportDataFacade.importNewData()
 
 
 #Script to find the best mlp config
