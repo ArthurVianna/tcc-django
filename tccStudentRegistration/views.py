@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 # from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib.auth.models import User
 from .models import Disciplina, Aluno, Matricula
 
 
@@ -15,20 +16,18 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return render(request, 'tcc/dashboard.html', {'user': user})
+                return render(request, 'tcc/dashboard.html')
             else:
-                # TODO: ajustar a resposta
                 return render(request, 'registration/login.html',
                               {'msg': "Your account was inactive."})
         else:
-            # TODO: retirar esses prints e ajustar a resposta
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".
-                  format(username, password))
             return render(request, 'registration/login.html',
-                          {'msg': "Invalid login details given"})
+                          {'msg': "Por favor, insira um usuário e senha" +
+                           "corretos para uma conta de equipe. Note que" +
+                           "ambos campos são sensíveis a maiúsculas e" +
+                           "minúsculas."})
     else:
-        return render(request, 'registration/login.html', {})
+        return render(request, 'registration/login.html')
 
 
 def user_logout(request):
@@ -96,3 +95,9 @@ def aluno_detail(request, pk):
     return render(request,
                   'tcc/aluno_detail.html',
                   {'aluno': aluno, 'matricula': matricula})
+
+
+@login_required
+def usuarios(request):
+    users = User.objects.all()
+    return render(request, 'tcc/usuarios.html', {'users': users})

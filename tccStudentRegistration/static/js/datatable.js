@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#result').DataTable({
-        // data: dataSet,
+        "pageLength": 50,
+        "scrollX": true,
     });
 });

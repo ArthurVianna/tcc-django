@@ -4,12 +4,14 @@
 {% if user.is_authenticated %}
 <section class="content-header">
     <h1>
-        <!-- {{ turma.periodo_ingresso }} -->
+        <!-- {% for al in alunos %}
+            {{ al.periodo_ingresso }}
+        {% endfor %} -->
         Data de ingresso
     </h1>
 </section>
 <section class="content">
-    <table id="result" class="display" width="100%">
+    <table id="result" class="display cell-border" width="100%">
       	<thead>
             <tr>
                 <th>Aluno</th>
@@ -21,7 +23,7 @@
             <tr>
                 <td>
                     <a href="{% url 'aluno_detail' pk=al.pk %}">
-                    {{ al.grr_aluno }} ({{ al.nome_aluno }})
+                    {{ al.nome_aluno }} ({{ al.grr_aluno }})
                     </a>
                 </td>
             </tr>

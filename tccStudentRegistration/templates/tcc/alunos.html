@@ -8,10 +8,10 @@
     </h1>
 </section>
 <section class="content">
-    <table id="result" class="display" width="100%">
+    <table id="result" class="display cell-border" width="100%">
       	<thead>
             <tr>
-                <th>GRR (ID)</th>
+                <th>NOME (GRR)</th>
                 <th>Forma de ingresso - Período de ingresso</th>
                 <th>Forma de evasão - Período de evasão</th>
             </tr>
@@ -22,7 +22,7 @@
             <tr>
                 <td>
                     <a href="{% url 'aluno_detail' pk=aluno.pk %}">
-                    {{ aluno.grr_aluno }} ({{ aluno.nome_aluno }})
+                    {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
                     </a>
                 </td>
                 <td>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</td>

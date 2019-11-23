@@ -1,0 +1,79 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        Usuários
+    </h1>
+</section>
+<section class="content">
+    <div class="add-user">
+        <a href="#">
+            <button type="button" class="btn btn-block btn-primary">Adicionar usuário</button>
+        </a>
+    </div>
+    <table id="result" class="display cell-border" width="100%">
+      	<thead>
+            <tr>
+                <th>Username</th>
+                <th>Primeiro nome</th>
+                <th>Último nome</th>
+                <th>E-mail</th>
+                <th>Usuário ativo</th>
+                <th>Membro da equipe</th>
+                <th>Super usuário</th>
+                <th>Grupos</th>
+                <th>Data de registro</th>
+                <th>Data do último login</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.is_active %}
+                        <i class="far fa-check-circle" style="color: green;"></i>
+                    {% else%}
+                        <i class="far fa-times-circle" style="color: red;"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.is_staff %}
+                        <i class="far fa-check-circle" style="color: green;"></i>
+                    {% else %}
+                        <i class="far fa-times-circle" style="color: red;"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.is_superuser %}
+                        <i class="far fa-check-circle" style="color: green;"></i>
+                    {% else %}
+                        <i class="far fa-times-circle" style="color: red;"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% for group in user.groups.all %}
+                        {{ group }}<br>
+                    {% endfor %}
+                </td>
+                <td>{{ user.date_joined }}</td>
+                <td>{{ user.last_login }}</td>
+                <td>
+                    <a href="#">
+                        <i class="fas fa-user-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+{% endblock %}

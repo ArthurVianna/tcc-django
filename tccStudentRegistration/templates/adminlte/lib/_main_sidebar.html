@@ -56,6 +56,19 @@
                     <span>Alunos</span>
                 </a>
             </li>
+            {% if user.is_staff or user.is_superuser %}
+            <li class="
+                {% if request.resolver_match.view_name == 'usuarios' %}
+                    active
+                {% elif request.resolver_match.view_name == 'usuarios' %}
+                    active
+                {% endif %}">
+                <a href="{% url 'usuarios' %}">
+                    <i class="fas fa-user"></i>
+                    <span>Usuários</span>
+                </a>
+            </li>
+            {% endif %}
             {% endblock nav_links %}
         </ul>
         {% endblock nav_links_ul %}

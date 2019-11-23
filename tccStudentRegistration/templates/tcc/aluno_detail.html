@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 <section class="content-header">
     <h1>
-        {{ aluno.grr_aluno }} ({{ aluno.nome_aluno }})
+        {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
     </h1>
     <div class="informacao">
         <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
@@ -12,7 +12,7 @@
     </div>
 </section>
 <section class="content">
-    <table id="result" class="display" width="100%">
+    <table id="result" class="display cell-border" width="100%">
       	<thead>
             <tr>
                 <th>Nome da disciplina</th>
