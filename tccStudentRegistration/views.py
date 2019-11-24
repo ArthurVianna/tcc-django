@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
 from django.db.models import Count
 from django.contrib.auth.models import User
 from .models import Disciplina, Aluno, Matricula
@@ -9,7 +10,7 @@ from .models import Disciplina, Aluno, Matricula
 
 def user_logout(request):
     logout(request)
-    return render(request, 'registration/login.html', {})
+    return redirect('login')
 
 
 @login_required

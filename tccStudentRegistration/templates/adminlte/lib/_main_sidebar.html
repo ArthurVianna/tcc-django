@@ -56,7 +56,7 @@
                     <span>Alunos</span>
                 </a>
             </li>
-            {% if user.is_superuser %}
+            {% if user.is_staff %}
             <li class="
                 {% if request.resolver_match.view_name == 'usuarios' %}
                     active
