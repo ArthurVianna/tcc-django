@@ -1,33 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.decorators import permission_required
-# from django.http import HttpResponse
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count
 from django.contrib.auth.models import User
 from .models import Disciplina, Aluno, Matricula
-
-
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return render(request, 'tcc/dashboard.html')
-            else:
-                return render(request, 'registration/login.html',
-                              {'msg': "Your account was inactive."})
-        else:
-            return render(request, 'registration/login.html',
-                          {'msg': "Por favor, insira um usuário e senha" +
-                           "corretos para uma conta de equipe. Note que" +
-                           "ambos campos são sensíveis a maiúsculas e" +
-                           "minúsculas."})
-    else:
-        return render(request, 'registration/login.html')
 
 
 def user_logout(request):
@@ -101,3 +78,16 @@ def aluno_detail(request, pk):
 def usuarios(request):
     users = User.objects.all()
     return render(request, 'tcc/usuarios.html', {'users': users})
+
+
+@login_required
+def cadastrar_usuario(request):
+    if request.method == "POST":
+        form_usuario = UserCreationForm(request.POST)
+        if form_usuario.is_valid():
+            form_usuario.save()
+            users = User.objects.all()
+            return render(request, 'tcc/usuarios.html', {'users': users})
+    else:
+        form_usuario = UserCreationForm()
+    return render(request, 'tcc/cadastro.html', {'form_usuario': form_usuario})

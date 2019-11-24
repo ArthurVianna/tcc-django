@@ -56,11 +56,11 @@
                     <span>Alunos</span>
                 </a>
             </li>
-            {% if user.is_staff or user.is_superuser %}
+            {% if user.is_superuser %}
             <li class="
                 {% if request.resolver_match.view_name == 'usuarios' %}
                     active
-                {% elif request.resolver_match.view_name == 'usuarios' %}
+                {% elif request.resolver_match.view_name == 'cadastrar_usuario' %}
                     active
                 {% endif %}">
                 <a href="{% url 'usuarios' %}">
