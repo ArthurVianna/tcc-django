@@ -2,40 +2,48 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<section class="content-header">
-    <h1>
-        {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
-    </h1>
-    <div class="informacao">
-        <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
-        <p>{{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
-        <p>{{predicao.forma_evasao.descricao_evasao}}</p>
-    </div>
-</section>
 <section class="content">
-    <table id="result" class="display cell-border" width="100%">
-      	<thead>
-            <tr>
-                <th>Nome da disciplina</th>
-                <th>Nº de Faltas</th>
-                <th>Situação</th>
-            </tr>
-        </thead>
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
+                </h3>
+                <div class="pull-right">
+                    <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} /
+                        {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
+                </div>
+                {% if predicao %}
+                    <p>{{predicao.forma_evasao.descricao_evasao}}</p>
+                {% endif %}
+            </div>
+            <div class="box-body">
+                <table id="result" class="display cell-border" width="100%">
+                  	<thead>
+                        <tr>
+                            <th>Nome da disciplina</th>
+                            <th>Nº de Faltas</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
 
-        <tbody>
-            {% for matr in matricula %}
-            <tr>
-                <td>
-                    <a href="{% url 'disciplina_detail' pk=matr.disciplina.pk %}">
-                    {{ matr.disciplina.descricao_disciplina }} ({{ matr.disciplina.codigo_disciplina }})
-                    </a>
-                </td>
-                <td>{{ matr.faltas_matricula }}</td>
-                <td>{{ matr.situacao_matricula }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tbody>
+                        {% for matr in matricula %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'disciplina_detail' pk=matr.disciplina.pk %}">
+                                {{ matr.disciplina.descricao_disciplina }} ({{ matr.disciplina.codigo_disciplina }})
+                                </a>
+                            </td>
+                            <td>{{ matr.faltas_matricula }}</td>
+                            <td>{{ matr.situacao_matricula }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </section>
 {% endif %}
 {% endblock %}

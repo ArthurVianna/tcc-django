@@ -2,33 +2,37 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<section class="content-header">
-    <h1>
-        Disciplinas
-    </h1>
-</section>
 <section class="content">
-    <table id="result" class="display cell-border" width="100%">
-      	<thead>
-            <tr>
-                <th>Nome disciplina (Código disciplina)</th>
-                <th>Carga horária</th>
-            </tr>
-        </thead>
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Disciplinas</h3>
+            </div>
+            <div class="box-body">
+                <table id="result" class="display cell-border" width="100%">
+                  	<thead>
+                        <tr>
+                            <th>Nome disciplina (Código disciplina)</th>
+                            <th>Carga horária</th>
+                        </tr>
+                    </thead>
 
-        <tbody>
-            {% for disc in disciplinas %}
-            <tr>
-                <td>
-                    <a href="{% url 'disciplina_detail' pk=disc.pk %}">
-                    {{ disc.descricao_disciplina }} ({{ disc.codigo_disciplina }})
-                    </a>
-                </td>
-                <td>{{ disc.carga_horaria }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tbody>
+                        {% for disc in disciplinas %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'disciplina_detail' pk=disc.pk %}">
+                                {{ disc.descricao_disciplina }} ({{ disc.codigo_disciplina }})
+                                </a>
+                            </td>
+                            <td>{{ disc.carga_horaria }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </section>
 {% endif %}
 {% endblock %}

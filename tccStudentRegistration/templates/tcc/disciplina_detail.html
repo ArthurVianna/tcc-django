@@ -2,31 +2,37 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<section class="content-header">
-    <h1>
-        {{ disciplina.descricao_disciplina }} ({{ disciplina.codigo_disciplina }})
-    </h1>
-</section>
 <section class="content">
-    <table id="result" class="display cell-border" width="100%">
-      	<thead>
-            <tr>
-                <th>Nome do aluno</th>
-            </tr>
-        </thead>
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    {{ disciplina.descricao_disciplina }} ({{ disciplina.codigo_disciplina }})
+                </h3>
+            </div>
+            <div class="box-body">
+                <table id="result" class="display cell-border" width="100%">
+                  	<thead>
+                        <tr>
+                            <th>Nome do aluno</th>
+                        </tr>
+                    </thead>
 
-        <tbody>
-            {% for al in alunos %}
-            <tr>
-                <td>
-                    <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
-                    {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tbody>
+                        {% for al in alunos %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'aluno_detail' pk=al.aluno.pk %}">
+                                {{ al.aluno.nome_aluno }} ({{ al.aluno.grr_aluno }})
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </section>
 {% endif %}
 {% endblock %}

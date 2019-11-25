@@ -11,28 +11,6 @@
     max-height: 0px !important;
 }
 
-.div-geral{
-    border-top: #000 solid 1px;
-}
-
-.informacao {
-    margin: 10px;
-}
-
-label {
-    font-weight: inherit !important;
-}
-
 input[type=search] {
     -webkit-appearance: searchfield !important;
-}
-
-select {
-    background-color: white;
-}
-
-.add-user {
-    width: 15%;
-    float: right;
-    margin-bottom: 10px;
 }

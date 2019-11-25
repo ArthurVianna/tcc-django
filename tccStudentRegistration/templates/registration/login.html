@@ -44,7 +44,7 @@
             {% endblock login_errors %}
 
             {% block login_form %}
-                <form action="" method="post" id="login-form">
+                <form action="" method="POST" id="login-form">
                     {% csrf_token %}
                     {% if message %}
                         <p class="login-box-msg" style="color: red;">{{ message }}</p>
