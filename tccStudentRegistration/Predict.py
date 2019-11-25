@@ -1,3 +1,4 @@
+# flake8: noqa
 from datawarehouseManager.models import *
 from pandas import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -124,7 +125,7 @@ class Predict(object):
             scaledDF = scaler.transform(df.drop("situacaoEvasao_id",axis=1))
             classifier = classifierFitMethod(scaledDF,df['situacaoEvasao_id'])
             self.saveClassifierToFile(classifier,classifierName)
-        return classifier        
+        return classifier
 
     def predict(self,classifier,df):
         return classifier.predict(df)

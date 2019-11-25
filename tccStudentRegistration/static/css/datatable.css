@@ -1,0 +1,50 @@
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: #333 !important;
+    border: 1px solid #979797;
+    background-color: white;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1f1f1), color-stop(100%, #f1f1f1));
+    background: -webkit-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -moz-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -ms-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -o-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: linear-gradient(to bottom, #f1f1f1 0%, #f1f1f1 100%);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #000 !important;
+    border: 1px solid #979797;
+    background-color: #f1f1f1;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1f1f1), color-stop(100%, #f1f1f1));
+    background: -webkit-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -moz-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -ms-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -o-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: linear-gradient(to bottom, #f1f1f1 0%, #f1f1f1 100%);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    outline: none;
+    background-color: #f1f1f1;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1f1f1), color-stop(100%, #f1f1f1));
+    background: -webkit-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -moz-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -ms-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: -o-linear-gradient(top, #f1f1f1 0%, #f1f1f1 100%);
+    background: linear-gradient(to bottom, #f1f1f1 0%, #f1f1f1 100%);
+    box-shadow: none;
+}
+
+table.dataTable thead tr {
+    background-color: #fff;
+}
+
+th {
+    border-top: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}
+
+th:first-child {
+    border-left: 1px solid #dddddd;
+}

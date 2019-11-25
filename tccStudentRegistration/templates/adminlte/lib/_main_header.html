@@ -1,8 +1,8 @@
 <header class="main-header">
     {% block logo %}
     <a href="{% block logo_href %}{% url 'dashboard' %}{% endblock %}" class="logo">
-        <span class="logo-mini">{% block logo_text_small %}<b>N</b>TCC{% endblock %}</span> <!-- TODO: arrumar nome -->
-        <span class="logo-lg">{% block logo_text %}<b>Nome</b>TCC{% endblock %}</span> <!-- TODO: arrumar nome -->
+        <span class="logo-mini">{% block logo_text_small %}SEAS{% endblock %}</span>
+        <span class="logo-lg">{% block logo_text %}SEAS{% endblock %}</span>
     </a>
     {% endblock %}
 
@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}">
-                        <i class="fa fa-user"></i>
+                        <i class="fas fa-user-circle"></i>
                         <span class="hidden-xs">{{ user.username }}</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -31,16 +31,16 @@
                         </li>
                     </ul>
                 </li>
-                {% if user.is_staff %}
+                {% if user.is_superuser %}
                 <li>
                     <a href="{% url 'admin:index' %}" title="Página adminstrativa">
-                        <i class="fa fa-cogs fa-fw"></i>
+                        <i class="fas fa-cogs"></i>
                     </a>
                 </li>
                 {% endif %}
                 <li>
                     <a href="{% url 'logout' %}" title="Sair">
-                        <i class="fa fa-sign-out fa-fw"></i>
+                        <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
             </ul>

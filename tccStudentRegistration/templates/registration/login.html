@@ -1,53 +1,75 @@
-{% extends "admin/base_site.html" %}
+{% extends 'adminlte/base.html' %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
-{{ form.media }}
+{% block title %} SEAS {% endblock %}
+
+{% block meta %}
+<!-- css fontawesome -->
+<link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+<!-- js fontawesome -->
+<script type="text/javascript" src="{% static 'fontawesome/js/all.min.js' %}"></script>
+<!-- css login -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 {% endblock %}
 
-{% block bodyclass %}{{ block.super }} login{% endblock %}
+{% block body_class %}login-page{% endblock %}
 
-{% block usertools %}{% endblock %}
+{% block body %}
+    <div id="content-main" class="login-box">
+        <div class="login-box-body">
+            {% block logo %}
+            <div class="login-logo">
+                <h3 id="site-name">SEAS</h3>
+                <h4 id="site-name">
+                	Student Evasion Analysis System
+                </h4>
+            </div>
+          {% endblock %}
+          <!-- /.login-logo -->
+            {% block login_errors %}
+                {% if form.errors and not form.non_field_errors %}
+                    <p class="alert alert-danger">
+                        {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
+                            {% trans "Please correct the errors below." %}{% endif %}
+                    </p>
+                {% endif %}
 
-{% block nav-global %}{% endblock %}
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            {% endblock login_errors %}
 
-{% block content_title %}{% endblock %}
+            {% block login_form %}
+                <form action="" method="post" id="login-form">
+                    {% csrf_token %}
+                    {% if message %}
+                        <p class="login-box-msg" style="color: red;">{{ message }}</p>
+                    {% endif %}
+                    <div class="form-group has-feedback">
+                        <input name="username" class="form-control" placeholder="{% trans "Username" %}">
+                        <span class="form-control-feedback"><i class="fas fa-user"></i></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" placeholder="{% trans "Password" %}">
+                        <span class="form-control-feedback"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            {% block login_form_links %}
+                            <a href="#">Esqueci minha senha</a>
+                            {% endblock %}
+                        </div>
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block">{% trans "Login" %}</button>
+                        </div>
+                    </div>
+                </form>
+            {% endblock login_form %}
 
-{% block breadcrumbs %}{% endblock %}
-
-{% block branding %}
-<h1 id="site-name">
-	<!-- TODO: colocar o nome do projeto -->
-	<a href="/"> {% trans 'TCC' %}</a>
-</h1>
-{% endblock %}
-
-{% block content %}
-<div id="content-main">
-
-    <form action="{% url 'login' %}" method="post" id="login-form">{% csrf_token %}
-        {% if msg %}
-        <div>
-            <p style="color:red">
-                
-                {{msg}}
-            </p>
         </div>
-        {% endif %}
-        <div class="form-row">
-			<label class="required" for="username">Usuário:</label>
-			<input class="" id="username" type="text" autofocus="" required="" name="username"/>
-        </div>
-        <div class="form-row">
-			<label for="password">Senha:</label>
-			<input class="" id="password" type="password" name="password">
-        </div>
-        <div class="submit-row">
-            <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}">
-        </div>
-    </form>
-
-</div>
+    </div>
 {% endblock %}

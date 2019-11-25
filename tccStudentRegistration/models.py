@@ -21,7 +21,7 @@ class FormaEvasao(models.Model):
         )
 
     def __str__(self):
-        return self.descricao_evasao
+        return "{}".format(self.descricao_evasao)
 
 
 class FormaIngresso(models.Model):
@@ -43,7 +43,7 @@ class FormaIngresso(models.Model):
         )
 
     def __str__(self):
-        return self.descricao_ingresso
+        return "{}".format(self.descricao_ingresso)
 
 
 class Disciplina(models.Model):
@@ -123,7 +123,7 @@ class SituacaoMatricula(models.Model):
         )
 
     def __str__(self):
-        return self.descricao_situacao_matricula
+        return "{}".format(self.descricao_situacao_matricula)
 
 
 class Aluno(models.Model):
@@ -217,7 +217,7 @@ class Matricula(models.Model):
         )
 
     def __str__(self):
-        return self.aluno
+        return "{}". format(self.aluno)
 
 
 class PredicaoEvasao(models.Model):

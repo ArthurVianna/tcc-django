@@ -8,20 +8,27 @@
     </h1>
 </section>
 <section class="content">
-    <div class="div-geral">
-        <h4>Nome disciplina (Código disciplina)</h4>
-        <p>Carga horária</p>
-    </div>
-    {% for disc in disciplinas %}
-    <div class="div-geral">
-        <h4>
-            <a href="{% url 'disciplina_detail' pk=disc.pk %}">
-                {{ disc.descricao_disciplina }} ({{ disc.codigo_disciplina }})
-            </a>
-        </h4>
-        <p>{{ disc.carga_horaria }}</p>
-    </div>
-    {% endfor %}
+    <table id="result" class="display cell-border" width="100%">
+      	<thead>
+            <tr>
+                <th>Nome disciplina (Código disciplina)</th>
+                <th>Carga horária</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for disc in disciplinas %}
+            <tr>
+                <td>
+                    <a href="{% url 'disciplina_detail' pk=disc.pk %}">
+                    {{ disc.descricao_disciplina }} ({{ disc.codigo_disciplina }})
+                    </a>
+                </td>
+                <td>{{ disc.carga_horaria }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
 {% endif %}
 {% endblock %}

@@ -1,43 +1,21 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
 from django.db.models import Count
+from django.contrib.auth.models import User
 from .models import Disciplina, Aluno, Matricula
-
-
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect('dashboard/')
-                # return render(request, 'tcc/dashboard.html', {})
-            else:
-                # TODO: ajustar a resposta
-                return render(request, 'registration/login.html', {'msg':"Your account was inactive."})
-        else:
-            # TODO: retirar esses prints e ajustar a resposta
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".
-                  format(username, password))
-            return render(request, 'registration/login.html', {'msg':"Invalid login details given"})
-    else:
-        return render(request, 'registration/login.html', {})
 
 
 def user_logout(request):
     logout(request)
-    return render(request, 'registration/login.html', {})
+    return redirect('login')
 
 
 @login_required
 def dashboard(request):
-    print(request.user)#chamar o user da session
+    print(request.user)  # chamar o user da session
     return render(request, 'tcc/dashboard.html', {})
 
 
@@ -50,12 +28,10 @@ def turmas(request):
 
 @login_required
 def turma_detail(request, pk):
-    # turma = get_object_or_404(Aluno, pk=pk)
     alunos = Aluno.objects.filter(periodo_ingresso=pk)
     return render(request,
                   'tcc/turma_detail.html',
                   {'alunos': alunos})
-    # 'turma': turma,
 
 
 @login_required
@@ -97,3 +73,22 @@ def aluno_detail(request, pk):
     return render(request,
                   'tcc/aluno_detail.html',
                   {'aluno': aluno, 'matricula': matricula})
+
+
+@login_required
+def usuarios(request):
+    users = User.objects.all()
+    return render(request, 'tcc/usuarios.html', {'users': users})
+
+
+@login_required
+def cadastrar_usuario(request):
+    if request.method == "POST":
+        form_usuario = UserCreationForm(request.POST)
+        if form_usuario.is_valid():
+            form_usuario.save()
+            users = User.objects.all()
+            return render(request, 'tcc/usuarios.html', {'users': users})
+    else:
+        form_usuario = UserCreationForm()
+    return render(request, 'tcc/cadastro.html', {'form_usuario': form_usuario})

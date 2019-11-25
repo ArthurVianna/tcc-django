@@ -1,0 +1,136 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+<style media="screen">
+    ul.errorlist {
+        list-style-type: none;
+        background-color: #dd4b39 !important;
+        color: #fff !important;
+        border-color: #d73925;
+        border-radius: 3px;
+        padding: 15px;
+        margin-bottom: 20px;
+        margin: 0 0 10px;
+    }
+    input {
+        border-radius: 0;
+        box-shadow: none;
+        border-color: #d2d6de;
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        margin-bottom: 8px;
+    }
+    form {
+        margin-bottom: 40px;
+    }
+    p {
+        font-weight: bold;
+    }
+</style>
+
+{% if user.is_authenticated %}
+<section class="content-header">
+    <h1>
+        Cadastrar usuário
+    </h1>
+</section>
+<section class="content">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <p>Username: *</p>
+            {{form_usuario.username}}
+            {{form_usuario.username.errors}}
+        </div>
+
+        <div class="form-group">
+            <p>Senha: *</p>
+            {{form_usuario.password1}}
+            {{form_usuario.password1.errors}}
+        </div>
+
+        <div class="form-group">
+            <p>Confirmação de senha: *</p>
+            {{form_usuario.password2}}
+            {{form_usuario.password2.errors}}
+        </div>
+
+        <!-- <div class="form-group">
+            {{form_usuario.first_name.errors}}
+            <p>Primeiro nome: </p>
+            {{form_usuario.first_name}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.last_name.errors}}
+            <p>Último nome: </p>
+            {{form_usuario.last_name}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.email.errors}}
+            <p>E-mail: </p>
+            {{form_usuario.email}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.is_active.errors}}
+            <p>Ativo: </p>
+            {{form_usuario.is_active}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.is_staff.errors}}
+            <p>Membro da equipe: </p>
+            {{form_usuario.is_staff}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.is_superuser.errors}}
+            <p>Status de super usuário: </p>
+            {{form_usuario.is_superuser}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.groups.errors}}
+            <p>Grupos: </p>
+            {{form_usuario.groups}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.user_permissions.errors}}
+            <p>Permissões: </p>
+            {{form_usuario.user_permissions}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.date_joined.errors}}
+            <p>Data de registro: </p>
+            {{form_usuario.date_joined}}
+        </div>
+
+        <div class="form-group">
+            {{form_usuario.last_login.errors}}
+            <p>Último login: </p>
+            {{form_usuario.last_login}}
+        </div> -->
+        <div class="form-group" style="float: right;">
+            <input type="submit" value="Cadastrar" class="btn btn-primary">
+        </div>
+    </form>
+</section>
+{% endif %}
+{% endblock %}
