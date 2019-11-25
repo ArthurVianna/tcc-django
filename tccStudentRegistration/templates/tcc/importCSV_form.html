@@ -15,10 +15,21 @@
                         {% if msg %}
                             <p class="login-box-msg" style="color: red;">{{ msg }}</p>
                         {% endif %}
-                        <label>Arquivo</label>
+                        <p>Faça upload de um arquivo <strong>.csv</strong> para atualizar o histórico de
+                            alunos no banco de dados e atualizar a predição.</p>
+                        <br>
+                        <p>O arquivo deve conter os seguintes campos:</p>
+                        <p>["COD_CURSO","CH_TOTAL","NOME_ATIV_CURRIC","PERIODO_ITEM","SITUACAO_ITEM",
+                            "MATR_ALUNO","COD_ATIV_CURRIC","ANO","MEDIA_FINAL","NUM_FALTAS","ID_ALUNO",
+                            "PERIODO_INGRE_ITEM","PERIODO_EVA_ITEM","ANO_INGRESSO","ANO_EVASAO",
+                            "FORMA_EVASAO_ITEM","FORMA_INGRE_ITEM"]</p>
+                        <br>
+                        <label>Arquivo:</label>
                         <input type="file" name="document">
                     </div>
-                    <button type="submit" class="btn btn-primary pull-right">Fazer Upload</button>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary pull-right">Fazer Upload</button>
+                    </div>
                 </form>
             </div>
         </div>
