@@ -4,26 +4,31 @@
 {% if user.is_authenticated %}
 <section class="content-header">
     <h1>
-        Turmas
+        Turma
     </h1>
 </section>
 <section class="content">
-    <div class="div-geral">
-        <h4>Data de ingresso dos alunos</h4>
-        <p>Quantidade de alunos que ingressaram esse ano</p>
-    </div>
-    {% for turma in turmas %}
-    <div class="div-geral">
-        <h4>
-            <!-- {% url 'turma_detail' pk=turma.pk } -->
-            <a href="#">
-                {{ turma.periodo_ingresso }}
-            </a>
-        </h4>
-        <p>{{ turma.num_alunos }}</p>
-    </div>
-    {% endfor %}
-    <!-- TODO: linkar a página de detalhes -->
+    <table id="result" class="display cell-border" width="100%">
+      	<thead>
+            <tr>
+                <th>Data de ingresso</th>
+                <th>Quantidade de alunos</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for turma in turmas %}
+            <tr>
+                <td>
+                    <a href="{% url 'turma_detail' pk=turma.periodo_ingresso %}">
+                    {{ turma.periodo_ingresso }}
+                    </a>
+                </td>
+                <td>{{ turma.num_alunos }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
 {% endif %}
 {% endblock %}

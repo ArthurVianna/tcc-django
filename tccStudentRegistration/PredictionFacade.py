@@ -1,3 +1,4 @@
+# flake8: noqa
 from datawarehouseManager.dbManager import *
 from tccStudentRegistration.Predict import *
 from tccStudentRegistration.models import *
@@ -9,7 +10,7 @@ class PredictionFacade(object):
     def __init__(self, arg):
         super(PredictionFacade, self).__init__()
         self.arg = arg
-    
+
     @staticmethod
     def updatePrediction(classifierName):
         predClass = Predict()

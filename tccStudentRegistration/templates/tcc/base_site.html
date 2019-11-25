@@ -1,18 +1,30 @@
 {% extends 'adminlte/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
-{% block title_outer %}
-    <title>{% block title %}TCC{% endblock %}</title>
-{% endblock %}
+{% block title %}SEAS{% endblock %}
 
 {% block meta %}
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- css fontawesome -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <!-- css datatables -->
+    <link rel="stylesheet" href="{% static 'datatables/datatables.min.css' %}">
+    <!-- css base_site -->
     <link rel="stylesheet" href="{% static 'css/base_site.css' %}">
+	<!-- css datatable -->
+	<link rel="stylesheet" href="{% static 'css/datatable.css' %}">
 
-    <script src="https://kit.fontawesome.com/9691fb41a1.js"></script>
+    <!-- js fontawesome -->
+    <script type="text/javascript" src="{% static 'fontawesome/js/all.min.js' %}"></script>
+    <!-- jquery -->
+    <script type="text/javascript" src="{% static 'jquery/jquery-3.4.1.min.js' %}"></script>
+    <!-- js datatables -->
+    <script type="text/javascript" src="{% static 'datatables/datatables.min.js' %}" defer></script>
+    <!-- js assemble table using datatables -->
+    <script type="text/javascript" src="{% static 'js/datatable.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
