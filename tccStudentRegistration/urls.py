@@ -21,4 +21,5 @@ urlpatterns = [
          name='turma_detail'),
     path('cadastrar_usuario', views.cadastrar_usuario,
          name="cadastrar_usuario"),
+    path('importCSV/',views.importCSV,name="importCSV"),
 ]

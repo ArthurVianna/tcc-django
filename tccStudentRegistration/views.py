@@ -5,7 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.db.models import Count
 from django.contrib.auth.models import User
-from .models import Disciplina, Aluno, Matricula
+from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
+from .ImportDataFacade import ImportDataFacade
+from django.core.files.storage import FileSystemStorage
+from datetime import date
 
 
 def user_logout(request):
@@ -64,15 +67,37 @@ def alunos(request):
     alunos = Aluno.objects.all().order_by('periodo_ingresso')
     return render(request, 'tcc/alunos.html', {'alunos': alunos})
 
+@login_required
+def importCSV(request):
+    msg = ""
+    if request.method == 'POST':
+        if not request.FILES['document'].name.endswith('.csv'):
+            msg = "Arquivo não é um .csv"
+        else :
+            uploaded_file = request.FILES['document']
+            fs = FileSystemStorage()
+            today = date.today()
+            fileName = "historico_" + str(today) + ".csv"
+            fileName = fs.save(fileName,uploaded_file)
+            path = fs.location + "/" + fileName
+            if not ImportDataFacade.validateFile(path):
+                msg = "Arquivo não possui os dados necessarios para a importacao"
+            else:
+                ImportDataFacade.importNewDataThread(path=path)
+                return dashboard(request)  
+    return render(request,'tcc/importCSV_form.html',{'msg':msg})
+    
+
 
 @login_required
 def aluno_detail(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
+    predicao = PredicaoEvasao.objects.filter(aluno=aluno).latest('periodo_predicao')
     matricula = Matricula.objects.filter(aluno__id=pk).order_by(
         'periodo_matricula')
     return render(request,
                   'tcc/aluno_detail.html',
-                  {'aluno': aluno, 'matricula': matricula})
+                  {'aluno': aluno, 'matricula': matricula, 'predicao':predicao})
 
 
 @login_required

@@ -42,6 +42,8 @@ class Predict(object):
         df = df.drop("cursoEvasao_id",axis=1)
         df = df.drop("semestreEvasao_id",axis=1)
         df = df.drop("quantidadeEvasao",axis=1)
+        df = df.drop("coeficienteRetencao",axis=1)
+        df = df.drop("semestresCursados",axis=1)
 
         df = df.drop("id",axis=1)
         df = df.drop("quantidadeRetencoes",axis=1)
