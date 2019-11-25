@@ -64,9 +64,7 @@ class DataMining(object):
                 fatoEvasao.coeficienteRetencao = 0.0
             else:
                 fatoEvasao.coeficienteRetencao = 1.0
-
-
-
+                
             fatoEvasao.quantidadeEvasao = 1
             fatoEvasao.save()
 
@@ -94,6 +92,8 @@ class DataMining(object):
                                     novaFato.situacaoEvasao = fato.situacaoEvasao
                                     novaFato.cursoEvasao = fato.cursoEvasao
                                     novaFato.semestreEvasao = fato.semestreEvasao
+                                    novaFato.semestresCursados = 0
+                                    novaFato.coeficienteRetencao = 0
                                     novaFato.quantidadeRetencoes = 0
                                     novaFato.ira = 0
                                     novaFato.coeficienteEvasao = 0
@@ -105,6 +105,8 @@ class DataMining(object):
                                 novaFato.quantidadeRetencoes += fato.quantidadeRetencoes
                                 novaFato.ira += fato.ira
                                 novaFato.coeficienteEvasao += fato.coeficienteEvasao
+                                novaFato.semestresCursados += fato.semestresCursados
+                                novaFato.coeficienteRetencao += fato.coeficienteRetencao
                                 novaFato.quantidadeEvasao += 1
                             fato.alunoEvasao = None
                         #endfor
@@ -124,6 +126,8 @@ class DataMining(object):
             fatoBanco.ira = fato.ira / fato.quantidadeEvasao
             fatoBanco.coeficienteEvasao = fato.coeficienteEvasao / fato.quantidadeEvasao
             fatoBanco.quantidadeEvasao = fato.quantidadeEvasao
+            fatoBanco.semestresCursados = fato.semestresCursados / fato.quantidadeEvasao
+            fatoBanco.coeficienteRetencao = fato.coeficienteRetencao / fato.quantidadeEvasao
             fatoBanco.save()
 
 
