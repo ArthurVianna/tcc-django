@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect
-from django.db.models import Count
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.db.models import Count
+from django.shortcuts import redirect
 from .models import Disciplina, Aluno, Matricula
 
 
@@ -86,9 +87,28 @@ def cadastrar_usuario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         if form_usuario.is_valid():
-            form_usuario.save()
-            users = User.objects.all()
-            return render(request, 'tcc/usuarios.html', {'users': users})
+            user = form_usuario.save(commit=False)
+            user.date_joined = timezone.now()
+            user.save()
+            # users = User.objects.all()
+            # return render(request, 'tcc/usuarios.html', {'users': users})
+            return redirect('editar_usuario', pk=user.pk)
     else:
         form_usuario = UserCreationForm()
-    return render(request, 'tcc/cadastro.html', {'form_usuario': form_usuario})
+    return render(request, 'tcc/new_user.html', {'form_usuario': form_usuario})
+
+
+@login_required
+def editar_usuario(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form_usuario = UserChangeForm(request.POST, instance=user)
+        if form_usuario.is_valid():
+            user = form_usuario.save(commit=False)
+            user.date_joined = timezone.now()
+            user.save()
+            return redirect('usuarios')
+    else:
+        form_usuario = UserChangeForm(instance=user)
+    return render(request, 'tcc/edit_user.html',
+                  {'form_usuario': form_usuario})

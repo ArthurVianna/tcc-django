@@ -21,4 +21,6 @@ urlpatterns = [
          name='turma_detail'),
     path('cadastrar_usuario', views.cadastrar_usuario,
          name="cadastrar_usuario"),
+    path('editar_usuario/<int:pk>', views.editar_usuario,
+         name="editar_usuario"),
 ]

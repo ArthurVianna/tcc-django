@@ -2,33 +2,37 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<section class="content-header">
-    <h1>
-        Turma
-    </h1>
-</section>
 <section class="content">
-    <table id="result" class="display cell-border" width="100%">
-      	<thead>
-            <tr>
-                <th>Data de ingresso</th>
-                <th>Quantidade de alunos</th>
-            </tr>
-        </thead>
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Turmas</h3>
+            </div>
+            <div class="box-body">
+                <table id="result" class="display cell-border" width="100%">
+                  	<thead>
+                        <tr>
+                            <th>Data de ingresso</th>
+                            <th>Quantidade de alunos</th>
+                        </tr>
+                    </thead>
 
-        <tbody>
-            {% for turma in turmas %}
-            <tr>
-                <td>
-                    <a href="{% url 'turma_detail' pk=turma.periodo_ingresso %}">
-                    {{ turma.periodo_ingresso }}
-                    </a>
-                </td>
-                <td>{{ turma.num_alunos }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tbody>
+                        {% for turma in turmas %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'turma_detail' pk=turma.periodo_ingresso %}">
+                                {{ turma.periodo_ingresso }}
+                                </a>
+                            </td>
+                            <td>{{ turma.num_alunos }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </section>
 {% endif %}
 {% endblock %}

@@ -2,34 +2,35 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<section class="content-header">
-    <h1>
-        <!-- {% for al in alunos %}
-            {{ al.periodo_ingresso }}
-        {% endfor %} -->
-        Data de ingresso
-    </h1>
-</section>
 <section class="content">
-    <table id="result" class="display cell-border" width="100%">
-      	<thead>
-            <tr>
-                <th>Aluno</th>
-            </tr>
-        </thead>
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Turma</h3>
+            </div>
+            <div class="box-body">
+                <table id="result" class="display cell-border" width="100%">
+                  	<thead>
+                        <tr>
+                            <th>Aluno</th>
+                        </tr>
+                    </thead>
 
-        <tbody>
-            {% for al in alunos %}
-            <tr>
-                <td>
-                    <a href="{% url 'aluno_detail' pk=al.pk %}">
-                    {{ al.nome_aluno }} ({{ al.grr_aluno }})
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <tbody>
+                        {% for al in alunos %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'aluno_detail' pk=al.pk %}">
+                                {{ al.nome_aluno }} ({{ al.grr_aluno }})
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </section>
 {% endif %}
 {% endblock %}

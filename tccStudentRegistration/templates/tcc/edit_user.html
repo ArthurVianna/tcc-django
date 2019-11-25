@@ -1,0 +1,29 @@
+{% extends 'tcc/base_site.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<section class="content">
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Editar Usuário</h3>
+            </div>
+            <div class="box-body">
+                <form role="form" method="POST">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ form_usuario.as_p }}
+                    </div>
+                    <div class="box-footer">
+                        <a href="{% url 'usuarios' %}">
+                            <button type="button" class="btn btn-default">Cancelar</button>
+                        </a>
+                        <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
