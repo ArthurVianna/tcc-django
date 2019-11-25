@@ -34,7 +34,7 @@ class Predict(object):
                 ,cursoMatricula__isnull=True#isnull=True#
                 ,semestreMatricula__isnull=True).order_by('alunoMatricula__id')
 
-        perMatApro = [d['coeficienteRetencao'] for d in retencoes.values('coeficienteRetencao')]
+        perMatApro = [d['coeficienteReprovacao'] for d in retencoes.values('coeficienteReprovacao')]
         df = pd.DataFrame(list(fatoEvasaoLista.values()))
         df = df.drop("coeficienteEvasao",axis=1)
         df = df.drop("alunoEvasao_id",axis=1)

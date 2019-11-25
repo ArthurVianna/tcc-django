@@ -183,11 +183,11 @@ class FatoMatricula(models.Model):
         help_text=_('Media final da matricula'),
         )
 
-    coeficienteRetencao = models.FloatField(
+    coeficienteReprovacao = models.FloatField(
         null=True,
         blank=True,
-        verbose_name=_('Porcentagem de retencao'),
-        help_text=_('Porcentagem de retencao'),
+        verbose_name=_('Porcentagem de reprovacao'),
+        help_text=_('Porcentagem de reprovacao'),
         )
 
     semestreMatricula = models.ForeignKey(
@@ -256,6 +256,20 @@ class FatoEvasao(models.Model):
         blank=True,
         verbose_name=_('Quantidade retencoes'),
         help_text=_('Quantidade de retencoes'),
+        )
+
+    semestresCursados = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Quantidade semestres cursados'),
+        help_text=_('Quantidade de Semestres cursados'),
+        )
+
+    coeficienteRetencao = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Porcentagem de evasao com retencao'),
+        help_text=_('Quantidade de evasao com retencao'),
         )
 
     ira = models.FloatField(

@@ -135,10 +135,7 @@ class ImportHistorico(object):
         cursoDic = self.updateCursoDisciplina(historico)
 
         for index, row in historico.iterrows():
-            if(row["PERIODO_ITEM"] == 201):
-                mesMatricula = 1
-            else:
-                mesMatricula = 7
+            mesMatricula = self.dataItemToMes(row["PERIODO_ITEM"])
             matricula = Matricula.objects.get_or_create(
                 situacao_matricula=self.sitDisciplina[row["SITUACAO_ITEM"]],
                 aluno=alunoDic[row["MATR_ALUNO"]],
@@ -148,6 +145,10 @@ class ImportHistorico(object):
                 media_final_matricula=row["MEDIA_FINAL"],
                 faltas_matricula=row["NUM_FALTAS"]
                 )
+            if(matricula.periodo_matricula > matricula.aluno.periodo_evasao):
+                matricula.aluno.periodo_evasao = matricula.periodo_matricula
+                matricula.aluno.save()
+                alunoDic[row["MATR_ALUNO"]] = matricula.aluno
 
 
 
@@ -164,14 +165,9 @@ class ImportHistorico(object):
                 })
             # if(created):
             aluno.nome_aluno = row["ID_ALUNO"]
-            if(row["PERIODO_INGRE_ITEM"] == 201):
-                mesIngresso = 1
-            else:
-                mesIngresso = 7
-            if(row["PERIODO_EVA_ITEM"] == 202):
-                mesEvasao = 7
-            else:
-                mesEvasao = 1
+            mesIngresso = self.dataItemToMes(row["PERIODO_INGRE_ITEM"])
+            mesEvasao = self.dataItemToMes(row["PERIODO_EVA_ITEM"])
+            
             aluno.periodo_ingresso = datetime(row["ANO_INGRESSO"],mesIngresso,1)
             aluno.forma_ingresso = self.ingresso[row["FORMA_INGRE_ITEM"]]
             if(row["ANO_EVASAO"] > 0):
@@ -181,6 +177,11 @@ class ImportHistorico(object):
             aluno.save()
         return alunoDic
 
+    def dataItemToMes(self,item):
+        if(item == 201):
+            return  1
+        else:
+            return  7
 
 
     def updateDisciplina(self,historico):

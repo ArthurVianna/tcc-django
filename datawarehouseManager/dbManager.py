@@ -66,6 +66,13 @@ def deleteAlunosEvadiram():
     )
     matriculas.delete()
 
+def getQtdSemestres(grrAluno):
+    aluno = Aluno.objects.get(grr_aluno=grrAluno)
+    ingresso = aluno.periodo_ingresso
+    evasao = aluno.periodo_evasao
+    months= (evasao.year - ingresso.year) * 12 + (evasao.month - ingresso.month)
+    return months/6
+
 
 def situacaoMatriculasReprovados():
     reprovado = ['Reprovado por nota',

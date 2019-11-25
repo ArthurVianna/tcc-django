@@ -9,9 +9,11 @@ class DataMining(object):
     """docstring for DataMining"""
 
     maxDataAge = 15
+    defaultQtdSemestresFormacao = 6
     
     def __init__(self):
         self.maxDataAge = 15
+        self.defaultQtdSemestresFormacao = 6
         super(DataMining, self).__init__()
 
 
@@ -56,6 +58,15 @@ class DataMining(object):
                 fatoEvasao.coeficienteEvasao = '1.0'
             else:
                 fatoEvasao.coeficienteEvasao = '0.0'
+
+            fatoEvasao.semestresCursados = getQtdSemestres(aluno.grr_aluno)
+            if (fatoEvasao.situacaoEvasao.descricao_evasao == "Formatura" and  fatoEvasao.semestresCursados < self.defaultQtdSemestresFormacao):
+                fatoEvasao.coeficienteRetencao = 0.0
+            else:
+                fatoEvasao.coeficienteRetencao = 1.0
+
+
+
             fatoEvasao.quantidadeEvasao = 1
             fatoEvasao.save()
 
@@ -149,7 +160,7 @@ class DataMining(object):
                                         novaFato.semestreMatricula = fato.semestreMatricula
                                         novaFato.faltasMatricula = 0
                                         novaFato.mediaMatricula = 0
-                                        novaFato.coeficienteRetencao = 0
+                                        novaFato.coeficienteReprovacao = 0
                                         novaFato.quantidadeMatricula = 0
                                         fatoMatriculaDic[nomeFato] = novaFato
                                     else:
@@ -157,7 +168,7 @@ class DataMining(object):
 
                                     novaFato.faltasMatricula += fato.faltasMatricula
                                     novaFato.mediaMatricula += fato.mediaMatricula
-                                    novaFato.coeficienteRetencao += fato.coeficienteRetencao
+                                    novaFato.coeficienteReprovacao += fato.coeficienteReprovacao
                                     novaFato.quantidadeMatricula += 1
                                 fato.alunoMatricula = None
                                 #endfor
@@ -181,7 +192,7 @@ class DataMining(object):
                                                             cursoMatricula=fato.cursoMatricula,semestreMatricula=fato.semestreMatricula)
             fatoBanco.faltasMatricula = fato.faltasMatricula / fato.quantidadeMatricula
             fatoBanco.mediaMatricula = fato.mediaMatricula / fato.quantidadeMatricula
-            fatoBanco.coeficienteRetencao = fato.coeficienteRetencao / fato.quantidadeMatricula
+            fatoBanco.coeficienteReprovacao = fato.coeficienteReprovacao / fato.quantidadeMatricula
             fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
             fatoBanco.save()
 
@@ -213,9 +224,9 @@ class DataMining(object):
             fatoMatricula.faltasMatricula = matricula.faltas_matricula
             fatoMatricula.mediaMatricula = matricula.media_final_matricula
             if situacaoMatricula.descricao_situacao_matricula not in DescricaoUtil.getListMatriculaAprovado():
-                fatoMatricula.coeficienteRetencao = '1.0'
+                fatoMatricula.coeficienteReprovacao = '1.0'
             else:
-                fatoMatricula.coeficienteRetencao = '0.0'
+                fatoMatricula.coeficienteReprovacao = '0.0'
             fatoMatricula.quantidadeMatricula = 1
             fatoMatricula.save()
 
