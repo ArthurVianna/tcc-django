@@ -13,6 +13,9 @@
                     <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} /
                         {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
                 </div>
+                {% if predicao %}
+                    <p>{{predicao.forma_evasao.descricao_evasao}}</p>
+                {% endif %}
             </div>
             <div class="box-body">
                 <table id="result" class="display cell-border" width="100%">

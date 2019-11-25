@@ -70,6 +70,15 @@
                     <span>Usuários</span>
                 </a>
             </li>
+            <li class="
+                {% if request.resolver_match.view_name == 'importCSV' %}
+                    active
+                {% endif %}">
+                <a href="{% url 'importCSV' %}">
+                    <i class="fas fa-upload"></i>
+                    <span>Importar</span>
+                </a>
+            </li>
             {% endif %}
             {% endblock nav_links %}
         </ul>

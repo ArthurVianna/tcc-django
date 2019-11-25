@@ -1,12 +1,15 @@
+from datetime import date
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import logout
+from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
 from django.shortcuts import redirect
-from .models import Disciplina, Aluno, Matricula
+from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
+from .ImportDataFacade import ImportDataFacade
 
 
 def user_logout(request):
@@ -69,11 +72,14 @@ def alunos(request):
 @login_required
 def aluno_detail(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
+    predicao = PredicaoEvasao.objects.filter(aluno=aluno)
+    if predicao:
+        predicao.latest('periodo_predicao')  # noqa
     matricula = Matricula.objects.filter(aluno__id=pk).order_by(
         'periodo_matricula')
-    return render(request,
-                  'tcc/aluno_detail.html',
-                  {'aluno': aluno, 'matricula': matricula})
+    return render(request, 'tcc/aluno_detail.html',
+                  {'aluno': aluno, 'matricula': matricula,
+                   'predicao': predicao})
 
 
 @login_required
@@ -90,8 +96,6 @@ def cadastrar_usuario(request):
             user = form_usuario.save(commit=False)
             user.date_joined = timezone.now()
             user.save()
-            # users = User.objects.all()
-            # return render(request, 'tcc/usuarios.html', {'users': users})
             return redirect('editar_usuario', pk=user.pk)
     else:
         form_usuario = UserCreationForm()
@@ -112,3 +116,24 @@ def editar_usuario(request, pk):
         form_usuario = UserChangeForm(instance=user)
     return render(request, 'tcc/edit_user.html',
                   {'form_usuario': form_usuario})
+
+
+@login_required
+def importCSV(request):
+    msg = ""
+    if request.method == 'POST':
+        if not request.FILES['document'].name.endswith('.csv'):
+            msg = "Arquivo não é um .csv"
+        else:
+            uploaded_file = request.FILES['document']
+            fs = FileSystemStorage()
+            today = date.today()
+            fileName = "historico_" + str(today) + ".csv"
+            fileName = fs.save(fileName, uploaded_file)
+            path = fs.location + "/" + fileName
+            if not ImportDataFacade.validateFile(path):
+                msg = "Arquivo não possui os dados necessários para a importação"  # noqa
+            else:
+                ImportDataFacade.importNewDataThread(path=path)
+                return dashboard(request)
+    return render(request, 'tcc/importCSV_form.html', {'msg': msg})

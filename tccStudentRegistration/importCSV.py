@@ -2,6 +2,7 @@
 from pandas import pandas as pd
 from tccStudentRegistration.models import *
 from datetime import datetime
+import csv
 # data = pd.read_csv("src/main/db/csv/historico.csv")
 
 class ImportCSV(object):
@@ -115,6 +116,21 @@ class ImportSituacaoDisciplina(ImportModel):
             self.updateModelList(self.getFromCsv(path))
         return self.buildDictionary(self.getModelList())
 
+class ValidateHistorico(object):
+    CONST_DADOS_NECESSARIOS = ["COD_CURSO","CH_TOTAL","NOME_ATIV_CURRIC","PERIODO_ITEM","SITUACAO_ITEM","MATR_ALUNO",
+                               "COD_ATIV_CURRIC","ANO","MEDIA_FINAL","NUM_FALTAS","ID_ALUNO","PERIODO_INGRE_ITEM","PERIODO_EVA_ITEM",
+                               "ANO_INGRESSO","ANO_EVASAO","FORMA_EVASAO_ITEM","FORMA_INGRE_ITEM"]
+    def __init__(self):
+        super(ValidateHistorico,self).__init__()
+
+    def validateHistorico(self,path):
+        colunas = set()
+        with open(path, 'rt') as fin:
+            csvin = csv.reader(fin)
+            colunas.update(next(csvin, []))
+        fin.close()
+        return all(elem in colunas for elem in self.CONST_DADOS_NECESSARIOS)
+
 
 class ImportHistorico(object):
     """docstring for ImportHistorico"""
@@ -166,11 +182,10 @@ class ImportHistorico(object):
             # if(created):
             aluno.nome_aluno = row["ID_ALUNO"]
             mesIngresso = self.dataItemToMes(row["PERIODO_INGRE_ITEM"])
-            mesEvasao = self.dataItemToMes(row["PERIODO_EVA_ITEM"])
-            
             aluno.periodo_ingresso = datetime(row["ANO_INGRESSO"],mesIngresso,1)
             aluno.forma_ingresso = self.ingresso[row["FORMA_INGRE_ITEM"]]
             if(row["ANO_EVASAO"] > 0):
+                mesEvasao = self.dataItemToMes(row["PERIODO_EVA_ITEM"])
                 aluno.periodo_evasao = datetime(row["ANO_EVASAO"],mesEvasao,1)
             aluno.forma_evasao = self.evasao[row["FORMA_EVASAO_ITEM"]]
             alunoDic[row.name] = aluno
