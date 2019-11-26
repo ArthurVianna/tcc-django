@@ -23,8 +23,6 @@
                             <th>Membro da equipe</th>
                             <th>Super usuário</th>
                             <th>Grupos</th>
-                            <th>Data de registro</th>
-                            <th>Data do último login</th>
                             <th>Editar</th>
                         </tr>
                     </thead>
@@ -62,8 +60,6 @@
                                     {{ group }}<br>
                                 {% endfor %}
                             </td>
-                            <td>{{ user.date_joined }}</td>
-                            <td>{{ user.last_login }}</td>
                             <td>
                                 <a href="{% url 'editar_usuario' pk=user.pk %}">
                                     <i class="fas fa-user-edit"></i>

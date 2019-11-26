@@ -1,8 +1,9 @@
 from datetime import date
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from django.core.files.storage import FileSystemStorage
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -10,11 +11,28 @@ from django.db.models import Count
 from django.shortcuts import redirect
 from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
 from .ImportDataFacade import ImportDataFacade
+from .forms import EditarUsuarioForm
 
 
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+
+@login_required
+def mudar_senha(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Sua senha foi alterada!')
+            return render(request, 'tcc/mudar_senha.html', {'form': form})
+        else:
+            messages.error(request, 'Por favor corrija os erros abaixo.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'tcc/mudar_senha.html', {'form': form})
 
 
 @login_required
@@ -106,14 +124,14 @@ def cadastrar_usuario(request):
 def editar_usuario(request, pk):
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
-        form_usuario = UserChangeForm(request.POST, instance=user)
+        form_usuario = EditarUsuarioForm(request.POST, instance=user)
         if form_usuario.is_valid():
             user = form_usuario.save(commit=False)
             user.date_joined = timezone.now()
             user.save()
             return redirect('usuarios')
     else:
-        form_usuario = UserChangeForm(instance=user)
+        form_usuario = EditarUsuarioForm(instance=user)
     return render(request, 'tcc/edit_user.html',
                   {'form_usuario': form_usuario})
 
