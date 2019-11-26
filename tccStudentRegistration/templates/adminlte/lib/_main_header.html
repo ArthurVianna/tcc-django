@@ -29,6 +29,11 @@
                                 <small>Membro desde {{ user.date_joined }}</small>
                             </p>
                         </li>
+                        <li class="user-footer">
+                            <div class="pull-right">
+                                <a href="{% url 'mudar_senha' %}" class="btn btn-default btn-flat">Mudar senha</a>
+                            </div>
+                        </li>
                     </ul>
                 </li>
                 {% if user.is_superuser %}

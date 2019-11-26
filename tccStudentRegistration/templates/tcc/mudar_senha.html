@@ -9,7 +9,7 @@
         margin-bottom: 10px;
         color: #737373;
     }
-    input, select {
+    input {
         border-radius: 0;
         box-shadow: none;
         border-color: #d2d6de;
@@ -23,13 +23,10 @@
         background-color: #fff;
         background-image: none;
         border: 1px solid #ccc;
-        font-family: inherit;
-        font-size: inherit;
-        line-height: inherit;
     }
-    input[type=checkbox] {
-        width: initial !important;
-        height: initial !important;
+    .alert {
+        margin-top: 10px !important;
+        margin-bottom: 0px !important;
     }
     ul.errorlist {
         list-style-type: none;
@@ -42,16 +39,16 @@
     <div class="row">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Editar Usuário</h3>
+                <h3 class="box-title">Mudar senha</h3>
             </div>
             <div class="box-body">
                 <form role="form" method="POST">
                     <div class="form-group">
                         {% csrf_token %}
-                        {{ form_usuario.as_p }}
+                        {{ form }}
                     </div>
                     <div class="box-footer">
-                        <a href="{% url 'usuarios' %}">
+                        <a href="{% url 'dashboard' %}">
                             <button type="button" class="btn btn-default">Cancelar</button>
                         </a>
                         <button type="submit" class="btn btn-primary pull-right">Salvar</button>
