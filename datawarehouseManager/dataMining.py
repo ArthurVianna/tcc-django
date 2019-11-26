@@ -187,7 +187,6 @@ class DataMining(object):
                 #endFor
                 fato.cursoMatricula = AuxCurso
                 fato.semestreMatricula = None
-            break
             #endFor
 
         for item in fatoMatriculaDic:
@@ -199,6 +198,7 @@ class DataMining(object):
             fatoBanco.coeficienteReprovacao = fato.coeficienteReprovacao / fato.quantidadeMatricula
             fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
             fatoBanco.save()
+            
 
     def insertFatoMatricula(self):
         matriculas = getMatriculasCompletas()
@@ -233,6 +233,7 @@ class DataMining(object):
                 fatoMatricula.coeficienteReprovacao = '0.0'
             fatoMatricula.quantidadeMatricula = 1
             fatoMatricula.save()
+
 
     def clearData(self):
         today = datetime.today()
