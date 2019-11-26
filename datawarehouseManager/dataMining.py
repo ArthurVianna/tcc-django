@@ -58,13 +58,11 @@ class DataMining(object):
                 fatoEvasao.coeficienteEvasao = '1.0'
             else:
                 fatoEvasao.coeficienteEvasao = '0.0'
-
-            fatoEvasao.semestresCursados = getQtdSemestres(aluno.grr_aluno)
+            fatoEvasao.semestresCursados = getQtdSemestres(alu.grr_aluno)
             if (fatoEvasao.situacaoEvasao.descricao_evasao == "Formatura" and  fatoEvasao.semestresCursados < self.defaultQtdSemestresFormacao):
-                fatoEvasao.coeficienteRetencao = 0.0
+                fatoEvasao.coeficienteRetencao = '0.0'
             else:
-                fatoEvasao.coeficienteRetencao = 1.0
-                
+                fatoEvasao.coeficienteRetencao = '1.0'
             fatoEvasao.quantidadeEvasao = 1
             fatoEvasao.save()
 
