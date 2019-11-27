@@ -54,8 +54,8 @@ class DataMining(object):
             if(created):
                 curso.descricao_curso = cursoAlu.descricao_curso
                 curso.save()
-            fatoEvasao,created = FatoEvasao.objects.get_or_create(alunoEvasao=alu,situacaoEvasao=situacaoEvasao,cursoEvasao=curso,semestreEvasao=sem)            
-            fatoEvasao.quantidadeRetencoes = countRetencoesAluno(alu.grr_aluno)
+            fatoEvasao,created = FatoEvasao.objects.get_or_create(alunoEvasao=alu,situacaoEvasao=situacaoEvasao,cursoEvasao=curso,semestreEvasao=sem)
+            fatoEvasao.quantidadeReprovacoes = countRetencoesAluno(alu.grr_aluno)
             fatoEvasao.ira = calculoIra(alu.grr_aluno)
             if situacaoEvasao.descricao_evasao in DescricaoUtil.getListSemConcluirSituacao():
                 fatoEvasao.coeficienteEvasao = '1.0'
@@ -95,7 +95,7 @@ class DataMining(object):
                                     novaFato.semestreEvasao = fato.semestreEvasao
                                     novaFato.semestresCursados = 0
                                     novaFato.coeficienteRetencao = 0
-                                    novaFato.quantidadeRetencoes = 0
+                                    novaFato.quantidadeReprovacoes = 0
                                     novaFato.ira = 0
                                     novaFato.coeficienteEvasao = 0
                                     novaFato.quantidadeEvasao = 0
@@ -103,7 +103,7 @@ class DataMining(object):
                                 else:
                                     novaFato = fatoEvasaoDic[nomeFato]
 
-                                novaFato.quantidadeRetencoes += fato.quantidadeRetencoes
+                                novaFato.quantidadeReprovacoes += fato.quantidadeReprovacoes
                                 novaFato.ira += fato.ira
                                 novaFato.coeficienteEvasao += fato.coeficienteEvasao
                                 novaFato.semestresCursados += fato.semestresCursados
@@ -123,12 +123,13 @@ class DataMining(object):
 
         for item in fatoEvasaoDic:
             fato = fatoEvasaoDic[item]
-            fatoBanco = FatoEvasao.objects.get_or_create(alunoEvasao=fato.alunoEvasao,situacaoEvasao=fato.situacaoEvasao,cursoEvasao=fato.cursoEvasao,semestreEvasao=fato.semestreEvasao)
+            fatoBanco,created = FatoEvasao.objects.get_or_create(alunoEvasao=fato.alunoEvasao,situacaoEvasao=fato.situacaoEvasao,cursoEvasao=fato.cursoEvasao,semestreEvasao=fato.semestreEvasao)
             fatoBanco.ira = fato.ira / fato.quantidadeEvasao
             fatoBanco.coeficienteEvasao = fato.coeficienteEvasao / fato.quantidadeEvasao
             fatoBanco.quantidadeEvasao = fato.quantidadeEvasao
             fatoBanco.semestresCursados = fato.semestresCursados / fato.quantidadeEvasao
             fatoBanco.coeficienteRetencao = fato.coeficienteRetencao / fato.quantidadeEvasao
+            fatoBanco.quantidadeReprovacoes = fato.quantidadeReprovacoes / fato.quantidadeEvasao
             fatoBanco.save()
 
 
@@ -318,8 +319,6 @@ class DataMining(object):
 
 
         
-
-
 class DescricaoUtil(object):
     """docstring for DescricaoUtil"""
     def __init__(self, arg):
