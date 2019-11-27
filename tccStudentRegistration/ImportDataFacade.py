@@ -83,7 +83,9 @@ class ImportDataFacade(object):
     @staticmethod
     def testSomething(path="",classifierName=""):
         dm = DataMining()
+        deleteFatoEvasaoNull()
         dm.insertFatoEvasao()
+        dm.updateFatoEvasao()
         
 
     @staticmethod

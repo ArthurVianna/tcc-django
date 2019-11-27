@@ -36,7 +36,7 @@ django.setup()
 
 
 from tccStudentRegistration.ImportDataFacade import *
-ImportDataFacade.makePredictions()
+ImportDataFacade.testSomething()
 #from datawarehouseManager.dbManager import *
 
 #print(str(getQtdSemestres('2ce8b81062010b3b8fa3379f93f1cc39')))

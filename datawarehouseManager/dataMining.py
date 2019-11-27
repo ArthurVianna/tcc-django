@@ -54,7 +54,8 @@ class DataMining(object):
             if(created):
                 curso.descricao_curso = cursoAlu.descricao_curso
                 curso.save()
-            fatoEvasao,created = FatoEvasao.objects.get_or_create(alunoEvasao=alu,situacaoEvasao=situacaoEvasao,cursoEvasao=curso,semestreEvasao=sem)
+            fatoEvasao,created = FatoEvasao.objects.get_or_create(alunoEvasao=alu,situacaoEvasao=situacaoEvasao,cursoEvasao=curso,semestreEvasao__isnull=False)
+            fatoEvasao.semestreEvasao = sem
             fatoEvasao.quantidadeReprovacoes = countRetencoesAluno(alu.grr_aluno)
             fatoEvasao.ira = calculoIra(alu.grr_aluno)
             if situacaoEvasao.descricao_evasao in DescricaoUtil.getListSemConcluirSituacao():
@@ -319,6 +320,9 @@ class DataMining(object):
 
 
         
+def deleteFatoEvasaoNull():
+    FatoEvasao.objects.exclude(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False).delete()
+
 class DescricaoUtil(object):
     """docstring for DescricaoUtil"""
     def __init__(self, arg):
