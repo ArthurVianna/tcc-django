@@ -265,7 +265,7 @@ class FatoEvasao(models.Model):
         help_text=_('Quantidade de Semestres cursados'),
         )
 
-    coeficienteRetencao = models.IntegerField(
+    coeficienteRetencao = models.FloatField(
         null=True,
         blank=True,
         verbose_name=_('Porcentagem de evasao com retencao'),

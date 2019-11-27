@@ -42,7 +42,10 @@ class DataMining(object):
             situacaoEvasao,created = StituacaoEvasao.objects.get_or_create(descricao_evasao=aluno.forma_evasao.descricao_evasao)
             turma,created = Turma.objects.get_or_create(periodo_ingresso=aluno.periodo_ingresso)
             formaIngresso,created = FormaIngresso.objects.get_or_create(descricao_ingresso=aluno.forma_ingresso.descricao_ingresso)
-            alu,created = Aluno.objects.get_or_create(grr_aluno=aluno.grr_aluno,turma=turma,forma_ingresso=formaIngresso)
+            alu,created = Aluno.objects.get_or_create(grr_aluno=aluno.grr_aluno,forma_ingresso=formaIngresso)
+            if(alu.turma == None or alu.turma != turma):
+                alu.turma = turma
+                alu.save()
             if(created):
                 alu.nome_aluno = aluno.nome_aluno
                 alu.save()
@@ -58,13 +61,11 @@ class DataMining(object):
                 fatoEvasao.coeficienteEvasao = '1.0'
             else:
                 fatoEvasao.coeficienteEvasao = '0.0'
-
-            fatoEvasao.semestresCursados = getQtdSemestres(aluno.grr_aluno)
+            fatoEvasao.semestresCursados = getQtdSemestres(alu.grr_aluno)
             if (fatoEvasao.situacaoEvasao.descricao_evasao == "Formatura" and  fatoEvasao.semestresCursados < self.defaultQtdSemestresFormacao):
-                fatoEvasao.coeficienteRetencao = 0.0
+                fatoEvasao.coeficienteRetencao = '0.0'
             else:
-                fatoEvasao.coeficienteRetencao = 1.0
-                
+                fatoEvasao.coeficienteRetencao = '1.0'
             fatoEvasao.quantidadeEvasao = 1
             fatoEvasao.save()
 
@@ -187,7 +188,6 @@ class DataMining(object):
                 #endFor
                 fato.cursoMatricula = AuxCurso
                 fato.semestreMatricula = None
-            break
             #endFor
 
         for item in fatoMatriculaDic:
@@ -199,6 +199,7 @@ class DataMining(object):
             fatoBanco.coeficienteReprovacao = fato.coeficienteReprovacao / fato.quantidadeMatricula
             fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
             fatoBanco.save()
+            
 
     def insertFatoMatricula(self):
         matriculas = getMatriculasCompletas()
@@ -233,6 +234,7 @@ class DataMining(object):
                 fatoMatricula.coeficienteReprovacao = '0.0'
             fatoMatricula.quantidadeMatricula = 1
             fatoMatricula.save()
+
 
     def clearData(self):
         today = datetime.today()

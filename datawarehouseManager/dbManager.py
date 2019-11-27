@@ -71,7 +71,9 @@ def getQtdSemestres(grrAluno):
     ingresso = aluno.periodo_ingresso
     evasao = aluno.periodo_evasao
     months= (evasao.year - ingresso.year) * 12 + (evasao.month - ingresso.month)
-    return months/6
+    #if((months/6) +1 < 6):
+    #    print("GRR : " + grrAluno + " semestres = " + str(months/6 +1) + "  meses : " + str(months))
+    return (months/6) +1
 
 
 def situacaoMatriculasReprovados():

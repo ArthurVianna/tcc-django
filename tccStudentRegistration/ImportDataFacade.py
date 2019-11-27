@@ -2,7 +2,7 @@
 from tccStudentRegistration.models import *
 from datawarehouseManager.dataMining import *
 from tccStudentRegistration.PredictionFacade import *
-from tccStudentRegistration.importCSV import ValidateHistorico
+from tccStudentRegistration.importCSV import *
 from datawarehouseManager.dbManager import *
 import threading
 import time
@@ -67,11 +67,8 @@ class ImportDataFacade(object):
     def importNewDataThread(path="",classifierName="MLP"):
         thread = threading.Thread(target=ImportDataFacade.importNewData, args=(path,classifierName))
         thread.daemon = True #Faz ser possivel interromper o servidor enquanto essa thread estiver rodando
-        print("DeuBoa")
-        print("Path = " + path)
-        #thread.start()
-    
-        
+        #thread.start()    
+       
   
     @staticmethod
     def __deleteOldDWData():
@@ -82,6 +79,26 @@ class ImportDataFacade(object):
     def validateFile(path=""):
         vh = ValidateHistorico()
         return vh.validateHistorico(path)
+
+    @staticmethod
+    def testSomething(path="",classifierName=""):
+        dm = DataMining()
+        dm.insertFatoEvasao()
+        
+
+    @staticmethod
+    def testSomething2(path="",classifierName=""):
+        alunosFormados = Aluno.objects.filter(forma_evasao=FormaEvasao.objects.get(descricao_evasao='Formatura'))
+        print(alunosFormados.count())
+        formadosPeriodizados = 0
+        for aluno in alunosFormados:
+            semestres = getQtdSemestres(aluno.grr_aluno)
+            #print(semestres)
+            if(semestres <= 6):
+                formadosPeriodizados+=1
+        print(formadosPeriodizados)
+
+
 
 
 
