@@ -24,7 +24,7 @@ class Predict(object):
         super(Predict, self).__init__()
 
     def getDadosEvasao(self):
-        if(self.dadosEvasao != None):
+        if(self.dadosEvasao is not None):
             return self.dadosEvasao
         fatoEvasaoLista = FatoEvasao.objects.filter(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False).order_by('alunoEvasao__id')
         aux = fatoEvasaoLista.values('alunoEvasao__id')
