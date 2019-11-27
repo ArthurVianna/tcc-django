@@ -92,7 +92,7 @@ def aluno_detail(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
     predicao = PredicaoEvasao.objects.filter(aluno=aluno)
     if predicao:
-        predicao.latest('periodo_predicao')
+        predicao = predicao.latest('periodo_predicao')
     matricula = Matricula.objects.filter(aluno__id=pk).order_by(
         'periodo_matricula')
     return render(request, 'tcc/aluno_detail.html',
