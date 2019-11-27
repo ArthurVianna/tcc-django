@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
-
+from datawarehouseManager.datawarehouseFacade import *
 
 def user_logout(request):
     logout(request)
@@ -37,8 +37,10 @@ def mudar_senha(request):
 
 @login_required
 def dashboard(request):
-    print(request.user)  # chamar o user da session
-    return render(request, 'tcc/dashboard.html', {})
+    #print(request.user)  # chamar o user da session
+    chart = getFatoEvasaoPorcentagemRetidosSemestreChart()
+    print(chart)
+    return render(request, 'tcc/dashboard.html', {'chart' : chart})
 
 
 @login_required
