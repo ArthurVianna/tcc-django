@@ -46,7 +46,7 @@ class Predict(object):
         df = df.drop("semestresCursados",axis=1)
 
         df = df.drop("id",axis=1)
-        df = df.drop("quantidadeRetencoes",axis=1)
+        df = df.drop("quantidadeReprovacoes",axis=1)
 
         df['porcentagemRetido'] = perMatApro
 

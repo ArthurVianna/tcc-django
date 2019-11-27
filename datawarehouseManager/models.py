@@ -251,11 +251,11 @@ class FatoEvasao(models.Model):
         help_text=_('Quantidade de evasões'),
         )
 
-    quantidadeRetencoes = models.IntegerField(
+    quantidadeReprovacoes = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Quantidade retencoes'),
-        help_text=_('Quantidade de retencoes'),
+        verbose_name=_('Quantidade reprovacoes'),
+        help_text=_('Quantidade de reprovacoes em matriculas'),
         )
 
     semestresCursados = models.IntegerField(
