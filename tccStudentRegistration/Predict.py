@@ -75,6 +75,7 @@ class Predict(object):
 
 
     def testPrediction(self,df):
+        predClass = self
         dfScaled = predClass.scaleDF(df)
         x_train,x_test,y_train,y_test = predClass.trainTestSplit(dfScaled,predClass.getResultFromDF(df))
         fittedMLP = predClass.fitMLP(x_train,y_train)
@@ -149,7 +150,7 @@ class Predict(object):
         if(os.path.exists(path + fileName)):
             return load(path + fileName)
         else:
-            return createScaler(self.getDadosEvasao())
+            return self.createScaler(self.getDadosEvasao())
 
     def createScaler(self,df):
         scaler = StandardScaler()
