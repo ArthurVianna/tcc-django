@@ -152,7 +152,7 @@ class ImportHistorico(object):
 
         for index, row in historico.iterrows():
             mesMatricula = self.dataItemToMes(row["PERIODO_ITEM"])
-            matricula = Matricula.objects.get_or_create(
+            matricula,created = Matricula.objects.get_or_create(
                 situacao_matricula=self.sitDisciplina[row["SITUACAO_ITEM"]],
                 aluno=alunoDic[row["MATR_ALUNO"]],
                 disciplina=disciplinaDic[row["COD_ATIV_CURRIC"]],
@@ -161,8 +161,12 @@ class ImportHistorico(object):
                 media_final_matricula=row["MEDIA_FINAL"],
                 faltas_matricula=row["NUM_FALTAS"]
                 )
-            if(matricula.periodo_matricula > matricula.aluno.periodo_evasao):
+            if(matricula.aluno.periodo_evasao != None and matricula.periodo_matricula > matricula.aluno.periodo_evasao):
                 matricula.aluno.periodo_evasao = matricula.periodo_matricula
+                matricula.aluno.save()
+                alunoDic[row["MATR_ALUNO"]] = matricula.aluno
+            if(matricula.aluno.periodo_ingresso != None and matricula.periodo_matricula < matricula.aluno.periodo_ingresso):
+                matricula.aluno.periodo_ingresso = matricula.periodo_matricula
                 matricula.aluno.save()
                 alunoDic[row["MATR_ALUNO"]] = matricula.aluno
 

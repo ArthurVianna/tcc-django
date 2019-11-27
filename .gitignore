@@ -107,3 +107,6 @@ tccenv/
 
 # mypy
 .mypy_cache/
+
+# SkLearnFiles
+SkLearnFiles/*

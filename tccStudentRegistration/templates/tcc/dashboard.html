@@ -1,6 +1,8 @@
 {% extends 'tcc/base_site.html' %}
+{% load static %}
 
 {% block content %}
+
 {% if user.is_authenticated %}
 <section class="content">
     <div class="row">
@@ -8,11 +10,40 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Dashboard</h3>
             </div>
-            <div class="box-body">
+            <div class="box-body" id="chart">
                 Hi {{ user.username }}!
             </div>
         </div>
     </div>
 </section>
 {% endif %}
+
+{% block scripts %}
+<!-- highcharts -->
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+    Highcharts.chart('chart', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Historic World Population by Region'
+        },
+        xAxis: {
+            categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+        },
+        series: [{
+            name: 'Year 1800',
+            data: [107, 31, 635, 203, 2]
+        }, {
+            name: 'Year 1900',
+            data: [133, 156, 947, 408, 6]
+        }, {
+            name: 'Year 2012',
+            data: [1052, 954, 4250, 740, 38]
+        }]
+    });
+</script>
+{% endblock %}
+
 {% endblock %}

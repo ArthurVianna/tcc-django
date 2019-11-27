@@ -1,6 +1,15 @@
 {% extends 'tcc/base_site.html' %}
+{% load static %}
 
 {% block content %}
+
+{% block css %}
+<!-- css datatables -->
+<link rel="stylesheet" href="{% static 'datatables/datatables.min.css' %}">
+<!-- css datatable -->
+<link rel="stylesheet" href="{% static 'css/datatable.css' %}">
+{% endblock %}
+
 {% if user.is_authenticated %}
 <section class="content">
     <div class="row">
@@ -74,4 +83,12 @@
     </div>
 </section>
 {% endif %}
+
+{% block scripts %}
+<!-- js datatables -->
+<script type="text/javascript" src="{% static 'datatables/datatables.min.js' %}" defer></script>
+<!-- js assemble table using datatables -->
+<script type="text/javascript" src="{% static 'js/datatable.js' %}" defer></script>
+{% endblock %}
+
 {% endblock %}
