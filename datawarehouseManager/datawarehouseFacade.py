@@ -1,3 +1,4 @@
+# flake8: noqa
 from datawarehouseManager.models import *
 import json
 
@@ -11,11 +12,11 @@ def getFatoEvasaoPorcentagemRetidosSemestreChart():
     series = []
     categories = []
     for fato in fatoEvasaoLista:
-        
+
         semestreRetidos += [fato.coeficienteRetencao]
         semestreNaoRetidos += [1 - fato.coeficienteRetencao]
 
-         
+
         categories += [str(fato.semestreEvasao.inicioSemestre)]
 
 

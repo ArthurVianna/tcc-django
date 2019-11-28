@@ -1,3 +1,4 @@
+from datawarehouseManager.datawarehouseFacade import *  # noqa
 from datetime import date
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
@@ -12,7 +13,7 @@ from django.shortcuts import redirect
 from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
-from datawarehouseManager.datawarehouseFacade import *
+
 
 def user_logout(request):
     logout(request)
@@ -25,7 +26,7 @@ def mudar_senha(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Sua senha foi alterada!')
             return render(request, 'tcc/mudar_senha.html', {'form': form})
         else:
@@ -37,10 +38,10 @@ def mudar_senha(request):
 
 @login_required
 def dashboard(request):
-    #print(request.user)  # chamar o user da session
-    chart = getFatoEvasaoPorcentagemRetidosSemestreChart()
+    # print(request.user)  # chamar o user da session
+    chart = getFatoEvasaoPorcentagemRetidosSemestreChart()  # noqa
     print(chart)
-    return render(request, 'tcc/dashboard.html', {'chart' : chart})
+    return render(request, 'tcc/dashboard.html', {'chart': chart})
 
 
 @login_required
@@ -85,7 +86,7 @@ def disciplina_detail(request, pk):
 
 @login_required
 def alunos(request):
-    alunos = Aluno.objects.all().order_by('periodo_ingresso')
+    alunos = Aluno.objects.all()
     return render(request, 'tcc/alunos.html', {'alunos': alunos})
 
 
@@ -95,8 +96,7 @@ def aluno_detail(request, pk):
     predicao = PredicaoEvasao.objects.filter(aluno=aluno)
     if predicao:
         predicao = predicao.latest('periodo_predicao')
-    matricula = Matricula.objects.filter(aluno__id=pk).order_by(
-        'periodo_matricula')
+    matricula = Matricula.objects.filter(aluno__id=pk)
     return render(request, 'tcc/aluno_detail.html',
                   {'aluno': aluno, 'matricula': matricula,
                    'predicao': predicao})

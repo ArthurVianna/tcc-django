@@ -46,7 +46,7 @@ class ImportDataFacade(object):
         dm.updateFatoMatricula()
 
     @staticmethod
-    def __deleteAlunosEvasao(): 
+    def __deleteAlunosEvasao():
         #Deleta alunos que já evadiram no banco 1
         deleteAlunosEvadiram()
 
@@ -62,14 +62,14 @@ class ImportDataFacade(object):
         ImportDataFacade.__mineData()
         ImportDataFacade.__deleteAlunosEvasao()
         ImportDataFacade.makePredictions(classifierName)
-        
+
     @staticmethod
     def importNewDataThread(path="",classifierName="MLP"):
         thread = threading.Thread(target=ImportDataFacade.importNewData, args=(path,classifierName))
         thread.daemon = True #Faz ser possivel interromper o servidor enquanto essa thread estiver rodando
-        #thread.start()    
-       
-  
+        thread.start()
+
+
     @staticmethod
     def __deleteOldDWData():
         dm = DataMining()
@@ -86,7 +86,7 @@ class ImportDataFacade(object):
         deleteFatoEvasaoNull()
         dm.insertFatoEvasao()
         dm.updateFatoEvasao()
-        
+
 
     @staticmethod
     def testSomething2(path="",classifierName=""):
