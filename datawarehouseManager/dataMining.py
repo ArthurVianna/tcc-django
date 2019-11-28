@@ -42,10 +42,7 @@ class DataMining(object):
             situacaoEvasao,created = StituacaoEvasao.objects.get_or_create(descricao_evasao=aluno.forma_evasao.descricao_evasao)
             turma,created = Turma.objects.get_or_create(periodo_ingresso=aluno.periodo_ingresso)
             formaIngresso,created = FormaIngresso.objects.get_or_create(descricao_ingresso=aluno.forma_ingresso.descricao_ingresso)
-            alu,created = Aluno.objects.get_or_create(grr_aluno=aluno.grr_aluno,forma_ingresso=formaIngresso)
-            if(alu.turma == None or alu.turma != turma):
-                alu.turma = turma
-                alu.save()
+            alu,created = Aluno.objects.get_or_create(grr_aluno=aluno.grr_aluno,forma_ingresso=formaIngresso,turma=turma)
             if(created):
                 alu.nome_aluno = aluno.nome_aluno
                 alu.save()
