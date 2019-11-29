@@ -13,7 +13,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
 
     path('turmas/', views.turmas, name='turmas'),
-    path('turma/<str:pk>/', views.turma_detail,
+    path('turma/<str:periodo_ingresso>/', views.turma_detail,
          name='turma_detail'),
 
     path('disciplinas/', views.disciplinas, name='disciplinas'),

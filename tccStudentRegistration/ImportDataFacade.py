@@ -81,11 +81,8 @@ class ImportDataFacade(object):
         return vh.validateHistorico(path)
 
     @staticmethod
-    def testSomething(path="",classifierName=""):
-        dm = DataMining()
-        deleteFatoEvasaoNull()
-        dm.insertFatoEvasao()
-        dm.updateFatoEvasao()
+    def testSomething(path="",classifierName="MLP"):
+        ImportDataFacade.__deleteAlunosEvasao()
 
 
     @staticmethod
