@@ -15,7 +15,7 @@
     <div class="row">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Alunos</h3>
+                <h3 class="box-title">Futuros Evasores : {{predicoes.count}} </h3>
             </div>
             <div class="box-body">
                 <table id="result" class="display cell-border" width="100%">
@@ -27,17 +27,14 @@
                     </thead>
 
                     <tbody>
-                        {% for aluno in alunos %}
+                        {% for predict in predicoes %}
                         <tr>
                             <td>
-                                <a href="{% url 'aluno_detail' pk=aluno.pk %}">
-                                {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }}) - 
-                                {%if aluno.grr_aluno in predicoes %}
-                                    {{predicoes|getPredicaoEvasao:aluno.grr_aluno}}
-                                {%endif%}
+                                <a href="{% url 'aluno_detail' pk=predict.aluno.pk %}">
+                                Alooo {{ predict.aluno.nome_aluno }} ({{ predict.aluno.grr_aluno }}) - Icone Ruim De predicao
                                 </a>
                             </td>
-                            <td>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</td>
+                            <td>{{ predict.aluno.forma_ingresso }} - {{ predict.aluno.periodo_ingresso }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

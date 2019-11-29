@@ -56,6 +56,17 @@
                     <span>Alunos</span>
                 </a>
             </li>
+            <li class="
+                {% if request.resolver_match.view_name == 'alunos_perigo' %}
+                    active
+                {% elif request.resolver_match.view_name == 'aluno_detail' %}
+                    active
+                {% endif %}">
+                <a href="{% url 'alunos_perigo' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Provaveis Evasores</span>
+                </a>
+            </li>
             {% if user.is_staff %}
             <li class="
                 {% if request.resolver_match.view_name == 'usuarios' %}
