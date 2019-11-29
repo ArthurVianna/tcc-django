@@ -21,6 +21,10 @@
                 <div class="pull-right">
                     <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} /
                         {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
+                    {% if detalhes %}
+                    <p>{{detalhes.porcentagemReprovacao}} % de reprovação</p>
+                    <p>{{detalhes.qtdMatriculasCompletas}} / {{detalhes.qtdMatriculas}}</p>
+                    {% endif %}
                 </div>
                 {% if predicao %}
                     <p>{{predicao.forma_evasao.descricao_evasao}}</p>
@@ -50,6 +54,30 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div>
+                <div>
+                    <p> Esse vai</p>
+                    {% if comentarios%}
+                        <p> ALo</p>
+                        {% for comment in comentarios%}
+                            <p>{{comment.user}}</p>
+                            <p>{{comment.data_comentario}}</p>
+                            <p>{{comment.texto_comentario}}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    <form role="form" method="POST">
+                        <div class="form-group">
+                            {% csrf_token %}
+                        </div>
+                        <div class="box-footer">
+                            <input type='text' name='newComentario'/>
+                            <button type="submit" class="btn btn-primary pull-right">Comentar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
