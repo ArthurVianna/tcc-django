@@ -10,14 +10,18 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
 from django.shortcuts import redirect
-from .models import Disciplina, Aluno, Matricula, PredicaoEvasao, Comentario
+from .models import Disciplina, Aluno, Matricula, PredicaoEvasao, Comentario, FormaEvasao
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
+from django.template.defaulttags import register
 
 def user_logout(request):
     logout(request)
     return redirect('login')
 
+@register.filter
+def getPredicaoEvasao(dictionary,item):
+    return dictionary.get(item).forma_evasao.descricao_evasao
 
 @login_required
 def mudar_senha(request):
@@ -88,7 +92,21 @@ def disciplina_detail(request, pk):
 @login_required
 def alunos(request):
     alunos = Aluno.objects.all().order_by('periodo_ingresso')
-    return render(request, 'tcc/alunos.html', {'alunos': alunos})
+    predicao = PredicaoEvasao.objects.all()
+    predicoes = {}
+    if predicao:
+        predicao = PredicaoEvasao.objects.filter(periodo_predicao=predicao.latest('periodo_predicao').periodo_predicao)
+        for predict in predicao:
+            predicoes[predict.aluno.grr_aluno] = predict
+
+    return render(request, 'tcc/alunos.html', {'alunos': alunos, 'predicoes':predicoes})
+
+@login_required
+def alunos_perigo(request):
+    predicao = PredicaoEvasao.objects.filter(forma_evasao=FormaEvasao.objects.get(descricao_evasao="Abandono"),
+                                        periodo_predicao=PredicaoEvasao.objects.latest('periodo_predicao').periodo_predicao)
+    print(str(predicao.count()))
+    return render(request, 'tcc/alunos_perigo.html', { 'predicoes':predicao})
 
 
 @login_required

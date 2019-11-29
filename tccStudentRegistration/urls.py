@@ -21,6 +21,7 @@ urlpatterns = [
          name='disciplina_detail'),
 
     path('alunos/', views.alunos, name='alunos'),
+    path('alunos_perigo/', views.alunos_perigo, name='alunos_perigo'),
     path('aluno/<int:pk>/', views.aluno_detail,
          name='aluno_detail'),
 
