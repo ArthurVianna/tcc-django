@@ -30,7 +30,7 @@
                         {% for turma in turmas %}
                         <tr>
                             <td>
-                                <a href="{% url 'turma_detail' pk=turma.periodo_ingresso %}">
+                                <a href="{% url 'turma_detail' periodo_ingresso=turma.periodo_ingresso %}">
                                 {{ turma.periodo_ingresso }}
                                 </a>
                             </td>

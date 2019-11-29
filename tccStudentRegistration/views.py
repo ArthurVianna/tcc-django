@@ -11,17 +11,15 @@ from django.utils import timezone
 from django.db.models import Count
 from django.shortcuts import redirect
 from .models import Disciplina, Aluno, Matricula, PredicaoEvasao, Comentario, FormaEvasao
+from .StudentRegistrationFacade import StudentRegistrationFacade
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
-from django.template.defaulttags import register
+from .templateFilters import *
 
 def user_logout(request):
     logout(request)
     return redirect('login')
 
-@register.filter
-def getPredicaoEvasao(dictionary,item):
-    return dictionary.get(item).forma_evasao.descricao_evasao
 
 @login_required
 def mudar_senha(request):
@@ -42,21 +40,20 @@ def mudar_senha(request):
 @login_required
 def dashboard(request):
     #print(request.user)  # chamar o user da session
-    chart = getFatoEvasaoPorcentagemRetidosSemestreChart()
+    chart = datawarehouseFacade.getFatoEvasaoPorcentagemRetidosSemestre()
     
     return render(request, 'tcc/dashboard.html', {'chart' : chart})
 
 
 @login_required
 def turmas(request):
-    turmas = Aluno.objects.values('periodo_ingresso').annotate(
-        num_alunos=Count('periodo_ingresso')).order_by('periodo_ingresso')
+    turmas = StudentRegistrationFacade.getListTurma()
     return render(request, 'tcc/turmas.html', {'turmas': turmas})
 
 
 @login_required
-def turma_detail(request, pk):
-    alunos = Aluno.objects.filter(periodo_ingresso=pk)
+def turma_detail(request, periodo_ingresso):
+    alunos = StudentRegistrationFacade.getTurma(periodo_ingresso)
     return render(request,
                   'tcc/turma_detail.html',
                   {'alunos': alunos})
@@ -64,7 +61,7 @@ def turma_detail(request, pk):
 
 @login_required
 def disciplinas(request):
-    disciplinas = Disciplina.objects.all()
+    disciplinas = StudentRegistrationFacade.getListDisciplinas()
     return render(request,
                   'tcc/disciplinas.html',
                   {'disciplinas': disciplinas})
@@ -72,73 +69,50 @@ def disciplinas(request):
 
 @login_required
 def disciplina_detail(request, pk):
-    disciplina = get_object_or_404(Disciplina, pk=pk)
-    max_year = Matricula.objects.latest('periodo_matricula')
-    if(max_year.periodo_matricula.month > 7):
-        dateRange = [str(max_year.periodo_matricula.year) + "-07-01",
-                     str(max_year.periodo_matricula.year) + "-12-31"]
-    else:
-        dateRange = [str(max_year.periodo_matricula.year) + "-01-01",
-                     str(max_year.periodo_matricula.year) + "-06-30"]
-    alunos = Matricula.objects.filter(disciplina__id=pk,
-                                      periodo_matricula__range=dateRange)
-    detalhes = getDisciplinaDetalhesMatricula(disciplina.codigo_disciplina)
-    #chart = getSemiCircleDonutChart(createDataWithPercentage(detalhes['porcentagemReprovacao'],"\% reprovacao","\% aprovacao"),"Porcentagem Aprovacao")
+    dictResponse = {}
+    disciplina = StudentRegistrationFacade.getDisciplina(pk)
+    dictResponse['disciplina'] = disciplina
+    if disciplina :
+        dictResponse['alunos'] = StudentRegistrationFacade.getLatestMatriculas(disciplina)
+        detalhes = datawarehouseFacade.getDisciplinaDetalhesMatricula(disciplina.codigo_disciplina)
+        #chart = getSemiCircleDonutChart(createDataWithPercentage(detalhes['porcentagemReprovacao'],"\% reprovacao","\% aprovacao"),"Porcentagem Aprovacao")
     return render(request,
-                  'tcc/disciplina_detail.html',
-                  {'disciplina': disciplina, 'alunos': alunos, 'detalhes':detalhes})
+                  'tcc/disciplina_detail.html',dictResponse)
 
 
 @login_required
 def alunos(request):
-    alunos = Aluno.objects.all().order_by('periodo_ingresso')
-    predicao = PredicaoEvasao.objects.all()
-    predicoes = {}
-    if predicao:
-        predicao = PredicaoEvasao.objects.filter(periodo_predicao=predicao.latest('periodo_predicao').periodo_predicao)
-        for predict in predicao:
-            predicoes[predict.aluno.grr_aluno] = predict
-
+    alunos = StudentRegistrationFacade.getListaAlunos()
+    predicoes = StudentRegistrationFacade.getDictPredicoes()
     return render(request, 'tcc/alunos.html', {'alunos': alunos, 'predicoes':predicoes})
 
 @login_required
 def alunos_perigo(request):
     predicao = PredicaoEvasao.objects.filter(forma_evasao=FormaEvasao.objects.get(descricao_evasao="Abandono"),
                                         periodo_predicao=PredicaoEvasao.objects.latest('periodo_predicao').periodo_predicao)
-    print(str(predicao.count()))
     return render(request, 'tcc/alunos_perigo.html', { 'predicoes':predicao})
 
 
 @login_required
 def aluno_detail(request, pk):
-    aluno = get_object_or_404(Aluno, pk=pk)
-    if aluno and request.method == "POST":
-        user = request.user
-        data = timezone.now()
-        if aluno and user and data:
-            comentario = Comentario()
-            comentario.user = user
-            comentario.aluno = aluno
-            comentario.data_comentario = data
-            comentario.texto_comentario = request.POST['newComentario']
-            comentario.save()
-    comentarios = Comentario.objects.filter(aluno=aluno)
-    if comentarios:
-        comentarios = comentarios.order_by('data_comentario')
-    detalhes = getAlunoDetalhesMatricula(aluno.grr_aluno)
-    predicao = PredicaoEvasao.objects.filter(aluno=aluno)
-    if predicao:
-        predicao = predicao.latest('periodo_predicao')
-    matricula = Matricula.objects.filter(aluno__id=pk).order_by(
-        'periodo_matricula')
-    return render(request, 'tcc/aluno_detail.html',
-                  {'aluno': aluno, 'matricula': matricula,
-                   'predicao': predicao, 'comentarios': comentarios, 'detalhes':detalhes})
+    dictResponse = {}
+    aluno = StudentRegistrationFacade.getAluno(pk)
+    dictResponse['aluno'] = aluno
+    if aluno :
+        if request.method == "POST":
+            request.user
+            if aluno and request.POST['newComentario'] :
+                StudentRegistrationFacade.createComment(request.user,aluno,request.POST['newComentario'])
+        dictResponse['comentarios'] = StudentRegistrationFacade.getComments(aluno)
+        dictResponse['detalhes'] = datawarehouseFacade.getAlunoDetalhesMatricula(aluno.grr_aluno)
+        dictResponse['predicao'] = StudentRegistrationFacade.getPredicao(aluno)
+        dictResponse['matricula'] = StudentRegistrationFacade.getMatriculas(aluno)
+    return render(request, 'tcc/aluno_detail.html',dictResponse)
 
 
 @login_required
 def usuarios(request):
-    users = User.objects.all()
+    users = StudentRegistrationFacade.getListaUsuarios()
     return render(request, 'tcc/usuarios.html', {'users': users})
 
 

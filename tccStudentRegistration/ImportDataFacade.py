@@ -67,7 +67,7 @@ class ImportDataFacade(object):
     def importNewDataThread(path="",classifierName="MLP"):
         thread = threading.Thread(target=ImportDataFacade.importNewData, args=(path,classifierName))
         thread.daemon = True #Faz ser possivel interromper o servidor enquanto essa thread estiver rodando
-        #thread.start()    
+        thread.start()    
        
   
     @staticmethod
@@ -82,7 +82,7 @@ class ImportDataFacade(object):
 
     @staticmethod
     def testSomething(path="",classifierName="MLP"):
-        ImportDataFacade.makePredictions(classifierName)
+        ImportDataFacade.__deleteAlunosEvasao()
         
 
     @staticmethod
