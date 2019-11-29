@@ -110,3 +110,6 @@ tccenv/
 
 # SkLearnFiles
 SkLearnFiles/*
+
+# media
+media/*
