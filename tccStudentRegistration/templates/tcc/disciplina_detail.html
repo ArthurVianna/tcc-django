@@ -18,6 +18,13 @@
                 <h3 class="box-title">
                     {{ disciplina.descricao_disciplina }} ({{ disciplina.codigo_disciplina }})
                 </h3>
+                {%if detalhes %}
+                <div class="pull-right">
+                    <p>
+                        {{ detalhes.porcentagemReprovacao }} % reprovação
+                    </p>
+                </div>
+                {%endif%}
             </div>
             <div class="box-body">
                 <table id="result" class="display cell-border" width="100%">

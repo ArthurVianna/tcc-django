@@ -10,14 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='fatoevasao',
-            old_name='quantidadeRetencoes',
-            new_name='quantidadeReprovacoes',
-        ),
         migrations.AlterField(
             model_name='fatoevasao',
             name='coeficienteRetencao',
             field=models.FloatField(blank=True, help_text='Quantidade de evasao com retencao', null=True, verbose_name='Porcentagem de evasao com retencao'),
+        ),
+        migrations.RenameField(
+            model_name='fatoevasao',
+            old_name='quantidadeRetencoes',
+            new_name='quantidadeReprovacoes',
         ),
     ]

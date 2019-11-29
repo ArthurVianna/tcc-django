@@ -100,6 +100,12 @@ class Predict(object):
         return decisionT
 
     def fitMLP(self,x,y):
+        #max_iter = The script iterates until it convergence or this number of iterations (for each tuple)
+        #activation = the function that activates the hidden layer
+        #alpha = L2 penalty (regularization term) = avoid overfitting
+        #hidden_layer_sizes = number of neurons in the hidden layer
+        #learning_rate = how often the algorithm update the weight. in constant it uses another parameter that is default 0.001
+        #solver = The solver for weight optimization. adam works well on datasets with 1000 or more
         mlpTest = MLPClassifier(max_iter=200,activation='relu',alpha=0.001,hidden_layer_sizes=(50,100,50),learning_rate='constant',solver='adam')
         mlpTest = mlpTest.fit(x, y)
         return mlpTest

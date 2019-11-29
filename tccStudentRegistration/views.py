@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Count
 from django.shortcuts import redirect
-from .models import Disciplina, Aluno, Matricula, PredicaoEvasao
+from .models import Disciplina, Aluno, Matricula, PredicaoEvasao, Comentario
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
 
@@ -40,7 +40,6 @@ def mudar_senha(request):
 def dashboard(request):
     # print(request.user)  # chamar o user da session
     chart = getFatoEvasaoPorcentagemRetidosSemestreChart()  # noqa
-    print(chart)
     return render(request, 'tcc/dashboard.html', {'chart': chart})
 
 
@@ -79,9 +78,14 @@ def disciplina_detail(request, pk):
                      str(max_year.periodo_matricula.year) + "-06-30"]
     alunos = Matricula.objects.filter(disciplina__id=pk,
                                       periodo_matricula__range=dateRange)
+    detalhes = getDisciplinaDetalhesMatricula(disciplina.codigo_disciplina)  # noqa
+    # chart = getSemiCircleDonutChart(createDataWithPercentage(
+    #     detalhes['porcentagemReprovacao'], "\% reprovacao", "\% aprovacao"),
+    #     "Porcentagem Aprovacao")
     return render(request,
                   'tcc/disciplina_detail.html',
-                  {'disciplina': disciplina, 'alunos': alunos})
+                  {'disciplina': disciplina, 'alunos': alunos,
+                   'detalhes': detalhes})
 
 
 @login_required
@@ -93,13 +97,28 @@ def alunos(request):
 @login_required
 def aluno_detail(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
+    if aluno and request.method == "POST":
+        user = request.user
+        data = timezone.now()
+        if aluno and user and data:
+            comentario = Comentario()
+            comentario.user = user
+            comentario.aluno = aluno
+            comentario.data_comentario = data
+            comentario.texto_comentario = request.POST['newComentario']
+            comentario.save()
+    comentarios = Comentario.objects.filter(aluno=aluno)
+    if comentarios:
+        comentarios = comentarios.order_by('data_comentario')
+    detalhes = getAlunoDetalhesMatricula(aluno.grr_aluno)  # noqa
     predicao = PredicaoEvasao.objects.filter(aluno=aluno)
     if predicao:
         predicao = predicao.latest('periodo_predicao')
     matricula = Matricula.objects.filter(aluno__id=pk)
     return render(request, 'tcc/aluno_detail.html',
                   {'aluno': aluno, 'matricula': matricula,
-                   'predicao': predicao})
+                   'predicao': predicao, 'comentarios': comentarios,
+                   'detalhes': detalhes})
 
 
 @login_required
