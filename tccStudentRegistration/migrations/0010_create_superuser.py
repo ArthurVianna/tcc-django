@@ -13,7 +13,7 @@ def create_superuser(apps, schema_editor):
                                          email='admin@admin.com',
                                          first_name="Admin", last_name="Admin",
                                          is_staff=True, is_active=True,
-                                         password='a1b2c3d4',)
+                                         password='pbkdf2_sha256$150000$NbjIevPICSxc$Qq7PphQrpp23QS4d98C9WSkw0JYlj3uyrcDIvyG2AXo=',)
 
 
 def revert(apps, schema_editor):

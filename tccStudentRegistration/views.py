@@ -1,4 +1,4 @@
-from datawarehouseManager.datawarehouseFacade import *
+from datawarehouseManager.datawarehouseFacade import *  # noqa
 from datetime import date
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
@@ -8,13 +8,13 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.db.models import Count
 from django.shortcuts import redirect
-from .models import Disciplina, Aluno, Matricula, PredicaoEvasao, Comentario, FormaEvasao
+from .models import PredicaoEvasao, FormaEvasao
 from .StudentRegistrationFacade import StudentRegistrationFacade
 from .ImportDataFacade import ImportDataFacade
 from .forms import EditarUsuarioForm
-from .templateFilters import *
+from .templateFilters import *  # noqa
+
 
 def user_logout(request):
     logout(request)
@@ -27,7 +27,7 @@ def mudar_senha(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Sua senha foi alterada!')
             return render(request, 'tcc/mudar_senha.html', {'form': form})
         else:
@@ -39,10 +39,9 @@ def mudar_senha(request):
 
 @login_required
 def dashboard(request):
-    #print(request.user)  # chamar o user da session
-    chart = datawarehouseFacade.getFatoEvasaoPorcentagemRetidosSemestre()
-    
-    return render(request, 'tcc/dashboard.html', {'chart' : chart})
+    # print(request.user)  # chamar o user da session
+    chart = datawarehouseFacade.getFatoEvasaoPorcentagemRetidosSemestre()  # noqa
+    return render(request, 'tcc/dashboard.html', {'chart': chart})
 
 
 @login_required
@@ -72,25 +71,31 @@ def disciplina_detail(request, pk):
     dictResponse = {}
     disciplina = StudentRegistrationFacade.getDisciplina(pk)
     dictResponse['disciplina'] = disciplina
-    if disciplina :
-        dictResponse['alunos'] = StudentRegistrationFacade.getLatestMatriculas(disciplina)
-        detalhes = datawarehouseFacade.getDisciplinaDetalhesMatricula(disciplina.codigo_disciplina)
-        #chart = getSemiCircleDonutChart(createDataWithPercentage(detalhes['porcentagemReprovacao'],"\% reprovacao","\% aprovacao"),"Porcentagem Aprovacao")
-    return render(request,
-                  'tcc/disciplina_detail.html',dictResponse)
+    if disciplina:
+        dictResponse['alunos'] = StudentRegistrationFacade.getLatestMatriculas(
+            disciplina)
+        detalhes = datawarehouseFacade.getDisciplinaDetalhesMatricula(disciplina.codigo_disciplina)  # noqa
+        # chart = getSemiCircleDonutChart(createDataWithPercentage(
+        #     detalhes['porcentagemReprovacao'], "\% reprovacao",
+        #     "\% aprovacao"), "Porcentagem Aprovacao")
+    return render(request, 'tcc/disciplina_detail.html', dictResponse)
 
 
 @login_required
 def alunos(request):
     alunos = StudentRegistrationFacade.getListaAlunos()
     predicoes = StudentRegistrationFacade.getDictPredicoes()
-    return render(request, 'tcc/alunos.html', {'alunos': alunos, 'predicoes':predicoes})
+    return render(request, 'tcc/alunos.html', {'alunos': alunos,
+                  'predicoes': predicoes})
+
 
 @login_required
 def alunos_perigo(request):
-    predicao = PredicaoEvasao.objects.filter(forma_evasao=FormaEvasao.objects.get(descricao_evasao="Abandono"),
-                                        periodo_predicao=PredicaoEvasao.objects.latest('periodo_predicao').periodo_predicao)
-    return render(request, 'tcc/alunos_perigo.html', { 'predicoes':predicao})
+    predicao = PredicaoEvasao.objects.filter(
+        forma_evasao=FormaEvasao.objects.get(descricao_evasao="Abandono"),
+        periodo_predicao=PredicaoEvasao.objects.latest(
+            'periodo_predicao').periodo_predicao)
+    return render(request, 'tcc/alunos_perigo.html', {'predicoes': predicao})
 
 
 @login_required
@@ -98,16 +103,17 @@ def aluno_detail(request, pk):
     dictResponse = {}
     aluno = StudentRegistrationFacade.getAluno(pk)
     dictResponse['aluno'] = aluno
-    if aluno :
+    if aluno:
         if request.method == "POST":
             request.user
-            if aluno and request.POST['newComentario'] :
-                StudentRegistrationFacade.createComment(request.user,aluno,request.POST['newComentario'])
-        dictResponse['comentarios'] = StudentRegistrationFacade.getComments(aluno)
-        dictResponse['detalhes'] = datawarehouseFacade.getAlunoDetalhesMatricula(aluno.grr_aluno)
+            if aluno and request.POST['newComentario']:
+                StudentRegistrationFacade.createComment(
+                    request.user, aluno, request.POST['newComentario'])
+        dictResponse['comentarios'] = StudentRegistrationFacade.getComments(aluno)  # noqa
+        dictResponse['detalhes'] = datawarehouseFacade.getAlunoDetalhesMatricula(aluno.grr_aluno)  # noqa
         dictResponse['predicao'] = StudentRegistrationFacade.getPredicao(aluno)
-        dictResponse['matricula'] = StudentRegistrationFacade.getMatriculas(aluno)
-    return render(request, 'tcc/aluno_detail.html',dictResponse)
+        dictResponse['matricula'] = StudentRegistrationFacade.getMatriculas(aluno)  # noqa
+    return render(request, 'tcc/aluno_detail.html', dictResponse)
 
 
 @login_required

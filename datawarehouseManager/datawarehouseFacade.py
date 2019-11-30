@@ -1,3 +1,4 @@
+# flake8: noqa
 from datawarehouseManager.models import *
 from datawarehouseManager.dataMining import DescricaoUtil
 import json
@@ -95,7 +96,7 @@ class datawarehouseFacade(object):
                 semestreRetidos += [porcentagem]
                 semestreNaoRetidos += [100-porcentagem]
 
-                 
+
                 categories += [str(fato.semestreEvasao.inicioSemestre)]
 
 

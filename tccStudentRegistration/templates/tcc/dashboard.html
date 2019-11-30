@@ -4,13 +4,20 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Dashboard</h1>
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="#">
+                <span>Dashboard</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Dashboard</h3>
-            </div>
-            <div class="box-body" id="chart">
+            <div class="box-body with-border" id="chart">
                 Hi {{ user.username }}!
             </div>
         </div>
