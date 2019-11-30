@@ -11,13 +11,20 @@
 {% endblock %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Turmas</h1>
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="#">
+                <span>Turmas</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Turmas</h3>
-            </div>
-            <div class="box-body">
+            <div class="box-body with-border">
                 <table id="result" class="display cell-border" width="100%">
                   	<thead>
                         <tr>

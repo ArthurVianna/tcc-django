@@ -11,13 +11,25 @@
 {% endblock %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Alunos ativos</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'alunos' %}">
+                <span>Alunos</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="#">
+                <span>Alunos ativos</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Alunos</h3>
-            </div>
-            <div class="box-body">
+            <div class="box-body with-border">
                 <table id="result" class="display cell-border" width="100%">
                   	<thead>
                         <tr>
@@ -31,10 +43,10 @@
                         <tr>
                             <td>
                                 <a href="{% url 'aluno_detail' pk=aluno.pk %}">
-                                {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }}) - 
-                                {%if aluno.grr_aluno in predicoes %}
-                                    {{predicoes|getPredicaoEvasao:aluno.grr_aluno}}
-                                {%endif%}
+                                {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }}) -
+                                {% if aluno.grr_aluno in predicoes %}
+                                    {{ predicoes|getPredicaoEvasao:aluno.grr_aluno }}
+                                {% endif %}
                                 </a>
                             </td>
                             <td>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</td>

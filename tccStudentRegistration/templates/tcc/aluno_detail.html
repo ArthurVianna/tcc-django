@@ -8,9 +8,31 @@
 <link rel="stylesheet" href="{% static 'datatables/datatables.min.css' %}">
 <!-- css datatable -->
 <link rel="stylesheet" href="{% static 'css/datatable.css' %}">
+<!-- css form user -->
+<link rel="stylesheet" href="{% static 'css/comment.css' %}">
 {% endblock %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Aluno</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'alunos' %}">
+                <span>Alunos</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="#">
+                <span>Alunos ativos / Prováveis evasores</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="#">
+                <span>Aluno</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
@@ -19,22 +41,22 @@
                     {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
                 </h3>
                 <div class="pull-right">
-                    <p>{{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} /
-                        {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
+                    <p><b>Ingresso / Evasão:</b> {{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} / {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
                     {% if detalhes %}
-                    <p>{{detalhes.porcentagemReprovacao}} % de reprovação</p>
-                    <p>{{detalhes.qtdMatriculasCompletas}} / {{detalhes.qtdMatriculas}}</p>
+                    <p><b>Porcentagem de reprovação:</b> {{detalhes.porcentagemReprovacao}}%</p>
+                    <p><b>Matérias terminadas / Matrículas feitas:</b> {{detalhes.qtdMatriculasCompletas}} / {{detalhes.qtdMatriculas}}</p>
+                    {% endif %}
+                    {% if predicao %}
+                    <p><b>Possível forma de evasão:</b> {{predicao.forma_evasao.descricao_evasao}}</p>
                     {% endif %}
                 </div>
-                {% if predicao %}
-                    <p>{{predicao.forma_evasao.descricao_evasao}}</p>
-                {% endif %}
             </div>
             <div class="box-body">
                 <table id="result" class="display cell-border" width="100%">
                   	<thead>
                         <tr>
                             <th>Nome da disciplina</th>
+                            <th>Média final</th>
                             <th>Nº de Faltas</th>
                             <th>Situação</th>
                         </tr>
@@ -48,6 +70,7 @@
                                 {{ matr.disciplina.descricao_disciplina }} ({{ matr.disciplina.codigo_disciplina }})
                                 </a>
                             </td>
+                            <td>{{ matr.media_final_matricula }}</td>
                             <td>{{ matr.faltas_matricula }}</td>
                             <td>{{ matr.situacao_matricula }}</td>
                         </tr>
@@ -56,15 +79,28 @@
                 </table>
             </div>
             <div>
-                <div>
-                    <p> Esse vai</p>
+                <div class="box-body">
+                    <label>Comentários:</label>
                     {% if comentarios%}
-                        <p> ALo</p>
-                        {% for comment in comentarios%}
-                            <p>{{comment.user}}</p>
-                            <p>{{comment.data_comentario}}</p>
-                            <p>{{comment.texto_comentario}}</p>
-                        {% endfor %}
+                        <table width="100%"  id="table-comment">
+                          	<thead>
+                                <tr>
+                                    <th>Usuário</th>
+                                    <th>Data do comentário</th>
+                                    <th>Comentário</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for comment in comentarios %}
+                                <tr>
+                                    <td>{{ comment.user }}</td>
+                                    <td>{{ comment.data_comentario }}</td>
+                                    <td>{{ comment.texto_comentario }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     {% endif %}
                 </div>
                 <div>
@@ -73,8 +109,9 @@
                             {% csrf_token %}
                         </div>
                         <div class="box-footer">
-                            <input type='text' name='newComentario'/>
-                            <button type="submit" class="btn btn-primary pull-right">Comentar</button>
+                            <label>Fazer comentário:</label>
+                            <input type="text" name="newComentario"/>
+                            <button type="submit" id="comment" class="btn btn-primary pull-right">Comentar</button>
                         </div>
                     </form>
                 </div>

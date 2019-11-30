@@ -11,6 +11,21 @@
 {% endblock %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Disciplina</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'disciplinas' %}">
+                <span>Disciplinas</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="#">
+                <span>Disciplina</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">

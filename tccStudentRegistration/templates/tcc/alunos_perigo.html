@@ -11,11 +11,26 @@
 {% endblock %}
 
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Prováveis evasores</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{% url 'alunos' %}">
+                <span>Alunos</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="#">
+                <span>Prováveis evasores</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Futuros Evasores : {{predicoes.count}} </h3>
+                <h3 class="box-title pull-right">Total: {{predicoes.count}} </h3>
             </div>
             <div class="box-body">
                 <table id="result" class="display cell-border" width="100%">
@@ -31,8 +46,9 @@
                         <tr>
                             <td>
                                 <a href="{% url 'aluno_detail' pk=predict.aluno.pk %}">
-                                Alooo {{ predict.aluno.nome_aluno }} ({{ predict.aluno.grr_aluno }}) - Icone Ruim De predicao
+                                {{ predict.aluno.nome_aluno }} ({{ predict.aluno.grr_aluno }})
                                 </a>
+                                <i class="fas fa-exclamation-triangle" style="color: orange;"></i>
                             </td>
                             <td>{{ predict.aluno.forma_ingresso }} - {{ predict.aluno.periodo_ingresso }}</td>
                         </tr>

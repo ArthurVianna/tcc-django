@@ -45,27 +45,39 @@
                     <span>Disciplinas</span>
                 </a>
             </li>
-            <li class="
+            <li class="treeview menu-open
                 {% if request.resolver_match.view_name == 'alunos' %}
                     active
                 {% elif request.resolver_match.view_name == 'aluno_detail' %}
                     active
-                {% endif %}">
-                <a href="{% url 'alunos' %}">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Alunos</span>
-                </a>
-            </li>
-            <li class="
-                {% if request.resolver_match.view_name == 'alunos_perigo' %}
-                    active
-                {% elif request.resolver_match.view_name == 'aluno_detail' %}
+                {% elif request.resolver_match.view_name == 'alunos_perigo' %}
                     active
                 {% endif %}">
-                <a href="{% url 'alunos_perigo' %}">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Provaveis Evasores</span>
+                <a href="#"><i class="fas fa-user-graduate"></i> <span>Alunos</span>
+                    <span class="pull-right-container">
+                        <i class="fas fa-angle-right pull-right"></i>
+                    </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li class="
+                        {% if request.resolver_match.view_name == 'alunos' %}
+                            active
+                        {% endif %}">
+                        <a href="{% url 'alunos' %}">
+                            <i class="fas fa-user"></i>
+                            <span>Alunos ativos</span>
+                        </a>
+                    </li>
+                    <li class="
+                        {% if request.resolver_match.view_name == 'alunos_perigo' %}
+                            active
+                        {% endif %}">
+                        <a href="{% url 'alunos_perigo' %}">
+                            <i class="fas fa-user-minus"></i>
+                            <span>Prováveis Evasores</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             {% if user.is_staff %}
             <li class="

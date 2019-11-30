@@ -2,13 +2,20 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+<section class="content-header">
+    <h1>Importar CSV</h1>
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="#">
+                <span>Importar CSV</span>
+            </a>
+        </li>
+    </ol>
+</section>
 <section class="content">
     <div class="row">
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Importar CSV</h3>
-            </div>
-            <div class="box-body">
+            <div class="box-body with-border">
                 <form method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                     	{% csrf_token %}
@@ -19,10 +26,12 @@
                             alunos no banco de dados e atualizar a predição.</p>
                         <br>
                         <p>O arquivo deve conter os seguintes campos:</p>
-                        <p>["COD_CURSO","CH_TOTAL","NOME_ATIV_CURRIC","PERIODO_ITEM","SITUACAO_ITEM",
-                            "MATR_ALUNO","COD_ATIV_CURRIC","ANO","MEDIA_FINAL","NUM_FALTAS","ID_ALUNO",
-                            "PERIODO_INGRE_ITEM","PERIODO_EVA_ITEM","ANO_INGRESSO","ANO_EVASAO",
-                            "FORMA_EVASAO_ITEM","FORMA_INGRE_ITEM"]</p>
+                        <p style="text-align: center;">
+                            ["COD_CURSO", "CH_TOTAL", "NOME_ATIV_CURRIC", "PERIODO_ITEM", "SITUACAO_ITEM",
+                            "MATR_ALUNO", "COD_ATIV_CURRIC", "ANO", "MEDIA_FINAL", "NUM_FALTAS", "ID_ALUNO",
+                            "PERIODO_INGRE_ITEM", "PERIODO_EVA_ITEM", "ANO_INGRESSO", "ANO_EVASAO",
+                            "FORMA_EVASAO_ITEM", "FORMA_INGRE_ITEM"]
+                        </p>
                         <br>
                         <label>Arquivo:</label>
                         <input type="file" name="document">
