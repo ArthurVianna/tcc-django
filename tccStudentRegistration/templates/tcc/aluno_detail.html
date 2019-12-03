@@ -47,7 +47,13 @@
                     <p><b>Matérias terminadas / Matrículas feitas:</b> {{detalhes.qtdMatriculasCompletas}} / {{detalhes.qtdMatriculas}}</p>
                     {% endif %}
                     {% if predicao %}
-                    <p><b>Possível forma de evasão:</b> {{predicao.forma_evasao.descricao_evasao}}</p>
+                    <p><b>Possível forma de evasão:</b> {{predicao.forma_evasao.descricao_evasao}}
+                        {%if predicao.forma_evasao.descricao_evasao == "Abandono" %}
+                            <i class="fas fa-exclamation-triangle" style="color: orange;"></i>
+                        {%else%}
+                            <i class="fas fa-check-circle" style="color: green;"></i>
+                        {% endif %}
+                    </p>
                     {% endif %}
                 </div>
             </div>

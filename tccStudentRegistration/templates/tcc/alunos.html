@@ -45,7 +45,11 @@
                                 <a href="{% url 'aluno_detail' pk=aluno.pk %}">
                                 {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }}) -
                                 {% if aluno.grr_aluno in predicoes %}
-                                    {{ predicoes|getPredicaoEvasao:aluno.grr_aluno }}
+                                    {%if predicoes|getPredicaoEvasao:aluno.grr_aluno == "Abandono" %}
+                                        <i class="fas fa-exclamation-triangle" style="color: orange;"></i>
+                                    {%else%}
+                                        <i class="fas fa-check-circle" style="color: green;"></i>
+                                    {% endif %}
                                 {% endif %}
                                 </a>
                             </td>
