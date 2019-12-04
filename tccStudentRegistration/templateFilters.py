@@ -1,3 +1,4 @@
+# flake8: noqa
 from django.template.defaulttags import register
 
 @register.filter

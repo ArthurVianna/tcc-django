@@ -133,7 +133,8 @@ def cadastrar_usuario(request):
             return redirect('editar_usuario', pk=user.pk)
     else:
         form_usuario = UserCreationForm()
-    return render(request, 'tcc/new_user.html', {'form_usuario': form_usuario})
+    return render(request, 'tcc/form_user.html',
+                  {'form_usuario': form_usuario})
 
 
 @login_required
@@ -148,8 +149,22 @@ def editar_usuario(request, pk):
             return redirect('usuarios')
     else:
         form_usuario = EditarUsuarioForm(instance=user)
-    return render(request, 'tcc/edit_user.html',
+    return render(request, 'tcc/form_user.html',
                   {'form_usuario': form_usuario})
+
+
+@login_required
+def deletar_usuario(request, pk):
+    try:
+        u = User.objects.get(username=pk)
+        u.delete()
+        messages.success(request, "O usuário foi deletado")
+    except User.DoesNotExist:
+        messages.error(request, "O usuário não existe")
+        return redirect('usuarios')
+    except Exception as e:
+        return redirect('usuarios', {'err': e.message})
+    return redirect('usuarios')
 
 
 @login_required
@@ -157,7 +172,7 @@ def importCSV(request):
     msg = ""
     if request.method == 'POST':
         if not request.FILES['document'].name.endswith('.csv'):
-            msg = "Arquivo não é um .csv"
+            msg = "Não é um arquivo .csv"
         else:
             uploaded_file = request.FILES['document']
             fs = FileSystemStorage()
@@ -169,5 +184,7 @@ def importCSV(request):
                 msg = "Arquivo não possui os dados necessários para a importação"  # noqa
             else:
                 ImportDataFacade.importNewDataThread(path=path)
-                return dashboard(request)
+                msg = "Seu arquivo está sendo processado"
+                # return dashboard(request)
+                render(request, 'tcc/importCSV_form.html', {'msg': msg})
     return render(request, 'tcc/importCSV_form.html', {'msg': msg})

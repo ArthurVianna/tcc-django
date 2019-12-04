@@ -30,6 +30,8 @@ urlpatterns = [
          name="cadastrar_usuario"),
     path('editar_usuario/<int:pk>', views.editar_usuario,
          name="editar_usuario"),
+    path('deletar_usuario/<str:pk>', views.deletar_usuario,
+         name="deletar_usuario"),
 
     path('importCSV/', views.importCSV, name="importCSV"),
 ]

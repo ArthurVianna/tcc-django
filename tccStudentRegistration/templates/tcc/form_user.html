@@ -10,7 +10,11 @@
 
 {% if user.is_authenticated %}
 <section class="content-header">
+    {% if user %}
+    <h1>Editar usuário</h1>
+    {% else %}
     <h1>Cadastrar usuário</h1>
+    {% endif %}
     <ol class="breadcrumb">
         <li>
             <a href="{% url 'usuarios' %}">
@@ -19,7 +23,11 @@
         </li>
         <li class="active">
             <a href="#">
+                {% if user %}
+                <span>Editar usuário</span>
+                {% else %}
                 <span>Cadastrar usuário</span>
+                {% endif %}
             </a>
         </li>
     </ol>
@@ -37,7 +45,7 @@
                         <a href="{% url 'usuarios' %}">
                             <button type="button" class="btn btn-default">Cancelar</button>
                         </a>
-                        <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary pull-right">{% if user %}Salvar{% else %}Cadastrar{% endif %}</button>
                     </div>
                 </form>
             </div>
