@@ -20,7 +20,14 @@
                     <div class="form-group">
                     	{% csrf_token %}
                         {% if msg %}
-                            <p class="login-box-msg" style="color: red;">{{ msg }}</p>
+                            {% if msg == "Seu arquivo está sendo processado" %}
+                            <div class="alert alert-success alert-dismissible">
+                            {% else %}
+                            <div class="alert alert-danger alert-dismissible">
+                            {% endif %}
+                                {{ msg }}
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            </div>
                         {% endif %}
                         <p>Faça upload de um arquivo <strong>.csv</strong> para atualizar o histórico de
                             alunos no banco de dados e atualizar a predição.</p>

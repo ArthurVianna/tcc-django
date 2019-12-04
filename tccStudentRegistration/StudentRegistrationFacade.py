@@ -1,3 +1,4 @@
+# flake8: noqa
 from datetime import date
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -11,7 +12,7 @@ class StudentRegistrationFacade(object):
     def __init__(self, arg):
         super(StudentRegistrationFacade, self).__init__()
         self.arg = arg
-    
+
     @staticmethod
     def getListaUsuarios():
         users = User.objects.all()
@@ -95,6 +96,3 @@ class StudentRegistrationFacade(object):
         alunos = Matricula.objects.filter(disciplina=disciplina,
                                           periodo_matricula__range=dateRange)
         return alunos
-        
-
-

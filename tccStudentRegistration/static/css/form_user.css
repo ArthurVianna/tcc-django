@@ -30,8 +30,12 @@ input[type=checkbox] {
 }
 ul.errorlist {
     list-style-type: none;
-    color: #dd4b39 !important;
-    margin: 0 0 0 -35px;
+    padding: 0 15px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    border-color: #d73925;
+    color: #fff !important;
+    background-color: #dd4b39 !important;
 }
 .alert {
     margin-top: 10px !important;

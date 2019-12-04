@@ -8,6 +8,12 @@
 <link rel="stylesheet" href="{% static 'datatables/datatables.min.css' %}">
 <!-- css datatable -->
 <link rel="stylesheet" href="{% static 'css/datatable.css' %}">
+<style media="screen">
+    .alert {
+        margin-top: 10px !important;
+        margin-bottom: unset !important;
+    }
+</style>
 {% endblock %}
 
 {% if user.is_authenticated %}
@@ -41,7 +47,7 @@
                             <th>Membro da equipe</th>
                             <th>Super usuário</th>
                             <th>Grupos</th>
-                            <th>Editar</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
 
@@ -78,9 +84,16 @@
                                     {{ group }}<br>
                                 {% endfor %}
                             </td>
-                            <td>
-                                <a href="{% url 'editar_usuario' pk=user.pk %}">
-                                    <i class="fas fa-user-edit"></i>
+                            <td style="width: 100px;">
+                                <a href="{% url 'editar_usuario' pk=user.pk %}" title="Editar usuário">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fas fa-user-edit"></i>
+                                    </button>
+                                </a>
+                                <a href="{% url 'deletar_usuario' pk=user.username %}" title="Deletar usuário">
+                                    <button type="button" class="btn btn-danger pull-right">
+                                        <i class="fas fa-user-times"></i>
+                                    </button>
                                 </a>
                             </td>
                         </tr>

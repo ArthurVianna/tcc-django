@@ -41,7 +41,7 @@
                     {{ aluno.nome_aluno }} ({{ aluno.grr_aluno }})
                 </h3>
                 <div class="pull-right">
-                    <p><b>Ingresso / Evasão:</b> {{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }} / {{ aluno.forma_evasao }} - {{ aluno.periodo_evasao }}</p>
+                    <p><b>Ingresso:</b> {{ aluno.forma_ingresso }} - {{ aluno.periodo_ingresso }}</p>
                     {% if detalhes %}
                     <p><b>Porcentagem de reprovação:</b> {{detalhes.porcentagemReprovacao}}%</p>
                     <p><b>Matérias terminadas / Matrículas feitas:</b> {{detalhes.qtdMatriculasCompletas}} / {{detalhes.qtdMatriculas}}</p>
@@ -92,8 +92,8 @@
                           	<thead>
                                 <tr>
                                     <th>Usuário</th>
-                                    <th>Data do comentário</th>
                                     <th>Comentário</th>
+                                    <th>Data do comentário</th>
                                 </tr>
                             </thead>
 
@@ -101,8 +101,8 @@
                                 {% for comment in comentarios %}
                                 <tr>
                                     <td>{{ comment.user }}</td>
-                                    <td>{{ comment.data_comentario }}</td>
                                     <td>{{ comment.texto_comentario }}</td>
+                                    <td>{{ comment.data_comentario }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
