@@ -35,82 +35,58 @@ django.setup()
 #predClass.testPrediction(df)
 
 
-from tccStudentRegistration.ImportDataFacade import *
-ImportDataFacade.testSomething()
+#from tccStudentRegistration.ImportDataFacade import *
+#ImportDataFacade.testSomething()
 #from datawarehouseManager.dbManager import *
 
 #print(str(getQtdSemestres('2ce8b81062010b3b8fa3379f93f1cc39')))
 #ImportDataFacade.testSomething()
 
+from tccStudentRegistration.surnames import *
+from tccStudentRegistration.names import *
+from tccStudentRegistration.disciplinas import *
 
-#Script to find the best mlp config
+print(names[0])
+print(surnames[0])
 
-#from sklearn.model_selection import GridSearchCV
-#parameter_space = {
-#    'hidden_layer_sizes': [(50,50,50), (50,100,50), (100,)],
-#    'activation': ['tanh', 'relu','identity','logistic'],
-#    'solver': ['sgd', 'adam','lbfgs'],
-#    'alpha': [0.00001,0.0001,0.001,0.01,0.1],
-#    'learning_rate': ['constant','adaptive'],
-#    #'learning_rate_init' :[0.001,0.01,0.1,0.0001],
-#    'power_t' : [0.5,0.1,0.9],
-#    #'shuffle ' : [True,False]
-#}
+nameLen = len(names) -1
+surnameLen = len(surnames) -1
 
+import random
+from tccStudentRegistration.models import *
 
-#clfMLP = GridSearchCV(mlp, parameter_space, n_jobs=-1, cv=3)
-#clfMLP = clfMLP.fit(x_train, y_train)
+disciplinas = Disciplina.objects.all()
+disciplinaDict = {}
+count = 0
+for disciplina in disciplinas:
+    name = nameDisciplinas[count]
+    disciplina.descricao_disciplina = name
+    disciplinaDict[disciplina.codigo_disciplina] = name
+    count+=1
+    disciplina.save()
+alunos = None
+alunos = Aluno.objects.all()
+alunoDict = {}
+if(alunos):
+    for aluno in alunos:
+        name = names[random.randint(0,nameLen)] + " " + surnames[random.randint(0,surnameLen)]
+        aluno.nome_aluno = name
+        alunoDict[aluno.grr_aluno] = name
+        aluno.save()
 
-# Best paramete set
-#print('Best parameters found:\n', clfMLP.best_params_)
+from datawarehouseManager.models import *
+disciplinas = Disciplina.objects.filter(codigo_disciplina__in=disciplinaDict.keys())
+alunos = Aluno.objects.filter(grr_aluno__in=alunoDict.keys())
+for disciplina in disciplinas:
+    disciplina.descricao_disciplina = disciplinaDict[disciplina.codigo_disciplina]
+    disciplina.save()
+if alunos :
+    for aluno in alunos:
+        aluno.nome_aluno = alunoDict[aluno.grr_aluno]
+        aluno.save()
 
-# All results
-#means = clfMLP.cv_results_['mean_test_score']
-#stds = clfMLP.cv_results_['std_test_score']
-#for mean, std, params in zip(means, stds, clfMLP.cv_results_['params']):
-    #print("%0.3f (+/-%0.03f) for %r" % (mean, std * 2, params))
+print()
+print(str(random.randint(0,1)))
 
-#predTree = clf.predict(x_test)
-#pred = knn.predict(x_test)
-#predGNB = gnbFit.predict(x_test)
-#predMLP = clfMLPTest.predict(x_test)
-
-#print(pred)
-
-#print(predTree)
-
-
-
-
-#print("KNN :")
-#print(confusion_matrix(y_test,pred))
-#print(classification_report(y_test,pred))
-#print("PredTree :")
-#print(confusion_matrix(y_test,predTree))
-#print(classification_report(y_test,predTree))
-#tree.plot_tree(clf.fit(x_train, y_train))
-#print("GNB :")
-#print(confusion_matrix(y_test,predGNB))
-#print(classification_report(y_test,predGNB))
-
-
-
-
-
-
-
-#from django.db import models
 print("Ready")
 
-#class studentRegistrationConfig(models.Model):
-#   """docstring for studentRegistrationConfig"""
-#   evasaoPath= models.CharField()
-
-
-#test = studentRegistrationConfig()
-#test.evasaoPath = "tccStudentRegistration/evasao.csv"
-
-#from django.core import serializers
-#data = serializers.serialize("json", test)
-
-#print(data.getValue())
