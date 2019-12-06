@@ -82,7 +82,10 @@ class ImportDataFacade(object):
 
     @staticmethod
     def testSomething(path="",classifierName="MLP"):
-        ImportDataFacade.__deleteAlunosEvasao()
+        #ImportDataFacade.__importHistorico(path)
+        dm = DataMining()
+        dm.insertFatoEvasao()
+        dm.updateFatoEvasao()
 
 
     @staticmethod

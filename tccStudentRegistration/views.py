@@ -40,7 +40,7 @@ def mudar_senha(request):
 @login_required
 def dashboard(request):
     # print(request.user)  # chamar o user da session
-    chart = datawarehouseFacade.getFatoEvasaoPorcentagemRetidosSemestre()  # noqa
+    chart = datawarehouseFacade.getFatoEvasaoPorcentagemFormadosSemestre()  # noqa
     return render(request, 'tcc/dashboard.html', {'chart': chart})
 
 

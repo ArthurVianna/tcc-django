@@ -92,6 +92,7 @@ class datawarehouseFacade(object):
             series = []
             categories = []
             for fato in fatoEvasaoLista:
+                print(fato.situacaoEvasao)
                 porcentagem = round(fato.coeficienteRetencao * 100)
                 semestreRetidos += [porcentagem]
                 semestreNaoRetidos += [100-porcentagem]
@@ -111,6 +112,72 @@ class datawarehouseFacade(object):
             chart = {
                 "chart": {"type": "column"},
                 "title": {"text": "Porcentagem Retencao por semestre"},
+                "xAxis": {"categories": categories},
+                "yAxis": {
+                    "min": 0,
+                    "title": {
+                        "text": "PorcentagemRetencao"
+                    },
+                    "stackLabels": {
+                        "enabled": "true",
+                        "style": {
+                            "fontWeight": "bold"
+                            #"color": ( // theme
+                            #    Highcharts.defaultOptions.title.style &&
+                            #    Highcharts.defaultOptions.title.style.color
+                            #) || "gray"
+                        }
+                    }
+                },
+                "plotOptions": {
+                    "column": {
+                        "stacking": 'normal',
+                        "dataLabels": {
+                            "enabled": "true"
+                        }
+                    }
+                },
+                "series": series
+            }
+
+            chart = json.dumps(chart)
+
+        return chart
+
+    @staticmethod
+    def getFatoEvasaoPorcentagemFormadosSemestre():
+        chart = None
+        fatoEvasaoLista = FatoEvasao.objects.filter(alunoEvasao__isnull=True,
+            situacaoEvasao__isnull=True,
+            cursoEvasao__isnull=True,
+            semestreEvasao__isnull=False)
+        if(fatoEvasaoLista):
+            fatoEvasaoLista = fatoEvasaoLista.order_by("semestreEvasao__inicioSemestre")
+            semestreRetidos = []
+            semestreNaoRetidos = []
+            series = []
+            categories = []
+            for fato in fatoEvasaoLista:
+                print(fato.situacaoEvasao)
+                porcentagem = round(fato.coeficienteEvasao * 100)
+                semestreRetidos += [porcentagem]
+                semestreNaoRetidos += [100-porcentagem]
+
+
+                categories += [str(fato.semestreEvasao.inicioSemestre)]
+
+
+            series = [{
+                   "name" : "Evasão",
+                    "data" : semestreRetidos
+                },{
+                    "name" : "Formados",
+                    "data" : semestreNaoRetidos
+                }]
+
+            chart = {
+                "chart": {"type": "column"},
+                "title": {"text": "Porcentagem Tipo de Evasão por semestre"},
                 "xAxis": {"categories": categories},
                 "yAxis": {
                     "min": 0,

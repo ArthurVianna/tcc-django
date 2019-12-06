@@ -24,14 +24,16 @@
     </div>
 </section>
 {% endif %}
-
+{% if chart %}
 {% block scripts %}
 <!-- highcharts -->
 <!-- <script src="https://code.highcharts.com/highcharts.src.js"></script> -->
 <script type="text/javascript" src="{% static 'highcharts/highcharts.js' %}"></script>
 <script>
+    
     Highcharts.chart('chart', {{chart|safe}});
+    
 </script>
 {% endblock %}
-
+{% endif %}
 {% endblock %}
