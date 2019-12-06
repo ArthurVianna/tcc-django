@@ -92,7 +92,6 @@ class datawarehouseFacade(object):
             series = []
             categories = []
             for fato in fatoEvasaoLista:
-                print(fato.situacaoEvasao)
                 porcentagem = round(fato.coeficienteRetencao * 100)
                 semestreRetidos += [porcentagem]
                 semestreNaoRetidos += [100-porcentagem]
@@ -158,7 +157,6 @@ class datawarehouseFacade(object):
             series = []
             categories = []
             for fato in fatoEvasaoLista:
-                print(fato.situacaoEvasao)
                 porcentagem = round(fato.coeficienteEvasao * 100)
                 semestreRetidos += [porcentagem]
                 semestreNaoRetidos += [100-porcentagem]
