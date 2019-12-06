@@ -20,6 +20,9 @@
             <div class="box-body with-border" id="chart">
                 Hi {{ user.username }}!
             </div>
+            <div class="box-body with-border" id="chart2">
+                Hi {{ user.username }}!
+            </div>
         </div>
     </div>
 </section>
@@ -30,9 +33,8 @@
 <!-- <script src="https://code.highcharts.com/highcharts.src.js"></script> -->
 <script type="text/javascript" src="{% static 'highcharts/highcharts.js' %}"></script>
 <script>
-    
     Highcharts.chart('chart', {{chart|safe}});
-    
+    Highcharts.chart('chart2', {{chart2|safe}});
 </script>
 {% endblock %}
 {% endif %}
