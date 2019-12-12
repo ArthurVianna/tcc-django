@@ -10,7 +10,7 @@ class DataMining(object):
 
     maxDataAge = 15
     defaultQtdSemestresFormacao = 6
-    
+
     def __init__(self):
         self.maxDataAge = 15
         self.defaultQtdSemestresFormacao = 6
@@ -198,7 +198,7 @@ class DataMining(object):
             fatoBanco.coeficienteReprovacao = fato.coeficienteReprovacao / fato.quantidadeMatricula
             fatoBanco.quantidadeMatricula = fato.quantidadeMatricula
             fatoBanco.save()
-            
+
 
     def insertFatoMatricula(self):
         matriculas = getMatriculasCompletas()
@@ -238,7 +238,7 @@ class DataMining(object):
     def clearData(self):
         today = datetime.today()
         ano = today.year - self.maxDataAge
-        
+
         if(today.month < 7):
             mes = 1
         else:
@@ -260,12 +260,12 @@ class DataMining(object):
         for turma in turmasAfetadas:
             if(Aluno.objects.filter(turma=turmasAfetadas[turma]).values().count() <= 0): # exclude(pk__in=alunosDeletados)
                 turma.delete()
-                
+
 
         for forma in formaIngressoAfetado:
             if(Aluno.objects.filter(forma_ingresso=formaIngressoAfetado[forma]).values().count() <= 0): #exclude(pk__in=alunosDeletados)
                 forma.delete()
-                
+
 
         cursos = Curso.objects.all()
         disciplinas = Disciplina.objects.all()
@@ -291,7 +291,7 @@ class DataMining(object):
             if(count <= 0):
                 disciplina.delete()
 
-        
+
         for sitMatr in situacaoMatriculas:
             count = FatoMatricula.objects.filter(cursoMatricula__isnull=False,alunoMatricula__isnull=False,
                                         situacaoMatricula=sitMatr,
@@ -316,7 +316,7 @@ class DataMining(object):
                 semestre.delete()
 
 
-        
+
 def deleteFatoEvasaoNull():
     FatoEvasao.objects.exclude(alunoEvasao__isnull=False,situacaoEvasao__isnull=False,cursoEvasao__isnull=False,semestreEvasao__isnull=False).delete()
 
@@ -392,7 +392,3 @@ class DescricaoUtil(object):
                     , 'Aprov Adiantamento'
                     , 'Aproveitamento de Créditos']
         return aprovado
-        
-
-
-
